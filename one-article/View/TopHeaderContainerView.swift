@@ -19,7 +19,6 @@ class TopHeaderContainerView: UIView {
         image?.withRenderingMode(.alwaysOriginal)
         
         let imageView = UIImageView(image: image)
-//        let imageView = UIImageView()
         imageView.backgroundColor = .systemGray4
         imageView.contentMode = .scaleAspectFill
         imageView.alpha = 0.8
@@ -34,6 +33,7 @@ class TopHeaderContainerView: UIView {
         imageView.layer.shadowOffset = CGSize(width: 0, height: 0)
         imageView.layer.shadowOpacity = 0.3
         imageView.layer.shadowRadius = 10.0
+        
         return imageView
     }()
     

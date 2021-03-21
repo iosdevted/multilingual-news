@@ -84,6 +84,7 @@ class TabCell: UICollectionViewCell {
     
     func setupIndicatorView() {
         indicatorView = UIView()
+        inputView?.backgroundColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
         addSubview(indicatorView)
         
         indicatorView.snp.makeConstraints { (make) -> Void in
