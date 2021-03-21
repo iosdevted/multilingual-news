@@ -10,9 +10,9 @@ import SnapKit
 
 class ArticleTableViewCell: UITableViewCell {
     
-    private var articleImageView: UIImageView = {
-        let image = UIImage(named: "plane")
-        image?.withRenderingMode(.alwaysOriginal)
+    var articleImageView: UIImageView = {
+        let image = UIImage()
+        image.withRenderingMode(.alwaysOriginal)
         
         let imageView = UIImageView(image: image)
         imageView.backgroundColor = .systemGray4
@@ -49,7 +49,7 @@ class ArticleTableViewCell: UITableViewCell {
         
         let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFill
-        imageView.tintColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
+        imageView.tintColor = .systemGray
         
         return imageView
     }()

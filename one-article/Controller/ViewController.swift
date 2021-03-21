@@ -9,10 +9,19 @@ import UIKit
 import RxSwift
 import RxCocoa
 import SnapKit
+import WebKit
 
-class ViewController: UIViewController {
+protocol ViewControllerDelegate: class {
+    func WKWebViewOpen(url: URL)
+}
+
+class ViewController: UIViewController, WKNavigationDelegate {
     
     //MARK: - Properties
+    
+    private let webView = WKWebView(frame: UIScreen.main.bounds)
+    
+    private var contentVC: EnglishNewsViewController?
     
     private lazy var tabsView: TabsView = {
         let view = TabsView()
@@ -45,13 +54,15 @@ class ViewController: UIViewController {
         configureUI()
         setupTabs()
         setupPageViewController()
+        contentVC?.delegate = self
+
     }
     
     
     //MARK: - Selectors
     
     @objc func rightBarButtonTapped() {
-        
+
     }
     
     //MARK: - Helpers
@@ -249,6 +260,47 @@ extension ViewController: UIPageViewControllerDataSource, UIPageViewControllerDe
         default:
             let vc = viewController as! KoreanNewsViewController
             return vc.pageIndex
+        }
+    }
+}
+
+//MARK: - ViewControllerDelegate
+
+extension ViewController: ViewControllerDelegate {
+    func WKWebViewOpen(url: URL) {
+
+        webView.navigationDelegate = self
+        
+        print("excuted")
+        
+        
+        let urlRequest = URLRequest(url: url)
+        webView.load(urlRequest)
+        webView.autoresizingMask = [.flexibleWidth,.flexibleHeight]
+        view.addSubview(webView)
+    }
+}
+
+//MARK: - WKNavigationDelegate
+
+extension EnglishNewsViewController: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+
+        if navigationAction.navigationType == .linkActivated  {
+            if let url = navigationAction.request.url,
+                let host = url.host, !host.hasPrefix("www.google.com"),
+                UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+                print(url)
+                print("Redirected to browser. No need to open it locally")
+                decisionHandler(.cancel)
+            } else {
+                print("Open it locally")
+                decisionHandler(.allow)
+            }
+        } else {
+            print("not a user click")
+            decisionHandler(.allow)
         }
     }
 }

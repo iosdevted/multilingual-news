@@ -45,7 +45,7 @@ extension ArticleViewModel {
     }
     
     var publishedAt: Observable<String> {
-        return Observable<String>.just(article.publishedAt ?? "")
+        return Observable<String>.just(article.publishedAt)
     }
     
     var urlToImage: Observable<String> {
@@ -53,7 +53,7 @@ extension ArticleViewModel {
     }
     
     var url: Observable<String> {
-        return Observable<String>.just(article.url ?? "")
+        return Observable<String>.just(article.url)
     }
 }
 

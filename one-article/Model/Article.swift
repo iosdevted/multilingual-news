@@ -14,6 +14,6 @@ struct ArticleResponse: Decodable {
 struct Article: Decodable {
     let title: String
     let publishedAt: String
-    let urlToImage: String
+    let urlToImage: String?
     let url: String
 }

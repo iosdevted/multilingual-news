@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import SnapKit
+import Kingfisher
 
 private let ReuseIdentifier: String = "CellReuseIdentifier"
 
@@ -16,14 +17,14 @@ class EnglishNewsViewController: UIViewController {
     
     // MARK: - Properties
     
+    weak var delegate: ViewControllerDelegate?
     private let tableView = UITableView()
     
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     private var articleListVM: ArticleListViewModel!
     
     var pageIndex: Int!
-    
-
+    private var articleUrl = [String]()
     
     //MARK: - Life Cycle
     
@@ -36,6 +37,7 @@ class EnglishNewsViewController: UIViewController {
         self.tableView.separatorStyle = .none
         self.tableView.register(ArticleTableViewCell.self, forCellReuseIdentifier: ReuseIdentifier)
 
+        self.populateNews()
     }
     
     //MARK: - Helpers
@@ -48,39 +50,91 @@ class EnglishNewsViewController: UIViewController {
         }
     }
     
+    private func populateNews() {
+        
+        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=daed73a210b94589a977658bcb2f5747")!)
+        
+        URLRequest.load(resource: resource)
+            .subscribe(onNext: { articleResponse in
+                
+                let articles = articleResponse.articles
+                self.articleListVM = ArticleListViewModel(articles)
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                
+            }).disposed(by: disposeBag)
+    }
+    
+    private func dateFormat(date: String) -> String {
+        let formatter1 = DateFormatter()
+        formatter1.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        
+        if let date2 = formatter1.date(from: date) {
+            let formatter2 = DateFormatter()
+            formatter2.timeStyle = .medium
+            formatter2.locale = Locale(identifier: "en_US")
+
+            let dateString = formatter2.string(from: date2)
+            return dateString
+        }
+        
+        return ""
+    }
+    
 }
 
 //MARK: - UITableViewDelegate/DataSource
 
 extension EnglishNewsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        if let url = URL(string: self.articleUrl[indexPath.row]) {
+//            UIApplication.shared.open(url)
+//        }
+        print("selected")
+        guard let url = URL(string: self.articleUrl[indexPath.row]) else { return }
+        delegate?.WKWebViewOpen(url: url)
+
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
 extension EnglishNewsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return self.articleListVM == nil ? 0 : self.articleListVM.articlesVM.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier, for: indexPath) as! ArticleTableViewCell
         
-//        let articleVM = self.articleListVM.articleAt(indexPath.row)
-//
-//        articleVM.title.asDriver(onErrorJustReturn: "")
-//            .drive(cell.titleLabel.rx.text)
+        let articleVM = self.articleListVM.articleAt(indexPath.row)
+
+        articleVM.title.asDriver(onErrorJustReturn: "")
+            .drive(cell.titleLabel.rx.text)
+            .disposed(by: disposeBag)
+
+//        articleVM.publishedAt.asDriver(onErrorJustReturn: "")
+//            .drive(cell.dateLabel.rx.text)
 //            .disposed(by: disposeBag)
-//
-//        articleVM.description.asDriver(onErrorJustReturn: "")
-//            .drive(cell.descriptionLabel.rx.text)
-//            .disposed(by: disposeBag)
-//
-//        cell.descriptionLabel.numberOfLines = 0
-//        cell.descriptionLabel.lineBreakMode = .byWordWrapping
-//        cell.titleLabel.numberOfLines = 0
-//        cell.titleLabel.lineBreakMode = .byWordWrapping
+        
+        articleVM.publishedAt.bind { (date) in
+            let date = self.dateFormat(date: date)
+            cell.dateLabel.text = date
+        }.disposed(by: disposeBag)
+        
+        articleVM.urlToImage.bind { (url) in
+            let url = URL(string: url)
+            cell.articleImageView.kf.setImage(with: url)
+        }.disposed(by: disposeBag)
+        
+        articleVM.url.bind { (url) in
+            self.articleUrl.append(url)
+        }.disposed(by: disposeBag)
+        
+
+        cell.titleLabel.numberOfLines = 0
+        cell.titleLabel.lineBreakMode = .byWordWrapping
         return cell
     }
 }
-
