@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 import Kingfisher
+//import SkeletonView
 
 private let ReuseIdentifier: String = "CellReuseIdentifier"
 
@@ -52,7 +53,7 @@ class EnglishNewsViewController: UIViewController {
     
     private func populateNews() {
         
-        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=daed73a210b94589a977658bcb2f5747")!)
+        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?country=us&apiKey=daed73a210b94589a977658bcb2f5747")!)
         
         URLRequest.load(resource: resource)
             .subscribe(onNext: { articleResponse in
@@ -94,7 +95,7 @@ extension EnglishNewsViewController: UITableViewDelegate {
 //        }
 
         guard let url = URL(string: self.articleUrl[indexPath.row]) else { return }
-        delegate?.WKWebViewOpen(url: url)
+        delegate?.SafariServicesOpen(url: url)
 
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -114,6 +115,8 @@ extension EnglishNewsViewController: UITableViewDataSource {
             .drive(cell.titleLabel.rx.text)
             .disposed(by: disposeBag)
 
+//        cell.titleLabel.hideSkeleton()
+        
 //        articleVM.publishedAt.asDriver(onErrorJustReturn: "")
 //            .drive(cell.dateLabel.rx.text)
 //            .disposed(by: disposeBag)
@@ -121,6 +124,7 @@ extension EnglishNewsViewController: UITableViewDataSource {
         articleVM.publishedAt.bind { (date) in
             let date = self.dateFormat(date: date)
             cell.dateLabel.text = date
+//            cell.dateLabel.hideSkeleton()
         }.disposed(by: disposeBag)
         
         articleVM.urlToImage.bind { (url) in
@@ -132,9 +136,9 @@ extension EnglishNewsViewController: UITableViewDataSource {
             self.articleUrl.append(url)
         }.disposed(by: disposeBag)
         
-
         cell.titleLabel.numberOfLines = 0
         cell.titleLabel.lineBreakMode = .byWordWrapping
+        
         return cell
     }
 }

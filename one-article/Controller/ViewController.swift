@@ -15,24 +15,24 @@ import SafariServices
 
 
 protocol ViewControllerDelegate: class {
-    func WKWebViewOpen(url: URL)
+    func SafariServicesOpen(url: URL)
 }
 
 class ViewController: UIViewController {
     
     //MARK: - Properties
     
-    private let disposeBag = DisposeBag()
     private var articleVM: ArticleViewModel! {
         didSet {
             populateTopNews()
         }
     }
     
-    //private let webView = WKWebView(frame: UIScreen.main.bounds)
+    private let disposeBag = DisposeBag()
     private var currentIndex: Int = 0
     private var pageController: UIPageViewController!
     private var articleUrl: String = ""
+    //private let webView = WKWebView(frame: UIScreen.main.bounds)
     
     private lazy var tabsView: TabsView = {
         let view = TabsView()
@@ -61,28 +61,31 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        configureGesture()
         setupTabs()
         setupPageViewController()
         loadTopNews()
-        //populateTopNews()
     }
     
     
     //MARK: - Selectors
     
+    @objc func topHeaderContainerViewTapped() {
+        guard let url = URL(string: articleUrl) else { return }
+        
+        let safariViewController = SFSafariViewController(url: url)
+        present(safariViewController, animated: true, completion: nil)
+    }
+    
     @objc func rightBarButtonTapped() {
         print("tapped")
     }
-    
-//    @objc func backButtonTapped() {
-//
-//    }
     
     //MARK: - Helpers
     
     private func loadTopNews() {
         
-        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=daed73a210b94589a977658bcb2f5747")!)
+        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=daed73a210b94589a977658bcb2f5747")!)
         
         URLRequest.load(resource: resource)
             .subscribe(onNext: { articleResponse in
@@ -106,14 +109,23 @@ class ViewController: UIViewController {
             
             self.articleVM.urlToImage.bind { (url) in
                 let url = URL(string: url)
+                self.topHeaderContainerView.topHeaderImageView.kf.indicatorType = .activity
                 self.topHeaderContainerView.topHeaderImageView.kf.setImage(with: url)
             }.disposed(by: self.disposeBag)
             
             self.articleVM.url.bind { (url) in
                 self.articleUrl = url
             }.disposed(by: self.disposeBag)
+            
+//            self.hideTopNewsAnimation()
         }
+        
     }
+    
+//    private func hideTopNewsAnimation() {
+//        topHeaderContainerView.dateLabel.hideSkeleton()
+//        topHeaderContainerView.titleLabel.hideSkeleton()
+//    }
     
     private func dateFormat(date: String) -> String {
         let formatter1 = DateFormatter()
@@ -132,6 +144,11 @@ class ViewController: UIViewController {
         return ""
     }
     
+    private func configureGesture() {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(topHeaderContainerViewTapped))
+        topHeaderContainerView.addGestureRecognizer(gesture)
+    }
+    
     private func configureNavigationBarUI() {
         
         let appearance = UINavigationBarAppearance()
@@ -140,7 +157,7 @@ class ViewController: UIViewController {
         appearance.largeTitleTextAttributes = [.foregroundColor: UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)]
         
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.topItem?.title = "Breaking News"
+        navigationController?.navigationBar.topItem?.title = "Main News"
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
@@ -215,14 +232,17 @@ class ViewController: UIViewController {
         } else if index == 1 {
             let contentVC = FrenchNewsViewController()
             contentVC.pageIndex = index
+            contentVC.delegate = self
             return contentVC
         } else if index == 2 {
             let contentVC = JapaneseNewsViewController()
             contentVC.pageIndex = index
+            contentVC.delegate = self
             return contentVC
         } else {
             let contentVC = KoreanNewsViewController()
             contentVC.pageIndex = index
+            contentVC.delegate = self
             return contentVC
         }
     }
@@ -338,7 +358,7 @@ extension ViewController: UIPageViewControllerDataSource, UIPageViewControllerDe
 //MARK: - ViewControllerDelegate
 
 extension ViewController: ViewControllerDelegate {
-    func WKWebViewOpen(url: URL) {
+    func SafariServicesOpen(url: URL) {
             
 //        let urlRequest = URLRequest(url: url)
 //        webView.load(urlRequest)

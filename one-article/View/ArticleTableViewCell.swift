@@ -7,14 +7,15 @@
 
 import UIKit
 import SnapKit
+//import SkeletonView
 
 class ArticleTableViewCell: UITableViewCell {
     
     var articleImageView: UIImageView = {
-        let image = UIImage()
-        image.withRenderingMode(.alwaysOriginal)
+//        let image = UIImage(systemName: "nosign")
+//        image?.withRenderingMode(.alwaysOriginal).withTintColor(.black)
         
-        let imageView = UIImageView(image: image)
+        let imageView = UIImageView()
         imageView.backgroundColor = .systemGray4
         imageView.contentMode = .scaleAspectFill
         imageView.alpha = 0.8
@@ -36,6 +37,7 @@ class ArticleTableViewCell: UITableViewCell {
     
     var titleLabel: UILabel = {
         let label = UILabel()
+//        label.isSkeletonable = true
         label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         label.textColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
         label.text = "Illinois town fights to save its power plant"
@@ -56,6 +58,7 @@ class ArticleTableViewCell: UITableViewCell {
     
     var dateLabel: UILabel = {
         let label = UILabel()
+//        label.isSkeletonable = true
         label.font = UIFont.systemFont(ofSize: 15, weight: .light)
         label.textColor = .systemGray
         label.text = "10 Jan 2020"
@@ -68,10 +71,18 @@ class ArticleTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        configureUI()
+//        showAnimation()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Helpers
+    
+    private func configureUI() {
         selectionStyle = .none
-        
-        
         addSubview(articleImageView)
         
         articleImageView.snp.makeConstraints { (make) -> Void in
@@ -94,7 +105,7 @@ class ArticleTableViewCell: UITableViewCell {
         addSubview(dateImageView)
         
         dateImageView.snp.makeConstraints { (make) -> Void in
-            make.bottom.equalTo(articleImageView.snp.bottom).offset(-5)
+            make.bottom.equalTo(articleImageView.snp.bottom).offset(-3)
             make.leading.equalTo(articleImageView.snp.trailing).offset(15)
         }
         
@@ -104,10 +115,10 @@ class ArticleTableViewCell: UITableViewCell {
             make.bottom.equalTo(articleImageView.snp.bottom).offset(-5)
             make.leading.equalTo(dateImageView.snp.trailing).offset(5)
         }
-        
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+//    private func showAnimation() {
+//        titleLabel.showAnimatedGradientSkeleton()
+//        dateLabel.showAnimatedGradientSkeleton()
+//    }
 }

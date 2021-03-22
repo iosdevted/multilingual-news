@@ -7,8 +7,7 @@
 
 import UIKit
 import SnapKit
-
-//로딩 중 SkeletonView 추가해야해.
+//import SkeletonView
 
 class TopHeaderContainerView: UIView {
     
@@ -16,7 +15,6 @@ class TopHeaderContainerView: UIView {
     
     var topHeaderImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .systemGray4
         imageView.contentMode = .scaleAspectFill
         imageView.alpha = 0.8
         
@@ -34,8 +32,9 @@ class TopHeaderContainerView: UIView {
         return imageView
     }()
     
-    var titleLabel: UILabel = {
+    lazy var titleLabel: UILabel = {
         let label = UILabel()
+//        label.isSkeletonable = true
         label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         label.textColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
         label.numberOfLines = 0
@@ -52,6 +51,7 @@ class TopHeaderContainerView: UIView {
     
     var dateLabel: UILabel = {
         let label = UILabel()
+//        label.isSkeletonable = true
         label.font = UIFont.systemFont(ofSize: 15, weight: .light)
         label.textColor = .systemGray
         label.numberOfLines = 1
@@ -62,8 +62,8 @@ class TopHeaderContainerView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .blue
         configureUI()
+//        showAnimation()
     }
     
     required init?(coder: NSCoder) {
@@ -71,6 +71,11 @@ class TopHeaderContainerView: UIView {
     }
     
     //MARK: Helpers
+    
+//    private func showAnimation() {
+//        titleLabel.showAnimatedGradientSkeleton()
+//        dateLabel.showAnimatedGradientSkeleton()
+//    }
     
     private func configureUI() {
         addSubview(topHeaderImageView)
