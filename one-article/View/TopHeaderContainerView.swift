@@ -14,11 +14,8 @@ class TopHeaderContainerView: UIView {
     
     //MARK: Properties
     
-    private var topHeaderImageView: UIImageView = {
-        let image = UIImage(named: "plane")
-        image?.withRenderingMode(.alwaysOriginal)
-        
-        let imageView = UIImageView(image: image)
+    var topHeaderImageView: UIImageView = {
+        let imageView = UIImageView()
         imageView.backgroundColor = .systemGray4
         imageView.contentMode = .scaleAspectFill
         imageView.alpha = 0.8
@@ -41,25 +38,22 @@ class TopHeaderContainerView: UIView {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         label.textColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
-        label.text = "Contact Lost With Sriwijaya Air Boeing 737-500 After Take Off"
         label.numberOfLines = 0
         return label
     }()
     
-    var authorLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15, weight: .light)
-        label.textColor = .systemGray
-        label.text = "John Smith"
-        label.numberOfLines = 1
-        return label
-    }()
+//    var authorLabel: UILabel = {
+//        let label = UILabel()
+//        label.font = UIFont.systemFont(ofSize: 15, weight: .light)
+//        label.textColor = .systemGray
+//        label.numberOfLines = 1
+//        return label
+//    }()
     
     var dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15, weight: .light)
         label.textColor = .systemGray
-        label.text = "10 Jan 2020"
         label.numberOfLines = 1
         return label
     }()
@@ -96,17 +90,26 @@ class TopHeaderContainerView: UIView {
             make.height.equalToSuperview().multipliedBy(0.2)
         }
         
-        let detailedStack = UIStackView(arrangedSubviews: [authorLabel, dateLabel])
-        detailedStack.alignment = .fill
-        detailedStack.distribution = .equalSpacing
+        addSubview(dateLabel)
         
-        addSubview(detailedStack)
-        
-        detailedStack.snp.makeConstraints { (make) -> Void in
+        dateLabel.snp.makeConstraints { (make) -> Void in
             
             make.top.equalTo(titleLabel.snp.bottom).offset(5)
             make.leading.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
             make.bottom.equalToSuperview().offset(-15)
         }
+        
+//        let detailedStack = UIStackView(arrangedSubviews: [authorLabel, dateLabel])
+//        detailedStack.alignment = .fill
+//        detailedStack.distribution = .equalSpacing
+//
+//        addSubview(detailedStack)
+//
+//        detailedStack.snp.makeConstraints { (make) -> Void in
+//
+//            make.top.equalTo(titleLabel.snp.bottom).offset(5)
+//            make.leading.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
+//            make.bottom.equalToSuperview().offset(-15)
+//        }
     }
 }

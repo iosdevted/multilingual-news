@@ -92,10 +92,9 @@ extension EnglishNewsViewController: UITableViewDelegate {
 //        if let url = URL(string: self.articleUrl[indexPath.row]) {
 //            UIApplication.shared.open(url)
 //        }
-        print("selected")
+
         guard let url = URL(string: self.articleUrl[indexPath.row]) else { return }
         delegate?.WKWebViewOpen(url: url)
-        print(delegate)
 
         tableView.deselectRow(at: indexPath, animated: true)
     }

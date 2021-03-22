@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import SnapKit
+import Kingfisher
 import SafariServices
 //import WebKit
 
@@ -21,9 +22,17 @@ class ViewController: UIViewController {
     
     //MARK: - Properties
     
+    private let disposeBag = DisposeBag()
+    private var articleVM: ArticleViewModel! {
+        didSet {
+            populateTopNews()
+        }
+    }
+    
     //private let webView = WKWebView(frame: UIScreen.main.bounds)
     private var currentIndex: Int = 0
     private var pageController: UIPageViewController!
+    private var articleUrl: String = ""
     
     private lazy var tabsView: TabsView = {
         let view = TabsView()
@@ -54,6 +63,8 @@ class ViewController: UIViewController {
         configureUI()
         setupTabs()
         setupPageViewController()
+        loadTopNews()
+        //populateTopNews()
     }
     
     
@@ -63,11 +74,63 @@ class ViewController: UIViewController {
         print("tapped")
     }
     
-    @objc func backButtonTapped() {
-        
-    }
+//    @objc func backButtonTapped() {
+//
+//    }
     
     //MARK: - Helpers
+    
+    private func loadTopNews() {
+        
+        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=daed73a210b94589a977658bcb2f5747")!)
+        
+        URLRequest.load(resource: resource)
+            .subscribe(onNext: { articleResponse in
+                
+                let topArticle = articleResponse.articles.first
+                self.articleVM = ArticleViewModel(topArticle!)
+                    
+            }).disposed(by: disposeBag)
+    }
+    
+    private func populateTopNews() {
+        DispatchQueue.main.async {
+            self.articleVM.title.asDriver(onErrorJustReturn: "")
+                .drive(self.topHeaderContainerView.titleLabel.rx.text)
+                .disposed(by: self.disposeBag)
+            
+            self.articleVM.publishedAt.bind { (date) in
+                let date = self.dateFormat(date: date)
+                self.topHeaderContainerView.dateLabel.text = date
+            }.disposed(by: self.disposeBag)
+            
+            self.articleVM.urlToImage.bind { (url) in
+                let url = URL(string: url)
+                self.topHeaderContainerView.topHeaderImageView.kf.setImage(with: url)
+            }.disposed(by: self.disposeBag)
+            
+            self.articleVM.url.bind { (url) in
+                self.articleUrl = url
+            }.disposed(by: self.disposeBag)
+        }
+    }
+    
+    private func dateFormat(date: String) -> String {
+        let formatter1 = DateFormatter()
+        formatter1.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        
+        if let date2 = formatter1.date(from: date) {
+            let formatter2 = DateFormatter()
+            formatter2.dateStyle = .short
+            formatter2.timeStyle = .short
+            formatter2.locale = Locale(identifier: "en_US")
+
+            let dateString = formatter2.string(from: date2)
+            return dateString
+        }
+        
+        return ""
+    }
     
     private func configureNavigationBarUI() {
         
