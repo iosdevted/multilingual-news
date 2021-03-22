@@ -9,27 +9,26 @@ import UIKit
 import RxSwift
 import RxCocoa
 import SnapKit
-import WebKit
+import SafariServices
+//import WebKit
+
 
 protocol ViewControllerDelegate: class {
     func WKWebViewOpen(url: URL)
 }
 
-class ViewController: UIViewController, WKNavigationDelegate {
+class ViewController: UIViewController {
     
     //MARK: - Properties
     
-    private let webView = WKWebView(frame: UIScreen.main.bounds)
-    
-    private var contentVC: EnglishNewsViewController?
+    //private let webView = WKWebView(frame: UIScreen.main.bounds)
+    private var currentIndex: Int = 0
+    private var pageController: UIPageViewController!
     
     private lazy var tabsView: TabsView = {
         let view = TabsView()
         return view
     }()
-    
-    private var currentIndex: Int = 0
-    private var pageController: UIPageViewController!
     
     private var topHeaderContainerView: TopHeaderContainerView = {
         let view = TopHeaderContainerView()
@@ -46,6 +45,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        //webView.navigationDelegate = self
         configureNavigationBarUI()
     }
     
@@ -54,15 +54,17 @@ class ViewController: UIViewController, WKNavigationDelegate {
         configureUI()
         setupTabs()
         setupPageViewController()
-        contentVC?.delegate = self
-
     }
     
     
     //MARK: - Selectors
     
     @objc func rightBarButtonTapped() {
-
+        print("tapped")
+    }
+    
+    @objc func backButtonTapped() {
+        
     }
     
     //MARK: - Helpers
@@ -72,7 +74,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white
         appearance.shadowColor = .clear // Hide UINavigationBar 1px bottom line
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)] // Should change another color
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)]
         
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.topItem?.title = "Breaking News"
@@ -80,10 +82,15 @@ class ViewController: UIViewController, WKNavigationDelegate {
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
-        var image = UIImage(systemName: "globe")
-        image = image?.withRenderingMode(.alwaysOriginal)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style:.plain, target: self, action:  #selector(rightBarButtonTapped))
-        navigationItem.rightBarButtonItem?.tintColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
+        var leftBarImage = UIImage(systemName: "arrowshape.turn.up.backward")?.withTintColor(UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1))
+        var rightBarImage = UIImage(systemName: "globe")?.withTintColor(UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1))
+
+        leftBarImage = leftBarImage?.withRenderingMode(.alwaysOriginal)
+        rightBarImage = rightBarImage?.withRenderingMode(.alwaysOriginal)
+        
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(image: leftBarImage, style:.plain, target: self, action:  #selector(backButtonTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: rightBarImage, style:.plain, target: self, action:  #selector(rightBarButtonTapped))
+
     }
     
     private func configureUI() {
@@ -140,6 +147,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         if index == 0 {
             let contentVC = EnglishNewsViewController()
             contentVC.pageIndex = index
+            contentVC.delegate = self
             return contentVC
         } else if index == 1 {
             let contentVC = FrenchNewsViewController()
@@ -268,39 +276,38 @@ extension ViewController: UIPageViewControllerDataSource, UIPageViewControllerDe
 
 extension ViewController: ViewControllerDelegate {
     func WKWebViewOpen(url: URL) {
-
-        webView.navigationDelegate = self
+            
+//        let urlRequest = URLRequest(url: url)
+//        webView.load(urlRequest)
+//        webView.autoresizingMask = [.flexibleWidth,.flexibleHeight]
+//        view.addSubview(webView)
         
-        print("excuted")
-        
-        
-        let urlRequest = URLRequest(url: url)
-        webView.load(urlRequest)
-        webView.autoresizingMask = [.flexibleWidth,.flexibleHeight]
-        view.addSubview(webView)
+        let safariViewController = SFSafariViewController(url: url)
+        present(safariViewController, animated: true, completion: nil)
     }
 }
 
 //MARK: - WKNavigationDelegate
 
-extension EnglishNewsViewController: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-
-        if navigationAction.navigationType == .linkActivated  {
-            if let url = navigationAction.request.url,
-                let host = url.host, !host.hasPrefix("www.google.com"),
-                UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url)
-                print(url)
-                print("Redirected to browser. No need to open it locally")
-                decisionHandler(.cancel)
-            } else {
-                print("Open it locally")
-                decisionHandler(.allow)
-            }
-        } else {
-            print("not a user click")
-            decisionHandler(.allow)
-        }
-    }
-}
+//extension ViewController: WKNavigationDelegate {
+//    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+//
+//        if navigationAction.navigationType == .linkActivated  {
+//            if let url = navigationAction.request.url,
+//                let host = url.host, !host.hasPrefix("www.google.com"),
+//                UIApplication.shared.canOpenURL(url) {
+//                UIApplication.shared.open(url)
+//                print(url)
+//                print("Redirected to browser. No need to open it locally")
+//                decisionHandler(.cancel)
+//            } else {
+//                print("Open it locally")
+//                decisionHandler(.allow)
+//            }
+//        } else {
+//            print("not a user click")
+//            decisionHandler(.allow)
+//        }
+//    }
+//
+//}

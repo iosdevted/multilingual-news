@@ -73,7 +73,7 @@ class EnglishNewsViewController: UIViewController {
         
         if let date2 = formatter1.date(from: date) {
             let formatter2 = DateFormatter()
-            formatter2.timeStyle = .medium
+            formatter2.timeStyle = .short
             formatter2.locale = Locale(identifier: "en_US")
 
             let dateString = formatter2.string(from: date2)
@@ -95,6 +95,7 @@ extension EnglishNewsViewController: UITableViewDelegate {
         print("selected")
         guard let url = URL(string: self.articleUrl[indexPath.row]) else { return }
         delegate?.WKWebViewOpen(url: url)
+        print(delegate)
 
         tableView.deselectRow(at: indexPath, animated: true)
     }
