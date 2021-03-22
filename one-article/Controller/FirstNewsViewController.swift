@@ -1,5 +1,5 @@
 //
-//  FrenchNewsViewController.swift
+//  FirstNewsViewController.swift
 //  one-article
 //
 //  Created by Ted on 2021/03/21.
@@ -14,11 +14,11 @@ import Kingfisher
 
 private let ReuseIdentifier: String = "CellReuseIdentifier"
 
-class FrenchNewsViewController: UIViewController {
+class FirstNewsViewController: UIViewController {
     
     // MARK: - Properties
     
-    weak var delegate: ViewControllerDelegate?
+    weak var delegate: MainViewControllerDelegate?
     private let tableView = UITableView()
     
     private let disposeBag = DisposeBag()
@@ -32,13 +32,14 @@ class FrenchNewsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
-        self.tableView.dataSource = self
-        self.tableView.delegate = self
-        self.tableView.rowHeight = UITableView.automaticDimension
-        self.tableView.separatorStyle = .none
-        self.tableView.register(ArticleTableViewCell.self, forCellReuseIdentifier: ReuseIdentifier)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .none
+        tableView.register(ArticleTableViewCell.self, forCellReuseIdentifier: ReuseIdentifier)
 
-        self.populateNews()
+        populateNews()
+        
     }
     
     //MARK: - Helpers
@@ -53,7 +54,7 @@ class FrenchNewsViewController: UIViewController {
     
     private func populateNews() {
         
-        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?country=fr&apiKey=daed73a210b94589a977658bcb2f5747")!)
+        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?country=us&apiKey=daed73a210b94589a977658bcb2f5747")!)
         
         URLRequest.load(resource: resource)
             .subscribe(onNext: { articleResponse in
@@ -67,28 +68,11 @@ class FrenchNewsViewController: UIViewController {
                 
             }).disposed(by: disposeBag)
     }
-    
-    private func dateFormat(date: String) -> String {
-        let formatter1 = DateFormatter()
-        formatter1.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
-        
-        if let date2 = formatter1.date(from: date) {
-            let formatter2 = DateFormatter()
-            formatter2.timeStyle = .short
-            formatter2.locale = Locale(identifier: "fr_FR")
-
-            let dateString = formatter2.string(from: date2)
-            return dateString
-        }
-        
-        return ""
-    }
-    
 }
 
 //MARK: - UITableViewDelegate/DataSource
 
-extension FrenchNewsViewController: UITableViewDelegate {
+extension FirstNewsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        if let url = URL(string: self.articleUrl[indexPath.row]) {
 //            UIApplication.shared.open(url)
@@ -101,7 +85,7 @@ extension FrenchNewsViewController: UITableViewDelegate {
     }
 }
 
-extension FrenchNewsViewController: UITableViewDataSource {
+extension FirstNewsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.articleListVM == nil ? 0 : self.articleListVM.articlesVM.count
     }
@@ -117,13 +101,8 @@ extension FrenchNewsViewController: UITableViewDataSource {
 
 //        cell.titleLabel.hideSkeleton()
         
-//        articleVM.publishedAt.asDriver(onErrorJustReturn: "")
-//            .drive(cell.dateLabel.rx.text)
-//            .disposed(by: disposeBag)
-        
         articleVM.publishedAt.bind { (date) in
-            let date = self.dateFormat(date: date)
-            cell.dateLabel.text = date
+            cell.dateLabel.text = date.toDateFormat()
 //            cell.dateLabel.hideSkeleton()
         }.disposed(by: disposeBag)
         

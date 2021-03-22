@@ -1,5 +1,5 @@
 //
-//  KoreanNewsViewController.swift
+//  ThirdNewsViewController.swift
 //  one-article
 //
 //  Created by Ted on 2021/03/21.
@@ -14,11 +14,11 @@ import Kingfisher
 
 private let ReuseIdentifier: String = "CellReuseIdentifier"
 
-class KoreanNewsViewController: UIViewController {
+class ThirdNewsViewController: UIViewController {
     
     // MARK: - Properties
     
-    weak var delegate: ViewControllerDelegate?
+    weak var delegate: MainViewControllerDelegate?
     private let tableView = UITableView()
     
     private let disposeBag = DisposeBag()
@@ -53,7 +53,7 @@ class KoreanNewsViewController: UIViewController {
     
     private func populateNews() {
         
-        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?country=kr&apiKey=daed73a210b94589a977658bcb2f5747")!)
+        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?country=jp&apiKey=daed73a210b94589a977658bcb2f5747")!)
         
         URLRequest.load(resource: resource)
             .subscribe(onNext: { articleResponse in
@@ -68,27 +68,11 @@ class KoreanNewsViewController: UIViewController {
             }).disposed(by: disposeBag)
     }
     
-    private func dateFormat(date: String) -> String {
-        let formatter1 = DateFormatter()
-        formatter1.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
-        
-        if let date2 = formatter1.date(from: date) {
-            let formatter2 = DateFormatter()
-            formatter2.timeStyle = .short
-            formatter2.locale = Locale(identifier: "kr_KR")
-
-            let dateString = formatter2.string(from: date2)
-            return dateString
-        }
-        
-        return ""
-    }
-    
 }
 
 //MARK: - UITableViewDelegate/DataSource
 
-extension KoreanNewsViewController: UITableViewDelegate {
+extension ThirdNewsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        if let url = URL(string: self.articleUrl[indexPath.row]) {
 //            UIApplication.shared.open(url)
@@ -101,7 +85,7 @@ extension KoreanNewsViewController: UITableViewDelegate {
     }
 }
 
-extension KoreanNewsViewController: UITableViewDataSource {
+extension ThirdNewsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.articleListVM == nil ? 0 : self.articleListVM.articlesVM.count
     }
@@ -117,13 +101,8 @@ extension KoreanNewsViewController: UITableViewDataSource {
 
 //        cell.titleLabel.hideSkeleton()
         
-//        articleVM.publishedAt.asDriver(onErrorJustReturn: "")
-//            .drive(cell.dateLabel.rx.text)
-//            .disposed(by: disposeBag)
-        
         articleVM.publishedAt.bind { (date) in
-            let date = self.dateFormat(date: date)
-            cell.dateLabel.text = date
+            cell.dateLabel.text = date.toDateFormat()
 //            cell.dateLabel.hideSkeleton()
         }.disposed(by: disposeBag)
         

@@ -1,5 +1,5 @@
 //
-//  TopHeaderContainerView.swift
+//  TopHeaderView.swift
 //  one-article
 //
 //  Created by Ted on 2021/03/21.
@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 //import SkeletonView
 
-class TopHeaderContainerView: UIView {
+class TopHeaderView: UIView {
     
     //MARK: Properties
     

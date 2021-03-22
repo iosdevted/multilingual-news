@@ -19,4 +19,20 @@ extension String {
         UIGraphicsEndImageContext()
         return image
     }
+    
+    func toDateFormat() -> String {
+        let formatter1 = DateFormatter()
+        formatter1.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        
+        guard let date2 = formatter1.date(from: self) else { return "" }
+
+        let formatter2 = DateFormatter()
+        formatter2.timeStyle = .short
+        formatter2.locale = Locale(identifier: "en_US")
+
+        let dateString = formatter2.string(from: date2)
+        return dateString
+
+    }
+    
 }

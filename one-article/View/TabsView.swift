@@ -12,16 +12,6 @@ protocol TabsDelegate {
     func tabsViewDidSelectItemAt(position: Int)
 }
 
-enum TabMode {
-    case fixed
-    case scrollable
-}
-
-struct Tab {
-    var icon: UIImage?
-    var title: String
-}
-
 class TabsView: UIView {
     
     //MARK: - Properties

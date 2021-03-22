@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  one-article
 //
 //  Created by Ted on 2021/03/21.
@@ -14,11 +14,11 @@ import SafariServices
 //import WebKit
 
 
-protocol ViewControllerDelegate: class {
+protocol MainViewControllerDelegate: class {
     func SafariServicesOpen(url: URL)
 }
 
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
     
     //MARK: - Properties
     
@@ -39,8 +39,8 @@ class ViewController: UIViewController {
         return view
     }()
     
-    private var topHeaderContainerView: TopHeaderContainerView = {
-        let view = TopHeaderContainerView()
+    private var topHeaderContainerView: TopHeaderView = {
+        let view = TopHeaderView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 30
         view.layer.shadowColor = UIColor.gray.withAlphaComponent(0.4).cgColor
@@ -104,8 +104,7 @@ class ViewController: UIViewController {
                 .disposed(by: self.disposeBag)
             
             self.articleVM.publishedAt.bind { (date) in
-                let date = self.dateFormat(date: date)
-                self.topHeaderContainerView.dateLabel.text = date
+                self.topHeaderContainerView.dateLabel.text = date.toDateFormat()
             }.disposed(by: self.disposeBag)
             
             self.articleVM.urlToImage.bind { (url) in
@@ -118,32 +117,14 @@ class ViewController: UIViewController {
                 self.articleUrl = url
             }.disposed(by: self.disposeBag)
             
-//            self.hideTopNewsAnimation()
+           //self.hideTopNewsAnimation()
         }
-        
     }
     
 //    private func hideTopNewsAnimation() {
 //        topHeaderContainerView.dateLabel.hideSkeleton()
 //        topHeaderContainerView.titleLabel.hideSkeleton()
 //    }
-    
-    private func dateFormat(date: String) -> String {
-        let formatter1 = DateFormatter()
-        formatter1.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
-        
-        if let date2 = formatter1.date(from: date) {
-            let formatter2 = DateFormatter()
-            formatter2.dateStyle = .short
-            formatter2.timeStyle = .short
-            formatter2.locale = Locale(identifier: "en_US")
-
-            let dateString = formatter2.string(from: date2)
-            return dateString
-        }
-        
-        return ""
-    }
     
     private func configureGesture() {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(topHeaderContainerViewTapped))
@@ -226,22 +207,22 @@ class ViewController: UIViewController {
         currentIndex = index
         
         if index == 0 {
-            let contentVC = EnglishNewsViewController()
+            let contentVC = FirstNewsViewController()
             contentVC.pageIndex = index
             contentVC.delegate = self
             return contentVC
         } else if index == 1 {
-            let contentVC = FrenchNewsViewController()
+            let contentVC = SecondNewsViewController()
             contentVC.pageIndex = index
             contentVC.delegate = self
             return contentVC
         } else if index == 2 {
-            let contentVC = JapaneseNewsViewController()
+            let contentVC = ThirdNewsViewController()
             contentVC.pageIndex = index
             contentVC.delegate = self
             return contentVC
         } else {
-            let contentVC = KoreanNewsViewController()
+            let contentVC = FourthNewsViewController()
             contentVC.pageIndex = index
             contentVC.delegate = self
             return contentVC
@@ -276,7 +257,7 @@ class ViewController: UIViewController {
 
 //MARK: - TabsDelegate
 
-extension ViewController: TabsDelegate {
+extension MainViewController: TabsDelegate {
     func tabsViewDidSelectItemAt(position: Int) {
         // Check if the selected tab cell position is the same with the current position in pageController, if not, then go forward or backward
         if position != currentIndex {
@@ -293,7 +274,7 @@ extension ViewController: TabsDelegate {
 
 //MARK: - UIPageViewControllerDataSource
 
-extension ViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+extension MainViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     // return ViewController when go forward
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         let vc = pageViewController.viewControllers?.first
@@ -340,25 +321,25 @@ extension ViewController: UIPageViewControllerDataSource, UIPageViewControllerDe
     // Return the current position that is saved in the UIViewControllers we have in the UIPageViewController
     func getVCPageIndex(_ viewController: UIViewController?) -> Int {
         switch viewController {
-        case is EnglishNewsViewController:
-            let vc = viewController as! EnglishNewsViewController
+        case is FirstNewsViewController:
+            let vc = viewController as! FirstNewsViewController
             return vc.pageIndex
-        case is FrenchNewsViewController:
-            let vc = viewController as! FrenchNewsViewController
+        case is SecondNewsViewController:
+            let vc = viewController as! SecondNewsViewController
             return vc.pageIndex
-        case is JapaneseNewsViewController:
-            let vc = viewController as! JapaneseNewsViewController
+        case is ThirdNewsViewController:
+            let vc = viewController as! ThirdNewsViewController
             return vc.pageIndex
         default:
-            let vc = viewController as! KoreanNewsViewController
+            let vc = viewController as! FourthNewsViewController
             return vc.pageIndex
         }
     }
 }
 
-//MARK: - ViewControllerDelegate
+//MARK: - MainViewControllerDelegate
 
-extension ViewController: ViewControllerDelegate {
+extension MainViewController: MainViewControllerDelegate {
     func SafariServicesOpen(url: URL) {
             
 //        let urlRequest = URLRequest(url: url)
