@@ -32,13 +32,13 @@ class EnglishNewsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
-        self.tableView.dataSource = self
-        self.tableView.delegate = self
-        self.tableView.rowHeight = UITableView.automaticDimension
-        self.tableView.separatorStyle = .none
-        self.tableView.register(ArticleTableViewCell.self, forCellReuseIdentifier: ReuseIdentifier)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .none
+        tableView.register(ArticleTableViewCell.self, forCellReuseIdentifier: ReuseIdentifier)
 
-        self.populateNews()
+        populateNews()
     }
     
     //MARK: - Helpers

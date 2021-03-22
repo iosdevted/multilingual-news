@@ -12,8 +12,6 @@ import SnapKit
 class ArticleTableViewCell: UITableViewCell {
     
     var articleImageView: UIImageView = {
-//        let image = UIImage(systemName: "nosign")
-//        image?.withRenderingMode(.alwaysOriginal).withTintColor(.black)
         
         let imageView = UIImageView()
         imageView.backgroundColor = .systemGray4
@@ -40,7 +38,6 @@ class ArticleTableViewCell: UITableViewCell {
 //        label.isSkeletonable = true
         label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         label.textColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
-        label.text = "Illinois town fights to save its power plant"
         label.numberOfLines = 0
         return label
     }()
@@ -51,7 +48,7 @@ class ArticleTableViewCell: UITableViewCell {
         
         let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFill
-        imageView.tintColor = .systemGray
+        imageView.tintColor = .systemGray4
         
         return imageView
     }()
@@ -60,8 +57,7 @@ class ArticleTableViewCell: UITableViewCell {
         let label = UILabel()
 //        label.isSkeletonable = true
         label.font = UIFont.systemFont(ofSize: 15, weight: .light)
-        label.textColor = .systemGray
-        label.text = "10 Jan 2020"
+        label.textColor = .systemGray4
         label.numberOfLines = 1
         return label
     }()

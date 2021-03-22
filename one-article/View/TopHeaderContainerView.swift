@@ -44,7 +44,7 @@ class TopHeaderContainerView: UIView {
 //    var authorLabel: UILabel = {
 //        let label = UILabel()
 //        label.font = UIFont.systemFont(ofSize: 15, weight: .light)
-//        label.textColor = .systemGray
+//        label.textColor = .systemGray4
 //        label.numberOfLines = 1
 //        return label
 //    }()
@@ -53,7 +53,7 @@ class TopHeaderContainerView: UIView {
         let label = UILabel()
 //        label.isSkeletonable = true
         label.font = UIFont.systemFont(ofSize: 15, weight: .light)
-        label.textColor = .systemGray
+        label.textColor = .systemGray4
         label.numberOfLines = 1
         return label
     }()

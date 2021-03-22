@@ -12,5 +12,6 @@ target 'one-article' do
   pod 'RxCocoa', '~> 6.1.0'
   pod 'Kingfisher', '~> 6.0'
   pod 'SkeletonView'
+  pod 'M13Checkbox'
 
 end

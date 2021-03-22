@@ -78,7 +78,8 @@ class ViewController: UIViewController {
     }
     
     @objc func rightBarButtonTapped() {
-        print("tapped")
+        let settingViewController = UINavigationController(rootViewController: SettingViewController())
+        present(settingViewController, animated: true, completion: nil)
     }
     
     //MARK: - Helpers
