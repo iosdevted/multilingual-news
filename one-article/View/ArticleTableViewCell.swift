@@ -36,7 +36,7 @@ class ArticleTableViewCell: UITableViewCell {
     var titleLabel: UILabel = {
         let label = UILabel()
 //        label.isSkeletonable = true
-        label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        label.font = UIFont.systemFont(ofSize: 15, weight: .light)
         label.textColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
         label.numberOfLines = 0
         return label
@@ -56,7 +56,7 @@ class ArticleTableViewCell: UITableViewCell {
     var dateLabel: UILabel = {
         let label = UILabel()
 //        label.isSkeletonable = true
-        label.font = UIFont.systemFont(ofSize: 15, weight: .light)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .light)
         label.textColor = .systemGray4
         label.numberOfLines = 1
         return label

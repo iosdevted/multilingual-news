@@ -136,10 +136,10 @@ class MainViewController: UIViewController {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white
         appearance.shadowColor = .clear // Hide UINavigationBar 1px bottom line
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1), .font: UIFont(name: "MajorMonoDisplay-Regular", size: 35) ?? .systemFont(ofSize: 20)]
         
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.topItem?.title = "Main News"
+        navigationController?.navigationBar.topItem?.title = "main news"
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
@@ -179,10 +179,10 @@ class MainViewController: UIViewController {
     
     private func setupTabs() {
         tabsView.tabs = [
-            Tab(icon: nil, title: "English"),
-            Tab(icon: nil, title: "French"),
-            Tab(icon: nil, title: "Japanese"),
-            Tab(icon: nil, title: "Korean")
+            Tab(icon: nil, title: "english"),
+            Tab(icon: nil, title: "french"),
+            Tab(icon: nil, title: "japanese"),
+            Tab(icon: nil, title: "korean")
         ]
         // Set TabMode to '.fixed' for stretched tabs in full width of screen or '.scrollable' for scrolling to see all tabs
         tabsView.tabMode = .fixed
@@ -190,7 +190,8 @@ class MainViewController: UIViewController {
         tabsView.titleColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
         tabsView.iconColor = .black
         tabsView.indicatorColor = .black
-        tabsView.titleFont = UIFont.systemFont(ofSize: 15, weight: .light)
+        tabsView.titleFont = UIFont(name: "MajorMonoDisplay-Regular", size: 15) ?? UIFont.systemFont(ofSize: 15, weight: .light)
+        //tabsView.titleFont = UIFont.systemFont(ofSize: 15, weight: .light)
         tabsView.collectionView.backgroundColor = .white
         
         tabsView.delegate = self
