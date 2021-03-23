@@ -38,7 +38,7 @@ class FirstNewsViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.register(ArticleTableViewCell.self, forCellReuseIdentifier: ReuseIdentifier)
 
-        populateNews()
+        //populateNews()
         
     }
     

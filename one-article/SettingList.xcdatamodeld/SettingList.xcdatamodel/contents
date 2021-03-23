@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D64" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Languages" representedClassName="Languages" syncable="YES" codeGenerationType="class">
+        <attribute name="icon" optional="YES" attributeType="String" valueTransformerName="[Setting]"/>
+        <attribute name="isChecked" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="MainNews" representedClassName="MainNews" syncable="YES" codeGenerationType="class"/>
+    <elements>
+        <element name="Languages" positionX="-63" positionY="-18" width="128" height="74"/>
+        <element name="MainNews" positionX="-54" positionY="-9" width="128" height="29"/>
+    </elements>
+</model>

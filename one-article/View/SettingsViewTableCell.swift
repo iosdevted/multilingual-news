@@ -21,7 +21,7 @@ class SettingsViewTableCell: UITableViewCell {
         cb.stateChangeAnimation = .bounce(.fill)
         cb.tintColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
         cb.stateChangeAnimation = .stroke
-        cb.animationDuration = 0.5
+        cb.animationDuration = 0.2
 //        cb.addTarget(self, action: #selector(checkboxValueChanged(_:)), for: .valueChanged)
         return cb
     }()

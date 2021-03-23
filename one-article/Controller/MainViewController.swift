@@ -64,7 +64,7 @@ class MainViewController: UIViewController {
         configureGesture()
         setupTabs()
         setupPageViewController()
-        loadTopNews()
+        //loadTopNews()
     }
     
     
