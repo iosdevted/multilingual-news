@@ -19,6 +19,8 @@ class SecondNewsViewController: UIViewController {
     // MARK: - Properties
     
     weak var delegate: MainViewControllerDelegate?
+    var languageCode: String = ""
+    
     private let tableView = UITableView()
     
     private let disposeBag = DisposeBag()
@@ -53,7 +55,7 @@ class SecondNewsViewController: UIViewController {
     
     private func populateNews() {
         
-        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?country=fr&apiKey=daed73a210b94589a977658bcb2f5747")!)
+        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?country=\(languageCode)&apiKey=daed73a210b94589a977658bcb2f5747")!)
         
         URLRequest.load(resource: resource)
             .subscribe(onNext: { articleResponse in

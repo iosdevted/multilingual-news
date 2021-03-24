@@ -11,6 +11,7 @@ import RxCocoa
 import SnapKit
 import Kingfisher
 import SafariServices
+import CoreData
 //import WebKit
 
 
@@ -22,18 +23,22 @@ class MainViewController: UIViewController {
     
     //MARK: - Properties
     
-    private var articleVM: ArticleViewModel! {
-        didSet {
-            populateTopNews()
-        }
-    }
-    
+    private var persistenceManager = PersistenceManager.shared
+    private let request: NSFetchRequest<Languages> = Languages.fetchRequest()
+    private var coreDataLanguages: [Languages] = []
     private let disposeBag = DisposeBag()
     private var currentIndex: Int = 0
     private var pageController: UIPageViewController!
     private var articleUrl: String = ""
     //private let webView = WKWebView(frame: UIScreen.main.bounds)
     
+    private var articleVM: ArticleViewModel! {
+        didSet {
+            populateTopNews()
+        }
+    }
+    
+
     private lazy var tabsView: TabsView = {
         let view = TabsView()
         return view
@@ -60,6 +65,7 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchCoreData()
         configureUI()
         configureGesture()
         setupTabs()
@@ -78,11 +84,44 @@ class MainViewController: UIViewController {
     }
     
     @objc func rightBarButtonTapped() {
-        let settingViewController = UINavigationController(rootViewController: SettingViewController())
-        present(settingViewController, animated: true, completion: nil)
+        let settingViewController = SettingViewController(languages: coreDataLanguages)
+        
+        let nav = UINavigationController(rootViewController: settingViewController)
+        nav.modalPresentationStyle = .overFullScreen
+        present(nav, animated: true, completion: nil)
     }
     
     //MARK: - Helpers
+    
+    func fetchCoreData() {
+        coreDataLanguages = persistenceManager.fetch(request: request)
+        
+        if coreDataLanguages.isEmpty {
+            saveInitialData()
+            coreDataLanguages = persistenceManager.fetch(request: request)
+        } else {
+            print("Not First Run")
+        }
+    }
+    
+    func saveInitialData() {
+        let language1 = Setting(isChecked: true, title: "English", code: "us", icon: "united-states-of-america")
+        let language2 = Setting(isChecked: true, title: "French", code: "fr", icon: "france")
+        let language3 = Setting(isChecked: true, title: "Russian", code: "ru", icon: "russia")
+        let language4 = Setting(isChecked: true, title: "Italien", code: "it", icon: "italy")
+        let language5 = Setting(isChecked: false, title: "Spanish", code: "es", icon: "spain")
+        let language6 = Setting(isChecked: false, title: "Japanese", code: "jp", icon: "japan")
+        let language7 = Setting(isChecked: false, title: "Korean", code: "kr", icon: "south-korea")
+        let language8 = Setting(isChecked: false, title: "Chineses", code: "cn", icon: "china")
+        persistenceManager.insertLanguage(language: language1)
+        persistenceManager.insertLanguage(language: language2)
+        persistenceManager.insertLanguage(language: language3)
+        persistenceManager.insertLanguage(language: language4)
+        persistenceManager.insertLanguage(language: language5)
+        persistenceManager.insertLanguage(language: language6)
+        persistenceManager.insertLanguage(language: language7)
+        persistenceManager.insertLanguage(language: language8)
+    }
     
     private func loadTopNews() {
         
@@ -144,13 +183,9 @@ class MainViewController: UIViewController {
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
-        var leftBarImage = UIImage(systemName: "arrowshape.turn.up.backward")?.withTintColor(UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1))
-        var rightBarImage = UIImage(systemName: "globe")?.withTintColor(UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1))
 
-        leftBarImage = leftBarImage?.withRenderingMode(.alwaysOriginal)
+        var rightBarImage = UIImage(systemName: "globe")?.withTintColor(UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1))
         rightBarImage = rightBarImage?.withRenderingMode(.alwaysOriginal)
-        
-//        navigationItem.leftBarButtonItem = UIBarButtonItem(image: leftBarImage, style:.plain, target: self, action:  #selector(backButtonTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: rightBarImage, style:.plain, target: self, action:  #selector(rightBarButtonTapped))
 
     }
@@ -178,12 +213,14 @@ class MainViewController: UIViewController {
     }
     
     private func setupTabs() {
+
         tabsView.tabs = [
-            Tab(icon: nil, title: "english"),
-            Tab(icon: nil, title: "french"),
-            Tab(icon: nil, title: "japanese"),
-            Tab(icon: nil, title: "korean")
+            Tab(icon: nil, title: coreDataLanguages[0].title!.lowercased()),
+            Tab(icon: nil, title: coreDataLanguages[1].title!.lowercased()),
+            Tab(icon: nil, title: coreDataLanguages[2].title!.lowercased()),
+            Tab(icon: nil, title: coreDataLanguages[3].title!.lowercased())
         ]
+        
         // Set TabMode to '.fixed' for stretched tabs in full width of screen or '.scrollable' for scrolling to see all tabs
         tabsView.tabMode = .fixed
         
@@ -209,21 +246,25 @@ class MainViewController: UIViewController {
         
         if index == 0 {
             let contentVC = FirstNewsViewController()
+            contentVC.languageCode = coreDataLanguages[0].code!
             contentVC.pageIndex = index
             contentVC.delegate = self
             return contentVC
         } else if index == 1 {
             let contentVC = SecondNewsViewController()
+            contentVC.languageCode = coreDataLanguages[1].code!
             contentVC.pageIndex = index
             contentVC.delegate = self
             return contentVC
         } else if index == 2 {
             let contentVC = ThirdNewsViewController()
+            contentVC.languageCode = coreDataLanguages[2].code!
             contentVC.pageIndex = index
             contentVC.delegate = self
             return contentVC
         } else {
             let contentVC = FourthNewsViewController()
+            contentVC.languageCode = coreDataLanguages[3].code!
             contentVC.pageIndex = index
             contentVC.delegate = self
             return contentVC

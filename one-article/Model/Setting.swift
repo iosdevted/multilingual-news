@@ -8,9 +8,10 @@
 import UIKit
 
 struct Setting {
-    var icon: String
-    var title: String
     var isChecked: Bool
+    var title: String
+    var code: String
+    var icon: String
 }
 
 enum SettingOptions: Int, CaseIterable, CustomStringConvertible {

@@ -16,57 +16,41 @@ class SettingViewController: UIViewController {
     // MARK: - Properties
     
     private let tableView = UITableView()
+    private var persistenceManager = PersistenceManager.shared
+    private let request: NSFetchRequest<Languages> = Languages.fetchRequest()
+    private var coreDataLanguages: [Languages]
     
-    private var languages =
-        [Setting(icon: "united-states-of-america", title: "English", isChecked: true),
-         Setting(icon: "france", title: "French", isChecked: true),
-         Setting(icon: "japan", title: "Japanese", isChecked: true),
-         Setting(icon: "south-korea", title: "Korean", isChecked: true)]
-    
-    
-    
-    private var coreDataLanguages: [NSManagedObject] = []
-    
-
     // MARK: - Life Cycle
+    
+    init(languages: [Languages]) {
+        self.coreDataLanguages = languages
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureUI()
         configureTableView()
         configureNavigationBarUI()
-        fetchCoreData()
+    }
+    
+    //MARK: - Selectors
+    
+    @objc func backButtonTapped() {
+        saveNewSettingValue()
+        dismiss(animated: true, completion: nil)
     }
     
     //MARK: - Helpers
     
-    func save(isChecked: Bool) {
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        let entity = NSEntityDescription.entity(forEntityName: "Languages", in: managedContext)!
-        let language = NSManagedObject(entity: entity, insertInto: managedContext)
-        language.setValue(isChecked, forKeyPath: "isChecked")
-        
-        do {
-            try managedContext.save()
-            coreDataLanguages.append(language)
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
-    }
-    
-    func fetchCoreData() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Languages")
-        
-        do {
-            coreDataLanguages = try managedContext.fetch(fetchRequest)
-        } catch let error as NSError {
-          print("Could not fetch. \(error), \(error.userInfo)")
-        }
+    private func saveNewSettingValue() {
+        persistenceManager.deleteAll(request: request)
+        persistenceManager.saveLanguagesSetting(languages: coreDataLanguages)
     }
     
     private func configureUI() {
@@ -100,9 +84,13 @@ class SettingViewController: UIViewController {
         navigationController?.navigationBar.topItem?.title = "manage languages"
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        var leftBarImage = UIImage(systemName: "arrowshape.turn.up.backward")?.withTintColor(UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1))
+        leftBarImage = leftBarImage?.withRenderingMode(.alwaysOriginal)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: leftBarImage, style:.plain, target: self, action:  #selector(backButtonTapped))
     }
     
-
+    
 }
 
 //MARK: - UITableViewDelegate/DataSource
@@ -112,19 +100,19 @@ extension SettingViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let cell = tableView.cellForRow(at: indexPath) as! SettingsViewTableCell
-        
+
         switch cell.checkBox.checkState {
         case .unchecked:
             cell.checkBox.setCheckState(.checked, animated: true)
-            languages[indexPath.row].isChecked = false
+            coreDataLanguages[indexPath.row].isChecked = true
+            print(coreDataLanguages[indexPath.row].isChecked)
         case .checked:
             cell.checkBox.setCheckState(.unchecked, animated: true)
-            languages[indexPath.row].isChecked = true
+            coreDataLanguages[indexPath.row].isChecked = false
+            print(coreDataLanguages[indexPath.row].isChecked)
         default:
             print("Dont' use this type .mixed")
         }
-        
-        //cell.checkBox.toggleCheckState()
     }
 }
 
@@ -136,28 +124,17 @@ extension SettingViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //return settingOptions.allCases.count
-        return languages.count
+        return coreDataLanguages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier, for: indexPath) as! SettingsViewTableCell
+        let language = coreDataLanguages[indexPath.row]
         
-        //Model SettingOptions
-        //        guard let option = settingOptions(rawValue: indexPath.row) else { return SettingsViewTableCell() }
-        //        cell.languageImageView.image = option.image
-        //        cell.titleLabel.text = option.description
+        cell.languageImageView.image = UIImage(named: language.icon!)
+        cell.titleLabel.text = language.title!
         
-        //Model Setting
-        cell.languageImageView.image = UIImage(named: languages[indexPath.row].icon)
-        cell.titleLabel.text = languages[indexPath.row].title
-
-        (languages[indexPath.row].isChecked) ? (cell.checkBox.checkState = .checked) : (cell.checkBox.checkState = .unchecked)
-        
-        //Core Data
-//        let language = coreDataLanguages[indexPath.row]
-//        cell.languageImageView.image = UIImage(named: language.value(forKeyPath: "icon") as! String)
-//        cell.titleLabel.text = language.value(forKeyPath: "title") as? String
-//        (language.value(forKeyPath: "isChecked") as! Bool) ? (cell.checkBox.checkState = .checked) : (cell.checkBox.checkState = .unchecked)
+        (language.value(forKeyPath: "isChecked") as! Bool) ? (cell.checkBox.checkState = .checked) : (cell.checkBox.checkState = .unchecked)
         
         return cell
     }
@@ -171,8 +148,9 @@ extension SettingViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let movedObject = self.languages[sourceIndexPath.row]
-        languages.remove(at: sourceIndexPath.row)
-        languages.insert(movedObject, at: destinationIndexPath.row)
+        let movedObject = self.coreDataLanguages[sourceIndexPath.row]
+        coreDataLanguages.remove(at: sourceIndexPath.row)
+        coreDataLanguages.insert(movedObject, at: destinationIndexPath.row)
+        
     }
 }
