@@ -106,7 +106,9 @@ extension FirstNewsViewController: UITableViewDataSource {
         
         articleVM.urlToImage.bind { (url) in
             if url == "NoImage" {
-                cell.articleImageView.image = UIImage(named: "NoImage")?.withRenderingMode(.alwaysOriginal)
+                let image = UIImage(named: "NoImage")?.withRenderingMode(.alwaysOriginal)
+                cell.articleImageView.image = image
+                cell.articleImageView.contentMode = .center
             } else {
                 let url = URL(string: url)
                 cell.articleImageView.kf.indicatorType = .activity

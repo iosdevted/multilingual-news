@@ -27,6 +27,21 @@ class PersistenceManager {
         return self.persistentContainer.viewContext
     }
     
+    func saveContext() {
+        if context.hasChanges {
+            do {
+                try context.save()
+                print("Data Saved to Context")
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate.
+                //You should not use this function in a shipping application, although it may be useful during development.
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
+    }
+    
     func fetch<T: NSManagedObject>(request: NSFetchRequest<T>) -> [T] {
         do {
             let fetchResult = try self.context.fetch(request)
@@ -36,42 +51,6 @@ class PersistenceManager {
             return []
         }
     }
-    
-
-//    func fetchbyNewBackground<T: NSManagedObject>(request: NSFetchRequest<T>) -> [T] {
-//        let context: NSManagedObjectContext = self.persistentContainer.newBackgroundContext()
-//        do {
-//            let fetchResult = try context.fetch(request)
-//            return fetchResult
-//        } catch {
-//            print(error.localizedDescription)
-//            return []
-//        }
-//    }
-    
-    
-//    @discardableResult
-//    func insertLanguagebyNewBackground(language: Setting) -> Bool {
-//        let context: NSManagedObjectContext = self.persistentContainer.newBackgroundContext()
-//        let entity = NSEntityDescription.entity(forEntityName: "Languages", in: context)
-//        if let entity = entity {
-//            let managedObject = NSManagedObject(entity: entity, insertInto: context)
-//            managedObject.setValue(language.isChecked, forKey: "isChecked")
-//            managedObject.setValue(language.title, forKey: "title")
-//            managedObject.setValue(language.code, forKey: "code")
-//            managedObject.setValue(language.icon, forKey: "icon")
-//
-//            do {
-//                try context.save()
-//                return true
-//            } catch {
-//                print(error.localizedDescription)
-//                return false
-//            }
-//        } else {
-//            return false
-//        }
-//    }
     
     
     @discardableResult
@@ -97,72 +76,6 @@ class PersistenceManager {
         }
     }
     
-    
-//    func update<T: NSManagedObject>(request: NSFetchRequest<T>, languages: [Languages]) -> [T] {
-//        request.predicate = NSPredicate(format: "title = "%@", "English")
-//
-//        do {
-//            let fetchResult = try self.context.fetch(request)
-//            return fetchResult
-//        } catch {
-//            print(error.localizedDescription)
-//            return []
-//        }
-//    }
-    
-    @discardableResult
-    func save(language: Setting) -> Bool {
-        let entity = NSEntityDescription.entity(forEntityName: "Languages", in: self.context)
-        
-        if let entity = entity {
-            let managedObject = NSManagedObject(entity: entity, insertInto: self.context)
-            managedObject.setValue(language.isChecked, forKey: "isChecked")
-            managedObject.setValue(language.title, forKey: "title")
-            managedObject.setValue(language.code, forKey: "code")
-            managedObject.setValue(language.icon, forKey: "icon")
-            
-            do {
-                try self.context.save()
-                return true
-            } catch {
-                print(error)
-                print(error.localizedDescription)
-                return false
-            }
-        } else {
-            return false
-        }
-    }
-    
-    //    @discardableResult
-    //    func saveLanguagesSetting(languages: [Languages]) -> Bool {
-    //        let context: NSManagedObjectContext = self.persistentContainer.newBackgroundContext()
-    //        let entity = NSEntityDescription.entity(forEntityName: "Languages", in: context)
-    //
-    //        if let entity = entity {
-    //            let managedObject = NSManagedObject(entity: entity, insertInto: context)
-    //
-    //            languages.forEach { language in
-    //
-    //                managedObject.setValue(language.isChecked, forKey: "isChecked")
-    //                managedObject.setValue(language.title, forKey: "title")
-    //                managedObject.setValue(language.code, forKey: "code")
-    //                managedObject.setValue(language.icon, forKey: "icon")
-    //            }
-    //
-    //            do {
-    //                try context.save()
-    //                print(languages)
-    //                return true
-    //            } catch {
-    //                print(error.localizedDescription)
-    //                return false
-    //            }
-    //        } else {
-    //            return false
-    //        }
-    //    }
-    
     @discardableResult
     func delete(object: NSManagedObject) -> Bool {
         self.context.delete(object)
@@ -186,17 +99,15 @@ class PersistenceManager {
     
     @discardableResult
     func deleteAll<T: NSManagedObject>(request: NSFetchRequest<T>) -> Bool {
-        let request: NSFetchRequest<NSFetchRequestResult> = T.fetchRequest()
-        let delete = NSBatchDeleteRequest(fetchRequest: request)
-        
         do {
+            let request: NSFetchRequest<NSFetchRequestResult> = T.fetchRequest()
+            let delete = NSBatchDeleteRequest(fetchRequest: request)
+        
             try self.context.execute(delete)
-            try self.context.save()
             return true
         } catch {
             print(error.localizedDescription)
             return false
         }
     }
-    
 }

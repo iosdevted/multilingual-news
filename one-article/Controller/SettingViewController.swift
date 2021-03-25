@@ -16,11 +16,12 @@ class SettingViewController: UIViewController {
     
     // MARK: - Properties
     
+    private let mainViewController = MainViewController()
     private let tableView = UITableView()
     private var persistenceManager = PersistenceManager.shared
     private let request: NSFetchRequest<Languages> = Languages.fetchRequest()
+    private var contextLanguages = [Languages(context: PersistenceManager.shared.context)]
     private var coreDataLanguages: [Languages]
-    private let mainViewController = MainViewController()
     
     // MARK: - Life Cycle
     
@@ -46,45 +47,28 @@ class SettingViewController: UIViewController {
     @objc func backButtonTapped() {
         
         if isfourlanguages() {
-            //deleteSettingValue()
-            saveNewSettingValue()
-            dismiss(animated: true, completion: nil)
+            contextLanguages = coreDataLanguages
+            persistenceManager.saveContext()
             
-            //mainViewController.reloadData()
-    //        dismiss(animated: true) {
-    //            self.mainViewController.coreDataLanguages = self.coreDataLanguages
-    //            self.mainViewController.reloadData()
-    //        }
+//            contextLanguages.forEach { (language) in
+//                print(language.code)
+//                print(language.title)
+//                print(language.icon)
+//                print(language.isChecked)
+//            }
+            
+            //저장을 하면 이상하게 nil nil nil false값이 계속 생겨,.
+                        
+            dismiss(animated: true) {
+                self.mainViewController.coreDataLanguages = self.coreDataLanguages
+                
+            }
         } else {
             showErrorMessage()
         }
     }
     
     //MARK: - Helpers
-    
-    private func deleteSettingValue() {
-        let originalCoreData = persistenceManager.fetch(request: request)
-        originalCoreData.forEach { language in
-            persistenceManager.delete(object: language)
-            //print(language.title)
-        }
-//        originalCoreData.forEach { language in
-//            print(language.title)
-//            print(language.code)
-//            print(language.isChecked)
-//        }
-    }
-    
-    private func saveNewSettingValue() {
-        persistenceManager.deleteAll(request: request)
-        coreDataLanguages.forEach { language in
-            let language = Setting(isChecked: language.isChecked, title: language.title!, code: language.code!, icon: language.icon!)
-            persistenceManager.insertLanguage(language: language)
-        }
-        coreDataLanguages.forEach { language in
-            print(language)
-        }
-    }
     
     private func isfourlanguages() -> Bool {
         var count = 0
@@ -171,18 +155,20 @@ extension SettingViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return coreDataLanguages.count
+        return 8
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier, for: indexPath) as! SettingsViewTableCell
         let language = coreDataLanguages[indexPath.row]
         
-        cell.languageImageView.image = UIImage(named: language.icon!)
-        cell.titleLabel.text = language.title!
-        
-        (language.value(forKeyPath: "isChecked") as! Bool) ? (cell.checkBox.checkState = .checked) : (cell.checkBox.checkState = .unchecked)
-        
+        if language.title != nil {
+            cell.languageImageView.image = UIImage(named: language.icon!)
+            cell.titleLabel.text = language.title!
+            
+            (language.value(forKeyPath: "isChecked") as! Bool) ? (cell.checkBox.checkState = .checked) : (cell.checkBox.checkState = .unchecked)
+        }
+
         return cell
     }
     

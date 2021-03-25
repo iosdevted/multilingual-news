@@ -59,7 +59,7 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        persistenceManager.deleteAll(request: request)
+//        persistenceManager.deleteAll(request: request)
 //        refreshManager.loadDataIfNeeded() { success in
 //            fetchCoreData()
 //        }
@@ -94,6 +94,13 @@ class MainViewController: UIViewController {
     
     private func fetchCoreData() {
         coreDataLanguages = persistenceManager.fetch(request: request)
+        
+        coreDataLanguages.forEach { (language) in
+            print(language.code)
+            print(language.title)
+            print(language.icon)
+            print(language.isChecked)
+        }
         
         if coreDataLanguages.isEmpty {
             saveInitialData()
