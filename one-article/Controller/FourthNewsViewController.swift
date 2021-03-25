@@ -112,8 +112,13 @@ extension FourthNewsViewController: UITableViewDataSource {
         }.disposed(by: disposeBag)
         
         articleVM.urlToImage.bind { (url) in
-            let url = URL(string: url)
-            cell.articleImageView.kf.setImage(with: url)
+            if url == "NoImage" {
+                cell.articleImageView.image = UIImage(named: "NoImage")?.withRenderingMode(.alwaysOriginal)
+            } else {
+                let url = URL(string: url)
+                cell.articleImageView.kf.indicatorType = .activity
+                cell.articleImageView.kf.setImage(with: url)
+            }
         }.disposed(by: disposeBag)
         
         articleVM.url.bind { (url) in

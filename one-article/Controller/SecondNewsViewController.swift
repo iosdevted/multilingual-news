@@ -76,9 +76,6 @@ class SecondNewsViewController: UIViewController {
 
 extension SecondNewsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if let url = URL(string: self.articleUrl[indexPath.row]) {
-//            UIApplication.shared.open(url)
-//        }
 
         guard let url = URL(string: self.articleUrl[indexPath.row]) else { return }
         delegate?.SafariServicesOpen(url: url)
@@ -109,8 +106,13 @@ extension SecondNewsViewController: UITableViewDataSource {
         }.disposed(by: disposeBag)
         
         articleVM.urlToImage.bind { (url) in
-            let url = URL(string: url)
-            cell.articleImageView.kf.setImage(with: url)
+            if url == "NoImage" {
+                cell.articleImageView.image = UIImage(named: "NoImage")?.withRenderingMode(.alwaysOriginal)
+            } else {
+                let url = URL(string: url)
+                cell.articleImageView.kf.indicatorType = .activity
+                cell.articleImageView.kf.setImage(with: url)
+            }
         }.disposed(by: disposeBag)
         
         articleVM.url.bind { (url) in

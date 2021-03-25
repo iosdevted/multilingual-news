@@ -49,7 +49,7 @@ extension ArticleViewModel {
     }
     
     var urlToImage: Observable<String> {
-        return Observable<String>.just(article.urlToImage ?? "")
+        return Observable<String>.just(article.urlToImage ?? "NoImage")
     }
     
     var url: Observable<String> {
