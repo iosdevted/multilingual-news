@@ -55,7 +55,7 @@ class SecondNewsViewController: UIViewController {
     
     private func populateNews() {
         
-        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/everything?country=\(languageCode)&sortBy= popularity&apiKey=daed73a210b94589a977658bcb2f5747")!)
+        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?country=\(languageCode)&apiKey=9c7f5dac95da4230899a5d6edb22adaa")!)
         
         URLRequest.load(resource: resource)
             .subscribe(onNext: { articleResponse in
@@ -104,7 +104,7 @@ extension SecondNewsViewController: UITableViewDataSource {
 //        cell.titleLabel.hideSkeleton()
         
         articleVM.publishedAt.bind { (date) in
-            cell.dateLabel.text = date.toDateFormat()
+            cell.dateLabel.text = date.utcToLocal()
 //            cell.dateLabel.hideSkeleton()
         }.disposed(by: disposeBag)
         

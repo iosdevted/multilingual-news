@@ -59,7 +59,7 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //persistenceManager.deleteAll(request: request)
+        persistenceManager.deleteAll(request: request)
 //        refreshManager.loadDataIfNeeded() { success in
 //            fetchCoreData()
 //        }
@@ -91,43 +91,6 @@ class MainViewController: UIViewController {
     }
     
     //MARK: - Helpers
-    
-    func reloadData() {
-//        selectedLanguagesName = []
-//        selectedLanguagesCode = []
-//        let request2: NSFetchRequest<Languages> = Languages.fetchRequest()
-//        coreDataLanguages = persistenceManager.fetch(request: request2)
-//
-//        coreDataLanguages.forEach { (language) in
-//            if language.isChecked {
-//                selectedLanguagesName.append(language.title!)
-//                selectedLanguagesCode.append(language.code!)
-//                print(selectedLanguagesCode)
-//            }
-//
-//        }
-//        tabsView.tabs = [
-//            Tab(icon: nil, title: selectedLanguagesName[0].lowercased()),
-//            Tab(icon: nil, title: selectedLanguagesName[1].lowercased()),
-//            Tab(icon: nil, title: selectedLanguagesName[2].lowercased()),
-//            Tab(icon: nil, title: selectedLanguagesName[3].lowercased())
-//        ]
-//
-//        self.tabsView.collectionView.reloadData()
-//        //loadTopNews()
-        //persistenceManager.deleteAll(request: request)
-        coreDataLanguages = persistenceManager.fetch(request: request)
-        coreDataLanguages.forEach { language in
-            persistenceManager.delete(object: language)
-            print(language)
-        }
-        
-        coreDataLanguages.forEach { language in
-            let language = Setting(isChecked: language.isChecked, title: language.title!, code: language.code!, icon: language.icon!)
-            persistenceManager.insertLanguage(language: language)
-        }
-        
-    }
     
     private func fetchCoreData() {
         coreDataLanguages = persistenceManager.fetch(request: request)
@@ -168,8 +131,8 @@ class MainViewController: UIViewController {
     }
     
     private func loadTopNews() {
-        
-        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?country=\(selectedLanguagesCode[0])&sortBy= popularity&apiKey=daed73a210b94589a977658bcb2f5747")!)
+        print(selectedLanguagesCode)
+        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?country=\(selectedLanguagesCode[0])&sortBy=%20popularity&apiKey=daed73a210b94589a977658bcb2f5747")!)
         
         URLRequest.load(resource: resource)
             .subscribe(onNext: { articleResponse in
@@ -187,7 +150,7 @@ class MainViewController: UIViewController {
                 .disposed(by: self.disposeBag)
             
             self.articleVM.publishedAt.bind { (date) in
-                self.topHeaderContainerView.dateLabel.text = date.toDateFormat()
+                self.topHeaderContainerView.dateLabel.text = date.utcToLocal()
             }.disposed(by: self.disposeBag)
             
             self.articleVM.urlToImage.bind { (url) in
