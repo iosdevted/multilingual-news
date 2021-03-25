@@ -12,8 +12,6 @@ import SnapKit
 import Kingfisher
 import SafariServices
 import CoreData
-//import WebKit
-
 
 protocol MainViewControllerDelegate: class {
     func SafariServicesOpen(url: URL)
@@ -23,14 +21,17 @@ class MainViewController: UIViewController {
     
     //MARK: - Properties
     
-    private var persistenceManager = PersistenceManager.shared
+    private let persistenceManager = PersistenceManager.shared
+    private let refreshManager = RefreshManager.shared
     private let request: NSFetchRequest<Languages> = Languages.fetchRequest()
-    private var coreDataLanguages: [Languages] = []
     private let disposeBag = DisposeBag()
     private var currentIndex: Int = 0
     private var pageController: UIPageViewController!
+    
     private var articleUrl: String = ""
-    //private let webView = WKWebView(frame: UIScreen.main.bounds)
+    var coreDataLanguages: [Languages] = []
+    private var selectedLanguagesName: [String] = []
+    private var selectedLanguagesCode: [String] = []
     
     private var articleVM: ArticleViewModel! {
         didSet {
@@ -38,7 +39,6 @@ class MainViewController: UIViewController {
         }
     }
     
-
     private lazy var tabsView: TabsView = {
         let view = TabsView()
         return view
@@ -57,15 +57,14 @@ class MainViewController: UIViewController {
     
     //MARK: - Life Cycle
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        //webView.navigationDelegate = self
-        configureNavigationBarUI()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        //persistenceManager.deleteAll(request: request)
+//        refreshManager.loadDataIfNeeded() { success in
+//            fetchCoreData()
+//        }
         fetchCoreData()
+        configureNavigationBarUI()
         configureUI()
         configureGesture()
         setupTabs()
@@ -93,7 +92,44 @@ class MainViewController: UIViewController {
     
     //MARK: - Helpers
     
-    func fetchCoreData() {
+    func reloadData() {
+//        selectedLanguagesName = []
+//        selectedLanguagesCode = []
+//        let request2: NSFetchRequest<Languages> = Languages.fetchRequest()
+//        coreDataLanguages = persistenceManager.fetch(request: request2)
+//
+//        coreDataLanguages.forEach { (language) in
+//            if language.isChecked {
+//                selectedLanguagesName.append(language.title!)
+//                selectedLanguagesCode.append(language.code!)
+//                print(selectedLanguagesCode)
+//            }
+//
+//        }
+//        tabsView.tabs = [
+//            Tab(icon: nil, title: selectedLanguagesName[0].lowercased()),
+//            Tab(icon: nil, title: selectedLanguagesName[1].lowercased()),
+//            Tab(icon: nil, title: selectedLanguagesName[2].lowercased()),
+//            Tab(icon: nil, title: selectedLanguagesName[3].lowercased())
+//        ]
+//
+//        self.tabsView.collectionView.reloadData()
+//        //loadTopNews()
+        //persistenceManager.deleteAll(request: request)
+        coreDataLanguages = persistenceManager.fetch(request: request)
+        coreDataLanguages.forEach { language in
+            persistenceManager.delete(object: language)
+            print(language)
+        }
+        
+        coreDataLanguages.forEach { language in
+            let language = Setting(isChecked: language.isChecked, title: language.title!, code: language.code!, icon: language.icon!)
+            persistenceManager.insertLanguage(language: language)
+        }
+        
+    }
+    
+    private func fetchCoreData() {
         coreDataLanguages = persistenceManager.fetch(request: request)
         
         if coreDataLanguages.isEmpty {
@@ -102,9 +138,17 @@ class MainViewController: UIViewController {
         } else {
             print("Not First Run")
         }
+        
+        coreDataLanguages.forEach { (language) in
+            if language.isChecked {
+                selectedLanguagesName.append(language.title!)
+                selectedLanguagesCode.append(language.code!)
+            }
+        print(selectedLanguagesCode)
+        }
     }
     
-    func saveInitialData() {
+    private func saveInitialData() {
         let language1 = Setting(isChecked: true, title: "English", code: "us", icon: "united-states-of-america")
         let language2 = Setting(isChecked: true, title: "French", code: "fr", icon: "france")
         let language3 = Setting(isChecked: true, title: "Russian", code: "ru", icon: "russia")
@@ -125,14 +169,14 @@ class MainViewController: UIViewController {
     
     private func loadTopNews() {
         
-        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=daed73a210b94589a977658bcb2f5747")!)
+        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?country=\(selectedLanguagesCode[0])&sortBy= popularity&apiKey=daed73a210b94589a977658bcb2f5747")!)
         
         URLRequest.load(resource: resource)
             .subscribe(onNext: { articleResponse in
                 
                 let topArticle = articleResponse.articles.first
                 self.articleVM = ArticleViewModel(topArticle!)
-                    
+                
             }).disposed(by: disposeBag)
     }
     
@@ -156,14 +200,9 @@ class MainViewController: UIViewController {
                 self.articleUrl = url
             }.disposed(by: self.disposeBag)
             
-           //self.hideTopNewsAnimation()
         }
     }
     
-//    private func hideTopNewsAnimation() {
-//        topHeaderContainerView.dateLabel.hideSkeleton()
-//        topHeaderContainerView.titleLabel.hideSkeleton()
-//    }
     
     private func configureGesture() {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(topHeaderContainerViewTapped))
@@ -183,11 +222,11 @@ class MainViewController: UIViewController {
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
-
+        
         var rightBarImage = UIImage(systemName: "globe")?.withTintColor(UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1))
         rightBarImage = rightBarImage?.withRenderingMode(.alwaysOriginal)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: rightBarImage, style:.plain, target: self, action:  #selector(rightBarButtonTapped))
-
+        
     }
     
     private func configureUI() {
@@ -213,12 +252,11 @@ class MainViewController: UIViewController {
     }
     
     private func setupTabs() {
-
         tabsView.tabs = [
-            Tab(icon: nil, title: coreDataLanguages[0].title!.lowercased()),
-            Tab(icon: nil, title: coreDataLanguages[1].title!.lowercased()),
-            Tab(icon: nil, title: coreDataLanguages[2].title!.lowercased()),
-            Tab(icon: nil, title: coreDataLanguages[3].title!.lowercased())
+            Tab(icon: nil, title: selectedLanguagesName[0].lowercased()),
+            Tab(icon: nil, title: selectedLanguagesName[1].lowercased()),
+            Tab(icon: nil, title: selectedLanguagesName[2].lowercased()),
+            Tab(icon: nil, title: selectedLanguagesName[3].lowercased())
         ]
         
         // Set TabMode to '.fixed' for stretched tabs in full width of screen or '.scrollable' for scrolling to see all tabs
@@ -246,25 +284,25 @@ class MainViewController: UIViewController {
         
         if index == 0 {
             let contentVC = FirstNewsViewController()
-            contentVC.languageCode = coreDataLanguages[0].code!
+            contentVC.languageCode = selectedLanguagesCode[0]
             contentVC.pageIndex = index
             contentVC.delegate = self
             return contentVC
         } else if index == 1 {
             let contentVC = SecondNewsViewController()
-            contentVC.languageCode = coreDataLanguages[1].code!
+            contentVC.languageCode = selectedLanguagesCode[1]
             contentVC.pageIndex = index
             contentVC.delegate = self
             return contentVC
         } else if index == 2 {
             let contentVC = ThirdNewsViewController()
-            contentVC.languageCode = coreDataLanguages[2].code!
+            contentVC.languageCode = selectedLanguagesCode[2]
             contentVC.pageIndex = index
             contentVC.delegate = self
             return contentVC
         } else {
             let contentVC = FourthNewsViewController()
-            contentVC.languageCode = coreDataLanguages[3].code!
+            contentVC.languageCode = selectedLanguagesCode[3]
             contentVC.pageIndex = index
             contentVC.delegate = self
             return contentVC
@@ -305,7 +343,7 @@ extension MainViewController: TabsDelegate {
         if position != currentIndex {
             if position > currentIndex {
                 self.pageController.setViewControllers([showViewController(position)!], direction: .forward, animated: true, completion: nil)
-
+                
             } else {
                 self.pageController.setViewControllers([showViewController(position)!], direction: .reverse, animated: true, completion: nil)
             }
@@ -383,38 +421,9 @@ extension MainViewController: UIPageViewControllerDataSource, UIPageViewControll
 
 extension MainViewController: MainViewControllerDelegate {
     func SafariServicesOpen(url: URL) {
-            
-//        let urlRequest = URLRequest(url: url)
-//        webView.load(urlRequest)
-//        webView.autoresizingMask = [.flexibleWidth,.flexibleHeight]
-//        view.addSubview(webView)
         
         let safariViewController = SFSafariViewController(url: url)
         present(safariViewController, animated: true, completion: nil)
     }
 }
 
-//MARK: - WKNavigationDelegate
-
-//extension ViewController: WKNavigationDelegate {
-//    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-//
-//        if navigationAction.navigationType == .linkActivated  {
-//            if let url = navigationAction.request.url,
-//                let host = url.host, !host.hasPrefix("www.google.com"),
-//                UIApplication.shared.canOpenURL(url) {
-//                UIApplication.shared.open(url)
-//                print(url)
-//                print("Redirected to browser. No need to open it locally")
-//                decisionHandler(.cancel)
-//            } else {
-//                print("Open it locally")
-//                decisionHandler(.allow)
-//            }
-//        } else {
-//            print("not a user click")
-//            decisionHandler(.allow)
-//        }
-//    }
-//
-//}

@@ -1,5 +1,8 @@
 PODS:
   - Kingfisher (6.2.1)
+  - KRActivityIndicatorView (3.0.7)
+  - KRProgressHUD (3.4.7):
+    - KRActivityIndicatorView (= 3.0.7)
   - M13Checkbox (3.4.0)
   - RxCocoa (6.1.0):
     - RxRelay (= 6.1.0)
@@ -12,6 +15,7 @@ PODS:
 
 DEPENDENCIES:
   - Kingfisher (~> 6.0)
+  - KRProgressHUD
   - M13Checkbox
   - RxCocoa (~> 6.1.0)
   - RxSwift (~> 6.1.0)
@@ -21,6 +25,8 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Kingfisher
+    - KRActivityIndicatorView
+    - KRProgressHUD
     - M13Checkbox
     - RxCocoa
     - RxRelay
@@ -30,6 +36,8 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Kingfisher: e71c6fac2aebb1262888cabc2cb13d313362a48f
+  KRActivityIndicatorView: ad69e89c4ce40c986cf580595be4829dcad0e35a
+  KRProgressHUD: a248f0bc6c9c2aed40a37b76e03ffecc7f85c887
   M13Checkbox: 6f59404540ac98ba83a3d1afac335895a40c6a5d
   RxCocoa: 5c51f02d562cbd94629f6c26cf0c80fe4ab8d343
   RxRelay: 483e1a19fad961b41f0b0c0bee506f46c1ae14fe
@@ -37,6 +45,6 @@ SPEC CHECKSUMS:
   SkeletonView: 2b14cb767a7da384d17d5d7e1db0d55a6cf9566a
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
 
-PODFILE CHECKSUM: 3d7127361d29bfa4b81db0843aeabb4e1ee7a3e4
+PODFILE CHECKSUM: 0aea2d131bfe730f2df66be4c179ddd0c537ce2c
 
 COCOAPODS: 1.10.1

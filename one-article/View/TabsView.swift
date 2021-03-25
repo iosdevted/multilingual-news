@@ -81,19 +81,9 @@ class TabsView: UIView {
         collectionView.register(TabCell.self, forCellWithReuseIdentifier: "TabCell")
         addSubview(collectionView)
         
-        
         collectionView.snp.makeConstraints { (make) -> Void in
             make.edges.equalToSuperview()
         }
-        
-//        collectionView.translatesAutoresizingMaskIntoConstraints = false
-//
-//        NSLayoutConstraint.activate([
-//            collectionView.topAnchor.constraint(equalTo: self.topAnchor),
-//            collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-//            collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-//            collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-//        ])
     }
 }
 

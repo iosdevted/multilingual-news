@@ -13,5 +13,6 @@ target 'one-article' do
   pod 'Kingfisher', '~> 6.0'
   pod 'SkeletonView'
   pod 'M13Checkbox'
+  pod "KRProgressHUD"
 
 end

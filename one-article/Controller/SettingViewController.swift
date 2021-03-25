@@ -8,6 +8,7 @@
 import UIKit
 import CoreData
 import SnapKit
+import KRProgressHUD
 
 private let ReuseIdentifier: String = "CellReuseIdentifier"
 
@@ -19,6 +20,7 @@ class SettingViewController: UIViewController {
     private var persistenceManager = PersistenceManager.shared
     private let request: NSFetchRequest<Languages> = Languages.fetchRequest()
     private var coreDataLanguages: [Languages]
+    private let mainViewController = MainViewController()
     
     // MARK: - Life Cycle
     
@@ -42,15 +44,63 @@ class SettingViewController: UIViewController {
     //MARK: - Selectors
     
     @objc func backButtonTapped() {
-        saveNewSettingValue()
-        dismiss(animated: true, completion: nil)
+        
+        if isfourlanguages() {
+            //deleteSettingValue()
+            saveNewSettingValue()
+            dismiss(animated: true, completion: nil)
+            
+            //mainViewController.reloadData()
+    //        dismiss(animated: true) {
+    //            self.mainViewController.coreDataLanguages = self.coreDataLanguages
+    //            self.mainViewController.reloadData()
+    //        }
+        } else {
+            showErrorMessage()
+        }
     }
     
     //MARK: - Helpers
     
+    private func deleteSettingValue() {
+        let originalCoreData = persistenceManager.fetch(request: request)
+        originalCoreData.forEach { language in
+            persistenceManager.delete(object: language)
+            //print(language.title)
+        }
+//        originalCoreData.forEach { language in
+//            print(language.title)
+//            print(language.code)
+//            print(language.isChecked)
+//        }
+    }
+    
     private func saveNewSettingValue() {
         persistenceManager.deleteAll(request: request)
-        persistenceManager.saveLanguagesSetting(languages: coreDataLanguages)
+        coreDataLanguages.forEach { language in
+            let language = Setting(isChecked: language.isChecked, title: language.title!, code: language.code!, icon: language.icon!)
+            persistenceManager.insertLanguage(language: language)
+        }
+        coreDataLanguages.forEach { language in
+            print(language)
+        }
+    }
+    
+    private func isfourlanguages() -> Bool {
+        var count = 0
+        coreDataLanguages.forEach { (language) in
+            if language.isChecked == true {
+                count += 1
+            }
+        }
+
+        return (count == 4) ? true : false
+    }
+    
+    private func showErrorMessage() {
+        KRProgressHUD.appearance().style = .custom(background: .white, text: .black, icon: .black)
+        KRProgressHUD.showWarning(withMessage: "You should select 4 languages")
+        
     }
     
     private func configureUI() {
@@ -105,11 +155,9 @@ extension SettingViewController: UITableViewDelegate {
         case .unchecked:
             cell.checkBox.setCheckState(.checked, animated: true)
             coreDataLanguages[indexPath.row].isChecked = true
-            print(coreDataLanguages[indexPath.row].isChecked)
         case .checked:
             cell.checkBox.setCheckState(.unchecked, animated: true)
             coreDataLanguages[indexPath.row].isChecked = false
-            print(coreDataLanguages[indexPath.row].isChecked)
         default:
             print("Dont' use this type .mixed")
         }
@@ -123,7 +171,6 @@ extension SettingViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //return settingOptions.allCases.count
         return coreDataLanguages.count
     }
     
