@@ -6,12 +6,12 @@
 //
 
 import UIKit
+import CoreData
 import RxSwift
 import RxCocoa
 import SnapKit
 import Kingfisher
 import SafariServices
-import CoreData
 
 protocol MainViewControllerDelegate: class {
     func SafariServicesOpen(url: URL)
@@ -27,8 +27,7 @@ class MainViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private var currentIndex: Int = 0
     private var pageController: UIPageViewController!
-    
-    private var apiKey: [String] = ["daed73a210b94589a977658bcb2f5747"]
+    private var apiKey: [String] = ["daed73a210b94589a977658bcb2f5747", "7eed556281e548be8f5f82946b3ed5d3"]
     private var articleUrl: String = ""
     private var selectedLanguagesName: [String] = []
     private var selectedLanguagesCode: [String] = []
@@ -61,11 +60,12 @@ class MainViewController: UIViewController {
     private var topHeaderContainerView: TopHeaderView = {
         let view = TopHeaderView()
         view.backgroundColor = .white
+        
         view.layer.cornerRadius = 30
-        view.layer.shadowColor = UIColor.gray.withAlphaComponent(0.4).cgColor
-        view.layer.shadowOffset = .zero
-        view.layer.shadowOpacity = 1
-        view.layer.shadowRadius = 10.0
+        view.layer.shadowColor = UIColor.systemGray4.withAlphaComponent(0.7).cgColor
+        view.layer.shadowOpacity = 0.5
+        view.layer.shadowRadius = 7
+        view.layer.shadowOffset = CGSize(width: 0, height: 0)
         return view
     }()
     
@@ -73,6 +73,7 @@ class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        //persistenceManager.deleteAll(request: request)
         fetchCoreData()
         configureNavigationBarUI()
         configureUI()
@@ -105,18 +106,10 @@ class MainViewController: UIViewController {
         topHeaderContainerView.setNeedsDisplay()
         loadTopNews()
         setupTabs()
-        
     }
     
     private func fetchCoreData() {
         coreDataLanguages = persistenceManager.fetch(request: request)
-        
-//        coreDataLanguages.forEach { (language) in
-//            print(language.code)
-//            print(language.title)
-//            print(language.icon)
-//            print(language.isChecked)
-//        }
         
         if coreDataLanguages.isEmpty {
             saveInitialData()
@@ -124,27 +117,6 @@ class MainViewController: UIViewController {
         } else {
             print("Not First Run")
         }
-        
-
-    }
-    
-    private func saveInitialData() {
-        let language1 = Setting(isChecked: true, title: "English", code: "us", icon: "united-states-of-america")
-        let language2 = Setting(isChecked: true, title: "French", code: "fr", icon: "france")
-        let language3 = Setting(isChecked: true, title: "Russian", code: "ru", icon: "russia")
-        let language4 = Setting(isChecked: true, title: "Italien", code: "it", icon: "italy")
-        let language5 = Setting(isChecked: false, title: "Germany", code: "de", icon: "germany")
-        let language6 = Setting(isChecked: false, title: "Japanese", code: "jp", icon: "japan")
-        let language7 = Setting(isChecked: false, title: "Korean", code: "kr", icon: "south-korea")
-        let language8 = Setting(isChecked: false, title: "Chineses", code: "cn", icon: "china")
-        persistenceManager.insertLanguage(language: language1)
-        persistenceManager.insertLanguage(language: language2)
-        persistenceManager.insertLanguage(language: language3)
-        persistenceManager.insertLanguage(language: language4)
-        persistenceManager.insertLanguage(language: language5)
-        persistenceManager.insertLanguage(language: language6)
-        persistenceManager.insertLanguage(language: language7)
-        persistenceManager.insertLanguage(language: language8)
     }
     
     private func loadTopNews() {
@@ -190,6 +162,34 @@ class MainViewController: UIViewController {
         }
     }
     
+    private func saveInitialData() {
+        let language1 = Setting(isChecked: true, title: "English", code: "us", icon: "united-states-of-america")
+        let language2 = Setting(isChecked: true, title: "French", code: "fr", icon: "france")
+        let language3 = Setting(isChecked: true, title: "Japanese", code: "jp", icon: "japan")
+        let language4 = Setting(isChecked: true, title: "Korean", code: "kr", icon: "south-korea")
+        let language5 = Setting(isChecked: false, title: "Chinese", code: "cn", icon: "china")
+        let language6 = Setting(isChecked: false, title: "Russian", code: "ru", icon: "russia")
+        let language7 = Setting(isChecked: false, title: "German", code: "de", icon: "germany")
+        let language8 = Setting(isChecked: false, title: "Italian", code: "it", icon: "italy")
+        let language9 = Setting(isChecked: false, title: "Portuguese", code: "pt", icon: "portugal")
+        let language10 = Setting(isChecked: false, title: "Dutch", code: "nl", icon: "netherlands")
+        let language11 = Setting(isChecked: false, title: "Swedish", code: "se", icon: "sweden")
+        let language12 = Setting(isChecked: false, title: "Norwegian", code: "no", icon: "norway")
+
+        persistenceManager.insertLanguage(language: language1)
+        persistenceManager.insertLanguage(language: language2)
+        persistenceManager.insertLanguage(language: language3)
+        persistenceManager.insertLanguage(language: language4)
+        persistenceManager.insertLanguage(language: language5)
+        persistenceManager.insertLanguage(language: language6)
+        persistenceManager.insertLanguage(language: language7)
+        persistenceManager.insertLanguage(language: language8)
+        persistenceManager.insertLanguage(language: language9)
+        persistenceManager.insertLanguage(language: language10)
+        persistenceManager.insertLanguage(language: language11)
+        persistenceManager.insertLanguage(language: language12)
+    }
+    
     
     private func configureGesture() {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(topHeaderContainerViewTapped))
@@ -224,7 +224,7 @@ class MainViewController: UIViewController {
         topHeaderContainerView.snp.makeConstraints { (make) -> Void in
             make.height.equalToSuperview().multipliedBy(0.35)
             
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
             make.leading.trailing.equalTo(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
         }
         
@@ -233,17 +233,17 @@ class MainViewController: UIViewController {
         tabsView.snp.makeConstraints { (make) -> Void in
             make.height.equalTo(50)
             
-            make.top.equalTo(topHeaderContainerView.snp.bottom).offset(20)
+            make.top.equalTo(topHeaderContainerView.snp.bottom).offset(10)
             make.leading.trailing.equalTo(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
         }
     }
     
     private func setupTabs() {
         tabsView.tabs = [
-            Tab(icon: nil, title: selectedLanguagesName[0].lowercased()),
-            Tab(icon: nil, title: selectedLanguagesName[1].lowercased()),
-            Tab(icon: nil, title: selectedLanguagesName[2].lowercased()),
-            Tab(icon: nil, title: selectedLanguagesName[3].lowercased())
+            Tab(icon: nil, title: selectedLanguagesName[0]),
+            Tab(icon: nil, title: selectedLanguagesName[1]),
+            Tab(icon: nil, title: selectedLanguagesName[2]),
+            Tab(icon: nil, title: selectedLanguagesName[3])
         ]
         
         // Set TabMode to '.fixed' for stretched tabs in full width of screen or '.scrollable' for scrolling to see all tabs
@@ -252,8 +252,8 @@ class MainViewController: UIViewController {
         tabsView.titleColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
         tabsView.iconColor = .black
         tabsView.indicatorColor = .black
-        tabsView.titleFont = UIFont(name: "MajorMonoDisplay-Regular", size: 15) ?? UIFont.systemFont(ofSize: 15, weight: .light)
-        //tabsView.titleFont = UIFont.systemFont(ofSize: 15, weight: .light)
+        tabsView.titleFont = UIFont.systemFont(ofSize: 16, weight: .light)
+        //UIFont(name: "MajorMonoDisplay-Regular", size: 15)
         tabsView.collectionView.backgroundColor = .white
         
         tabsView.delegate = self

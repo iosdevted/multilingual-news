@@ -98,24 +98,30 @@ extension SecondNewsViewController: UITableViewDataSource {
         articleVM.title.asDriver(onErrorJustReturn: "")
             .drive(cell.titleLabel.rx.text)
             .disposed(by: disposeBag)
-
-//        cell.titleLabel.hideSkeleton()
         
         articleVM.publishedAt.bind { (date) in
             cell.dateLabel.text = date.utcToLocal()
-//            cell.dateLabel.hideSkeleton()
         }.disposed(by: disposeBag)
         
         articleVM.urlToImage.bind { (url) in
+            let image = UIImage(named: "NoImage")?.withRenderingMode(.alwaysOriginal)
             if url == "NoImage" {
-                let image = UIImage(named: "NoImage")?.withRenderingMode(.alwaysOriginal)
                 cell.articleImageView.image = image
                 cell.articleImageView.contentMode = .center
             } else {
                 let url = URL(string: url)
                 cell.articleImageView.contentMode = .scaleAspectFill
                 cell.articleImageView.kf.indicatorType = .activity
-                cell.articleImageView.kf.setImage(with: url)
+                cell.articleImageView.kf.setImage(with: url) { result in
+                    switch result {
+                    case .success(let value):
+                        print("Task done for: \(value.source.url?.absoluteString ?? "")")
+                    case .failure(let error):
+                        cell.articleImageView.image = image
+                        cell.articleImageView.contentMode = .center
+                        print(error.localizedDescription)
+                    }
+                }
             }
         }.disposed(by: disposeBag)
         

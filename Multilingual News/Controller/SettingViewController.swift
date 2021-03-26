@@ -83,7 +83,7 @@ class SettingViewController: UIViewController {
     
     private func showErrorMessage() {
         KRProgressHUD.appearance().style = .custom(background: .white, text: .black, icon: .black)
-        KRProgressHUD.showWarning(withMessage: "You should select 4 languages")
+        KRProgressHUD.showInfo(withMessage: "You should select 4 languages")
         
     }
     
@@ -155,7 +155,7 @@ extension SettingViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 8
+        return 12
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

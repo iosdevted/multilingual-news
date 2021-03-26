@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-//import SkeletonView
 
 class TopHeaderView: UIView {
     
@@ -19,22 +18,22 @@ class TopHeaderView: UIView {
         imageView.alpha = 0.8
         
         imageView.layer.masksToBounds = true
+        imageView.layer.shouldRasterize = true
         imageView.layer.cornerRadius = 30
         
-        imageView.layer.borderWidth = 1.0
+        imageView.layer.borderWidth = 0.5
         imageView.layer.borderColor = UIColor.white.withAlphaComponent(0.7).cgColor
 
         imageView.layer.shadowColor = UIColor.white.withAlphaComponent(0.7).cgColor
         imageView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        imageView.layer.shadowOpacity = 0.3
-        imageView.layer.shadowRadius = 10.0
+        imageView.layer.shadowOpacity = 0.2
+        imageView.layer.shadowRadius = 0.5
         
         return imageView
     }()
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-//        label.isSkeletonable = true
         UIFont.systemFont(ofSize: 18, weight: .light)
         label.textColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
         label.numberOfLines = 0
@@ -51,7 +50,6 @@ class TopHeaderView: UIView {
     
     var dateLabel: UILabel = {
         let label = UILabel()
-//        label.isSkeletonable = true
         label.font = UIFont.systemFont(ofSize: 15, weight: .light)
         label.textColor = .systemGray4
         label.numberOfLines = 1
@@ -63,7 +61,6 @@ class TopHeaderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
-//        showAnimation()
     }
     
     required init?(coder: NSCoder) {
@@ -71,11 +68,6 @@ class TopHeaderView: UIView {
     }
     
     //MARK: Helpers
-    
-//    private func showAnimation() {
-//        titleLabel.showAnimatedGradientSkeleton()
-//        dateLabel.showAnimatedGradientSkeleton()
-//    }
     
     private func configureUI() {
         addSubview(topHeaderImageView)
