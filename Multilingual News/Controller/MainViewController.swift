@@ -140,7 +140,7 @@ class MainViewController: UIViewController {
                 .disposed(by: self.disposeBag)
             
             self.articleVM.publishedAt.bind { (date) in
-                self.topHeaderContainerView.dateLabel.text = date.utcToLocal()
+                self.topHeaderContainerView.dateLabel.text = date.utcToLocalWithDate()
             }.disposed(by: self.disposeBag)
             
             self.articleVM.urlToImage.bind { (url) in
@@ -251,7 +251,7 @@ class MainViewController: UIViewController {
         
         tabsView.titleColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
         tabsView.iconColor = .black
-        tabsView.indicatorColor = .black
+        tabsView.indicatorColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
         tabsView.titleFont = UIFont.systemFont(ofSize: 16, weight: .light)
         //UIFont(name: "MajorMonoDisplay-Regular", size: 15)
         tabsView.collectionView.backgroundColor = .white

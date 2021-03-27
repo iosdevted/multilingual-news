@@ -67,7 +67,6 @@ class PersistenceManager {
                 try self.context.save()
                 return true
             } catch {
-                print(error)
                 print(error.localizedDescription)
                 return false
             }
@@ -104,6 +103,7 @@ class PersistenceManager {
             let delete = NSBatchDeleteRequest(fetchRequest: request)
         
             try self.context.execute(delete)
+//            try self.saveContext()
             return true
         } catch {
             print(error.localizedDescription)

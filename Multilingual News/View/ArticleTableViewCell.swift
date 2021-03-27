@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-//import SkeletonView
 
 class ArticleTableViewCell: UITableViewCell {
     
@@ -34,9 +33,11 @@ class ArticleTableViewCell: UITableViewCell {
     
     var titleLabel: UILabel = {
         let label = UILabel()
-//        label.isSkeletonable = true
+        //label.sizeToFit()
         label.font = UIFont.systemFont(ofSize: 15, weight: .light)
         label.textColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
+        label.lineBreakMode = .byWordWrapping
+        label.contentMode = .topLeft
         label.numberOfLines = 0
         return label
     }()
@@ -54,7 +55,6 @@ class ArticleTableViewCell: UITableViewCell {
     
     var dateLabel: UILabel = {
         let label = UILabel()
-//        label.isSkeletonable = true
         label.font = UIFont.systemFont(ofSize: 14, weight: .light)
         label.textColor = .systemGray4
         label.numberOfLines = 1
@@ -67,7 +67,6 @@ class ArticleTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureUI()
-//        showAnimation()
     }
     
     required init?(coder: NSCoder) {
@@ -90,7 +89,7 @@ class ArticleTableViewCell: UITableViewCell {
         addSubview(titleLabel)
         
         titleLabel.snp.makeConstraints { (make) -> Void in
-            make.height.equalToSuperview().multipliedBy(0.4)
+            make.height.equalToSuperview().multipliedBy(0.5)
             
             make.top.equalToSuperview().offset(15)
             make.leading.equalTo(articleImageView.snp.trailing).offset(15)
@@ -111,9 +110,4 @@ class ArticleTableViewCell: UITableViewCell {
             make.leading.equalTo(dateImageView.snp.trailing).offset(5)
         }
     }
-    
-//    private func showAnimation() {
-//        titleLabel.showAnimatedGradientSkeleton()
-//        dateLabel.showAnimatedGradientSkeleton()
-//    }
 }
