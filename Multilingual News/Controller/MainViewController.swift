@@ -126,10 +126,10 @@ class MainViewController: UIViewController {
         
         URLRequest.load(resource: resource)
             .subscribe(onNext: { articleResponse in
-                
+
                 let topArticle = articleResponse.articles.first
                 self.articleVM = ArticleViewModel(topArticle!)
-                
+
             }).disposed(by: disposeBag)
     }
     
