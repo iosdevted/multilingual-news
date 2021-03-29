@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 import SnapKit
 import Kingfisher
-//import SkeletonView
 
 private let ReuseIdentifier: String = "CellReuseIdentifier"
 
@@ -19,14 +18,12 @@ class SecondNewsViewController: UIViewController {
     // MARK: - Properties
     
     weak var delegate: MainViewControllerDelegate?
-    private var apiKey: [String] = ["9c7f5dac95da4230899a5d6edb22adaa"]
+    private let apiManager = APIManager.shared
+    private let apiKey: [String] = ["9c7f5dac95da4230899a5d6edb22adaa"]
     var languageCode: String = ""
-    
     private let tableView = UITableView()
-    
     private let disposeBag = DisposeBag()
     private var articleListVM: ArticleListViewModel!
-    
     var pageIndex: Int!
     private var articleUrl = [String]()
     
@@ -55,22 +52,20 @@ class SecondNewsViewController: UIViewController {
     }
     
     private func populateNews() {
-        
-        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?country=\(languageCode)&apiKey=\(apiKey[0])")!)
-        
-        URLRequest.load(resource: resource)
+        apiManager.produceApiKey(apiKeys: apiKey)
+            .map(apiManager.makeResource(selectedLanguagesCode: languageCode))
+            .flatMap(URLRequest.load(resource:))
+            .retry(apiKey.count + 1)
             .subscribe(onNext: { articleResponse in
-                
                 let articles = articleResponse.articles
                 self.articleListVM = ArticleListViewModel(articles)
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
-                
-            }).disposed(by: disposeBag)
+            })
+            .disposed(by: disposeBag)
     }
-    
 }
 
 //MARK: - UITableViewDelegate/DataSource

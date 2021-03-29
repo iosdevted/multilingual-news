@@ -22,12 +22,13 @@ class MainViewController: UIViewController {
     //MARK: - Properties
     
     private let persistenceManager = PersistenceManager.shared
+    private let apiManager = APIManager.shared
     private let refreshManager = RefreshManager.shared
     private let request: NSFetchRequest<Languages> = Languages.fetchRequest()
     private let disposeBag = DisposeBag()
     private var currentIndex: Int = 0
     private var pageController: UIPageViewController!
-    private var apiKey: [String] = ["daed73a210b94589a977658bcb2f5747", "7eed556281e548be8f5f82946b3ed5d3"]
+    private let apiKey: [String] = ["daed73a210b94589a977658bcb2f5747", "7eed556281e548be8f5f82946b3ed5d3"]
     private var articleUrl: String = ""
     private var selectedLanguagesName: [String] = []
     private var selectedLanguagesCode: [String] = []
@@ -73,7 +74,6 @@ class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //persistenceManager.deleteAll(request: request)
         fetchCoreData()
         configureNavigationBarUI()
         configureUI()
@@ -120,17 +120,15 @@ class MainViewController: UIViewController {
     }
     
     private func loadTopNews() {
-        print(selectedLanguagesCode)
-        
-        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?country=\(selectedLanguagesCode[0])&sortBy=%20popularity&apiKey=\(apiKey[0])")!)
-        
-        URLRequest.load(resource: resource)
+        apiManager.produceApiKey(apiKeys: apiKey)
+            .map(apiManager.makeResource(selectedLanguagesCode: selectedLanguagesCode[0]))
+            .flatMap(URLRequest.load(resource:))
+            .retry(apiKey.count + 1)
             .subscribe(onNext: { articleResponse in
-
                 let topArticle = articleResponse.articles.first
                 self.articleVM = ArticleViewModel(topArticle!)
-
-            }).disposed(by: disposeBag)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func populateTopNews() {

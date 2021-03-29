@@ -19,14 +19,12 @@ class FourthNewsViewController: UIViewController {
     // MARK: - Properties
     
     weak var delegate: MainViewControllerDelegate?
-    private var apiKey: [String] = ["6a85a77b3e484f8fb4d2c83b154bcfb2"]
+    private let apiManager = APIManager.shared
+    private let apiKey: [String] = ["6a85a77b3e484f8fb4d2c83b154bcfb2"]
     var languageCode: String = ""
-    
     private let tableView = UITableView()
-    
     private let disposeBag = DisposeBag()
     private var articleListVM: ArticleListViewModel!
-    
     var pageIndex: Int!
     private var articleUrl = [String]()
     
@@ -55,22 +53,39 @@ class FourthNewsViewController: UIViewController {
     }
     
     private func populateNews() {
-        
-        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?country=\(languageCode)&apiKey=\(apiKey[0])")!)
-        
-        URLRequest.load(resource: resource)
+        apiManager.produceApiKey(apiKeys: apiKey)
+            .map(apiManager.makeResource(selectedLanguagesCode: languageCode))
+            .flatMap(URLRequest.load(resource:))
+            .retry(apiKey.count + 1)
             .subscribe(onNext: { articleResponse in
-                
                 let articles = articleResponse.articles
                 self.articleListVM = ArticleListViewModel(articles)
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
-                
-            }).disposed(by: disposeBag)
+            })
+            .disposed(by: disposeBag)
     }
 }
+    
+//    private func populateNews() {
+//
+//        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?country=\(languageCode)&apiKey=\(apiKey[0])")!)
+//
+//        URLRequest.load(resource: resource)
+//            .subscribe(onNext: { articleResponse in
+//
+//                let articles = articleResponse.articles
+//                self.articleListVM = ArticleListViewModel(articles)
+//
+//                DispatchQueue.main.async {
+//                    self.tableView.reloadData()
+//                }
+//
+//            }).disposed(by: disposeBag)
+//    }
+
 
 //MARK: - UITableViewDelegate/DataSource
 

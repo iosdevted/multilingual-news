@@ -50,19 +50,6 @@ class SettingViewController: UIViewController {
             contextLanguages = coreDataLanguages
             persistenceManager.saveContext()
             
-//            persistenceManager.deleteAll(request: request)
-//            coreDataLanguages.forEach { (language) in
-//                persistenceManager.insertLanguage(language: Setting(isChecked: language.isChecked, title: language.title!, code: language.code!, icon: language.icon!))
-//            }
-            
-//            Need to change core data save style
-//            contextLanguages.forEach { (language) in
-//                print(language.code)
-//                print(language.title)
-//                print(language.icon)
-//                print(language.isChecked)
-//            }
-                        
             dismiss(animated: true) {
                 self.mainViewController.coreDataLanguages = self.coreDataLanguages
                 DispatchQueue.main.async {
