@@ -40,13 +40,13 @@ class TabsView: UIView {
         }
     }
     
-    var iconColor: UIColor = .black {
+    var iconColor: UIColor = .white {
         didSet {
             self.collectionView.reloadData()
         }
     }
     
-    var indicatorColor: UIColor = .black {
+    var indicatorColor: UIColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1) {
         didSet {
             self.collectionView.reloadData()
         }
@@ -99,8 +99,8 @@ extension TabsView: UICollectionViewDelegate, UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         cell.tabViewModel = Tab(icon: tabs[indexPath.item].icon, title: tabs[indexPath.item].title)
-        cell.tabIcon.image = cell.tabIcon.image?.withRenderingMode(.alwaysTemplate)
-        cell.tabIcon.tintColor = iconColor
+        cell.tabIcon.image = cell.tabIcon.image?.withRenderingMode(.alwaysOriginal)
+        //cell.tabIcon.tintColor = iconColor
         
         cell.tabTitle.font = titleFont
         cell.tabTitle.textColor = titleColor
@@ -121,7 +121,7 @@ extension TabsView: UICollectionViewDelegateFlowLayout {
         switch tabMode {
         case .scrollable:
             let tabSize = CGSize(width: 500, height: self.frame.height)
-            let tabTitle = tabs[indexPath.item].title
+            let tabTitle = tabs[indexPath.item].title ?? ""
             
             var addSpace: CGFloat = 20
             if tabs[indexPath.item].icon != nil {

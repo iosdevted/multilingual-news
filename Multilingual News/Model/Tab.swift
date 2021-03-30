@@ -14,5 +14,5 @@ enum TabMode {
 
 struct Tab {
     var icon: UIImage?
-    var title: String
+    var title: String?
 }

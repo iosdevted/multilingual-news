@@ -34,7 +34,7 @@ class TopHeaderView: UIView {
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        UIFont.systemFont(ofSize: 18, weight: .light)
+        label.font = .systemFont(ofSize: 14, weight: .bold)
         label.textColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
         label.numberOfLines = 0
         return label

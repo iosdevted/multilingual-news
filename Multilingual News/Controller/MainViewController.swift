@@ -188,6 +188,7 @@ class MainViewController: UIViewController {
         persistenceManager.insertLanguage(language: language12)
     }
     
+    //MARK: - ConfigureUI
     
     private func configureGesture() {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(topHeaderContainerViewTapped))
@@ -199,10 +200,11 @@ class MainViewController: UIViewController {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white
         appearance.shadowColor = .clear // Hide UINavigationBar 1px bottom line
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1), .font: UIFont(name: "MajorMonoDisplay-Regular", size: 35) ?? .systemFont(ofSize: 20)]
+//        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1), .font: UIFont(name: "RedHatDisplay-Bold", size: 35) ?? .systemFont(ofSize: 20)]
         
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.topItem?.title = "main news"
+        navigationController?.navigationBar.topItem?.title = "Main News"
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
@@ -225,7 +227,7 @@ class MainViewController: UIViewController {
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
             make.leading.trailing.equalTo(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
         }
-        
+
         view.addSubview(tabsView)
         
         tabsView.snp.makeConstraints { (make) -> Void in
@@ -235,6 +237,8 @@ class MainViewController: UIViewController {
             make.leading.trailing.equalTo(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
         }
     }
+    
+    //MARK: - ConfigureTabs
     
     private func setupTabs() {
         tabsView.tabs = [
@@ -250,8 +254,9 @@ class MainViewController: UIViewController {
         tabsView.titleColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
         tabsView.iconColor = .black
         tabsView.indicatorColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
-        tabsView.titleFont = UIFont.systemFont(ofSize: 16, weight: .light)
-        //UIFont(name: "MajorMonoDisplay-Regular", size: 15)
+        
+        tabsView.titleFont = UIFont(name: "RedHatDisplay-Regular", size: 14)!
+        //tabsView.titleFont = UIFont.systemFont(ofSize: 16, weight: .regular)
         tabsView.collectionView.backgroundColor = .white
         
         tabsView.delegate = self
@@ -309,13 +314,12 @@ class MainViewController: UIViewController {
         pageController.setViewControllers([showViewController(0)!], direction: .forward, animated: true, completion: nil)
         
         // PageViewController Constraints
-        self.pageController.view.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            self.pageController.view.topAnchor.constraint(equalTo: self.tabsView.bottomAnchor),
-            self.pageController.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            self.pageController.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            self.pageController.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
+        
+        pageController.view.snp.makeConstraints { (make) -> Void in
+            make.centerX.width.equalToSuperview()
+            make.top.equalTo(tabsView.snp.bottom)
+            make.bottom.equalTo(view.snp.bottom)
+        }
         self.pageController.didMove(toParent: self)
     }
 }

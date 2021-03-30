@@ -34,7 +34,7 @@ class ArticleTableViewCell: UITableViewCell {
     var titleLabel: UILabel = {
         let label = UILabel()
         //label.sizeToFit()
-        label.font = UIFont.systemFont(ofSize: 15, weight: .light)
+        label.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
         label.textColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
         label.lineBreakMode = .byWordWrapping
         label.contentMode = .topLeft

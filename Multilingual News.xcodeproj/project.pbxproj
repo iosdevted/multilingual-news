@@ -12,11 +12,14 @@
 		9F3B22A32608C71F00A930FD /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B22A22608C71F00A930FD /* String+Extension.swift */; };
 		9F3B22A72608D61A00A930FD /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B22A62608D61A00A930FD /* Setting.swift */; };
 		9F3B22AE2608FA8400A930FD /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B22AD2608FA8400A930FD /* Tab.swift */; };
-		9F88F585260A1A8F00EA5E1D /* MajorMonoDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F88F584260A1A8F00EA5E1D /* MajorMonoDisplay-Regular.ttf */; };
 		9F9E42E1260B145100E16C34 /* Setting.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9F9E42DF260B145100E16C34 /* Setting.xcdatamodeld */; };
 		9F9E42F3260B1BFD00E16C34 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9E42F2260B1BFD00E16C34 /* PersistenceManager.swift */; };
 		9F9E4303260C64C900E16C34 /* RefreshManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9E4302260C64C900E16C34 /* RefreshManager.swift */; };
 		9FA77FCE261203AF002566A1 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA77FCD261203AF002566A1 /* APIManager.swift */; };
+		9FCAD8B7261300C600F4965C /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCAD8B6261300C600F4965C /* UILabel+Extension.swift */; };
+		9FCAD8C2261315F700F4965C /* RedHatDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FCAD8BF261315F700F4965C /* RedHatDisplay-Medium.ttf */; };
+		9FCAD8C3261315F700F4965C /* RedHatDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FCAD8C0261315F700F4965C /* RedHatDisplay-Regular.ttf */; };
+		9FCAD8C4261315F700F4965C /* RedHatDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FCAD8C1261315F700F4965C /* RedHatDisplay-Bold.ttf */; };
 		9FD24063260715C1003C2F2D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD24062260715C1003C2F2D /* AppDelegate.swift */; };
 		9FD24065260715C1003C2F2D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD24064260715C1003C2F2D /* SceneDelegate.swift */; };
 		9FD24067260715C1003C2F2D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD24066260715C1003C2F2D /* MainViewController.swift */; };
@@ -45,11 +48,14 @@
 		9F3B22A22608C71F00A930FD /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		9F3B22A62608D61A00A930FD /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		9F3B22AD2608FA8400A930FD /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
-		9F88F584260A1A8F00EA5E1D /* MajorMonoDisplay-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MajorMonoDisplay-Regular.ttf"; sourceTree = "<group>"; };
 		9F9E42E0260B145100E16C34 /* Setting.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Setting.xcdatamodel; sourceTree = "<group>"; };
 		9F9E42F2260B1BFD00E16C34 /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
 		9F9E4302260C64C900E16C34 /* RefreshManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshManager.swift; sourceTree = "<group>"; };
 		9FA77FCD261203AF002566A1 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		9FCAD8B6261300C600F4965C /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
+		9FCAD8BF261315F700F4965C /* RedHatDisplay-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RedHatDisplay-Medium.ttf"; sourceTree = "<group>"; };
+		9FCAD8C0261315F700F4965C /* RedHatDisplay-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RedHatDisplay-Regular.ttf"; sourceTree = "<group>"; };
+		9FCAD8C1261315F700F4965C /* RedHatDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RedHatDisplay-Bold.ttf"; sourceTree = "<group>"; };
 		9FD2405F260715C1003C2F2D /* Multilingual News.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Multilingual News.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FD24062260715C1003C2F2D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9FD24064260715C1003C2F2D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -114,7 +120,9 @@
 		9F9E42F0260B161300E16C34 /* Utile */ = {
 			isa = PBXGroup;
 			children = (
-				9F88F584260A1A8F00EA5E1D /* MajorMonoDisplay-Regular.ttf */,
+				9FCAD8C1261315F700F4965C /* RedHatDisplay-Bold.ttf */,
+				9FCAD8BF261315F700F4965C /* RedHatDisplay-Medium.ttf */,
+				9FCAD8C0261315F700F4965C /* RedHatDisplay-Regular.ttf */,
 			);
 			path = Utile;
 			sourceTree = "<group>";
@@ -217,6 +225,7 @@
 			children = (
 				9FD240A726075C0A003C2F2D /* URLRequest+Extension.swift */,
 				9F3B22A22608C71F00A930FD /* String+Extension.swift */,
+				9FCAD8B6261300C600F4965C /* UILabel+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -283,7 +292,9 @@
 				9FD2406F260715C2003C2F2D /* LaunchScreen.storyboard in Resources */,
 				9FD2406C260715C2003C2F2D /* Assets.xcassets in Resources */,
 				9FD2406A260715C1003C2F2D /* Main.storyboard in Resources */,
-				9F88F585260A1A8F00EA5E1D /* MajorMonoDisplay-Regular.ttf in Resources */,
+				9FCAD8C3261315F700F4965C /* RedHatDisplay-Regular.ttf in Resources */,
+				9FCAD8C2261315F700F4965C /* RedHatDisplay-Medium.ttf in Resources */,
+				9FCAD8C4261315F700F4965C /* RedHatDisplay-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,6 +364,7 @@
 				9FD24063260715C1003C2F2D /* AppDelegate.swift in Sources */,
 				9FD2409326073404003C2F2D /* TabsPageViewController.swift in Sources */,
 				9F9E42E1260B145100E16C34 /* Setting.xcdatamodeld in Sources */,
+				9FCAD8B7261300C600F4965C /* UILabel+Extension.swift in Sources */,
 				9FD240B226075E29003C2F2D /* ArticleTableViewCell.swift in Sources */,
 				9FD24065260715C1003C2F2D /* SceneDelegate.swift in Sources */,
 				9FD2408D26073221003C2F2D /* TabsView.swift in Sources */,
@@ -436,7 +448,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -491,7 +503,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -514,7 +526,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.01;
+				MARKETING_VERSION = 1.023;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tedhyeong.multilingual-news";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -535,7 +547,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.01;
+				MARKETING_VERSION = 1.023;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tedhyeong.multilingual-news";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

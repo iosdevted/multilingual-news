@@ -16,7 +16,7 @@ class TabCell: UICollectionViewCell {
     var tabTitle: UILabel!
     var tabIcon: UIImageView!
     var indicatorView: UIView!
-    var indicatorColor: UIColor = .black
+    var indicatorColor: UIColor!
     
     override var isSelected: Bool {
         didSet {
@@ -33,7 +33,7 @@ class TabCell: UICollectionViewCell {
         didSet {
             tabTitle.text = tabViewModel?.title
             tabIcon.image = tabViewModel?.icon
-            (tabViewModel?.icon != nil) ? (tabSV.spacing = 10) : (tabSV.spacing = 0)
+            (tabViewModel?.icon != nil) ? (tabSV.spacing = 3) : (tabSV.spacing = 0)
         }
     }
     
@@ -53,6 +53,10 @@ class TabCell: UICollectionViewCell {
         tabIcon.clipsToBounds = true
         self.tabSV.addArrangedSubview(tabIcon)
         
+//        tabIcon.snp.makeConstraints { (make) -> Void in
+//            make.size.equalTo(CGSize(width: 15, height: 15))
+//        }
+        
         tabTitle = UILabel()
         tabTitle.textAlignment = .center
         self.tabSV.addArrangedSubview(tabTitle)
@@ -60,12 +64,6 @@ class TabCell: UICollectionViewCell {
         tabSV.snp.makeConstraints { (make) -> Void in
             make.center.equalToSuperview()
         }
-        
-//        tabSV.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            tabSV.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-//            tabSV.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-//        ])
         
         setupIndicatorView()
     }
@@ -91,12 +89,5 @@ class TabCell: UICollectionViewCell {
             make.height.equalTo(2)
             make.bottom.width.equalToSuperview()
         }
-        
-//        indicatorView.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            indicatorView.heightAnchor.constraint(equalToConstant: 3),
-//            indicatorView.widthAnchor.constraint(equalTo: self.widthAnchor),
-//            indicatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-//        ])
     }
 }
