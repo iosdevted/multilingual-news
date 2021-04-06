@@ -22,6 +22,7 @@ class MainViewController: UIViewController {
     //MARK: - Properties
     
     private let persistenceManager = PersistenceManager.shared
+    private let initialCoreData = InitialCoreData.shared
     private let apiManager = APIManager.shared
     private let refreshManager = RefreshManager.shared
     private let request: NSFetchRequest<Languages> = Languages.fetchRequest()
@@ -35,8 +36,8 @@ class MainViewController: UIViewController {
     
     var coreDataLanguages: [Languages] = [] {
         didSet {
-            selectedLanguagesName = []
-            selectedLanguagesCode = []
+            selectedLanguagesName.removeAll()
+            selectedLanguagesCode.removeAll()
             coreDataLanguages.forEach { (language) in
                 if language.isChecked {
                     selectedLanguagesName.append(language.title!)
@@ -53,15 +54,11 @@ class MainViewController: UIViewController {
         }
     }
     
-    private lazy var tabsView: TabsView = {
-        let view = TabsView()
-        return view
-    }()
+    private var tabsView = TabsView()
     
     private var topHeaderContainerView: TopHeaderView = {
         let view = TopHeaderView()
         view.backgroundColor = .white
-        
         view.layer.cornerRadius = 30
         view.layer.shadowColor = UIColor.systemGray4.withAlphaComponent(0.7).cgColor
         view.layer.shadowOpacity = 0.5
@@ -83,6 +80,11 @@ class MainViewController: UIViewController {
         loadTopNews()
     }
     
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        persistenceManager.deleteAll(request: request)
+//    }
+    
     //MARK: - Selectors
     
     @objc func topHeaderContainerViewTapped() {
@@ -100,10 +102,11 @@ class MainViewController: UIViewController {
         present(nav, animated: true, completion: nil)
     }
     
-    //MARK: - Helpers
+    //MARK: - Fetch & Populate Data
     
     func reloadData() {
         topHeaderContainerView.setNeedsDisplay()
+        //한 번에 업데이트
         loadTopNews()
         setupTabs()
     }
@@ -112,7 +115,7 @@ class MainViewController: UIViewController {
         coreDataLanguages = persistenceManager.fetch(request: request)
         
         if coreDataLanguages.isEmpty {
-            saveInitialData()
+            initialCoreData.saveInitialData(persistenceManager: persistenceManager)
             coreDataLanguages = persistenceManager.fetch(request: request)
         } else {
             print("Not First Run")
@@ -156,36 +159,7 @@ class MainViewController: UIViewController {
             self.articleVM.url.bind { (url) in
                 self.articleUrl = url
             }.disposed(by: self.disposeBag)
-            
         }
-    }
-    
-    private func saveInitialData() {
-        let language1 = Setting(isChecked: true, title: "English", code: "us", icon: "united-states-of-america")
-        let language2 = Setting(isChecked: true, title: "French", code: "fr", icon: "france")
-        let language3 = Setting(isChecked: true, title: "Japanese", code: "jp", icon: "japan")
-        let language4 = Setting(isChecked: true, title: "Korean", code: "kr", icon: "south-korea")
-        let language5 = Setting(isChecked: false, title: "Chinese", code: "cn", icon: "china")
-        let language6 = Setting(isChecked: false, title: "Russian", code: "ru", icon: "russia")
-        let language7 = Setting(isChecked: false, title: "German", code: "de", icon: "germany")
-        let language8 = Setting(isChecked: false, title: "Italian", code: "it", icon: "italy")
-        let language9 = Setting(isChecked: false, title: "Portuguese", code: "pt", icon: "portugal")
-        let language10 = Setting(isChecked: false, title: "Dutch", code: "nl", icon: "netherlands")
-        let language11 = Setting(isChecked: false, title: "Swedish", code: "se", icon: "sweden")
-        let language12 = Setting(isChecked: false, title: "Norwegian", code: "no", icon: "norway")
-
-        persistenceManager.insertLanguage(language: language1)
-        persistenceManager.insertLanguage(language: language2)
-        persistenceManager.insertLanguage(language: language3)
-        persistenceManager.insertLanguage(language: language4)
-        persistenceManager.insertLanguage(language: language5)
-        persistenceManager.insertLanguage(language: language6)
-        persistenceManager.insertLanguage(language: language7)
-        persistenceManager.insertLanguage(language: language8)
-        persistenceManager.insertLanguage(language: language9)
-        persistenceManager.insertLanguage(language: language10)
-        persistenceManager.insertLanguage(language: language11)
-        persistenceManager.insertLanguage(language: language12)
     }
     
     //MARK: - ConfigureUI
@@ -250,19 +224,14 @@ class MainViewController: UIViewController {
         
         // Set TabMode to '.fixed' for stretched tabs in full width of screen or '.scrollable' for scrolling to see all tabs
         tabsView.tabMode = .fixed
-        
         tabsView.titleColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
         tabsView.iconColor = .black
         tabsView.indicatorColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
-        
         tabsView.titleFont = UIFont(name: "RedHatDisplay-Regular", size: 14)!
         //tabsView.titleFont = UIFont.systemFont(ofSize: 16, weight: .regular)
         tabsView.collectionView.backgroundColor = .white
-        
         tabsView.delegate = self
-        
         tabsView.collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: true, scrollPosition: .centeredVertically)
-        
     }
     
     private func showViewController(_ index: Int) -> UIViewController? {

@@ -2,9 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/ted/Documents/GitHub/one-article/Multilingual News.xcodeproj">
+      location = "group:Multilingual News.xcworkspace">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Multilingual News.xcodeproj">
    </FileRef>
 </Workspace>

@@ -64,6 +64,7 @@ class PersistenceManager {
             managedObject.setValue(language.icon, forKey: "icon")
             
             do {
+                //self.context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
                 try self.context.save()
                 return true
             } catch {
@@ -101,7 +102,7 @@ class PersistenceManager {
         do {
             let request: NSFetchRequest<NSFetchRequestResult> = T.fetchRequest()
             let delete = NSBatchDeleteRequest(fetchRequest: request)
-        
+            
             try self.context.execute(delete)
             return true
         } catch {

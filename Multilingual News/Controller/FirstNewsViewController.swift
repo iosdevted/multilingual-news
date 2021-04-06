@@ -67,22 +67,27 @@ class FirstNewsViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-//    private func populateNews() {
-//
-//        let resource = Resource<ArticleResponse>(url: URL(string: "https://newsapi.org/v2/top-headlines?country=\(languageCode)&apiKey=\(apiKey[0])")!)
-//
-//        URLRequest.load(resource: resource)
-//            .subscribe(onNext: { articleResponse in
-//
-//                let articles = articleResponse.articles
-//                self.articleListVM = ArticleListViewModel(articles)
-//
-//                DispatchQueue.main.async {
-//                    self.tableView.reloadData()
-//                }
-//
-//            }).disposed(by: disposeBag)
-//    }
+    private func populateImage(url: String, cell: ArticleTableViewCell) {
+        let image = UIImage(named: "NoImage")?.withRenderingMode(.alwaysOriginal)
+        if url == "NoImage" {
+            cell.articleImageView.image = image
+            cell.articleImageView.contentMode = .center
+        } else {
+            let url = URL(string: url)
+            cell.articleImageView.contentMode = .scaleAspectFill
+            cell.articleImageView.kf.indicatorType = .activity
+            cell.articleImageView.kf.setImage(with: url) { result in
+                switch result {
+                case .success( _):
+                    print("Task done")
+                case .failure(let error):
+                    cell.articleImageView.image = image
+                    cell.articleImageView.contentMode = .center
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
 }
 
 //MARK: - UITableViewDelegate/DataSource
@@ -103,6 +108,8 @@ extension FirstNewsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier, for: indexPath) as! ArticleTableViewCell
+        cell.titleLabel.numberOfLines = 0
+        cell.titleLabel.lineBreakMode = .byWordWrapping
         
         let articleVM = self.articleListVM.articleAt(indexPath.row)
 
@@ -115,34 +122,13 @@ extension FirstNewsViewController: UITableViewDataSource {
         }.disposed(by: disposeBag)
         
         articleVM.urlToImage.bind { (url) in
-            let image = UIImage(named: "NoImage")?.withRenderingMode(.alwaysOriginal)
-            if url == "NoImage" {
-                cell.articleImageView.image = image
-                cell.articleImageView.contentMode = .center
-            } else {
-                let url = URL(string: url)
-                cell.articleImageView.contentMode = .scaleAspectFill
-                cell.articleImageView.kf.indicatorType = .activity
-                cell.articleImageView.kf.setImage(with: url) { result in
-                    switch result {
-                    case .success(let value):
-                        print("Task done for: \(value.source.url?.absoluteString ?? "")")
-                    case .failure(let error):
-                        cell.articleImageView.image = image
-                        cell.articleImageView.contentMode = .center
-                        print(error.localizedDescription)
-                    }
-                }
-            }
+            self.populateImage(url: url, cell: cell)
         }.disposed(by: disposeBag)
         
         articleVM.url.bind { (url) in
             self.articleUrl.append(url)
         }.disposed(by: disposeBag)
-        
-        cell.titleLabel.numberOfLines = 0
-        cell.titleLabel.lineBreakMode = .byWordWrapping
-        
+                
         return cell
     }
 }
