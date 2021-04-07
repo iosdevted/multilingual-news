@@ -32,7 +32,7 @@ extension Reactive where Base: NSControl {
                 let observer = ControlTarget(control: control) { _ in
                     observer.on(.next(()))
                 }
-                
+
                 return observer
             }
             .take(until: self.deallocated)
@@ -82,6 +82,5 @@ extension Reactive where Base: NSControl {
         return ControlProperty(values: source, valueSink: bindingObserver)
     }
 }
-
 
 #endif

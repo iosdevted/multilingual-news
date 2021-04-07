@@ -37,7 +37,7 @@ class RefreshManager: NSObject {
             return false
         }
     }
-    
+
     private func isRefreshRequired(userPickedHour: Int = 16) -> Bool {
 
         guard let lastRefreshDate = defaults.object(forKey: defaultsKey) as? Date else {

@@ -37,7 +37,7 @@ struct SkeletonMultilinesLayerConfig {
 	var multilineSpacing: CGFloat
 	var paddingInsets: UIEdgeInsets
     var isRTL: Bool
-    
+
     /// Returns padding insets taking into account if the RTL is activated
     var calculatedPaddingInsets: UIEdgeInsets {
         UIEdgeInsets(top: paddingInsets.top,
@@ -54,11 +54,11 @@ extension CALayer {
     var skeletonSublayers: [CALayer] {
         return sublayers?.filter { $0.name == CALayer.skeletonSubLayersName } ?? [CALayer]()
     }
-    
+
 	func addMultilinesLayers(for config: SkeletonMultilinesLayerConfig) {
         let numberOfSublayers = config.lines > 0 ? config.lines : calculateNumLines(for: config)
         var height = config.lineHeight
-        
+
         if numberOfSublayers == 1 && SkeletonAppearance.default.renderSingleLineAsView {
             height = bounds.height
         }
@@ -70,7 +70,7 @@ extension CALayer {
             .setPadding(config.paddingInsets)
             .setHeight(height)
             .setIsRTL(config.isRTL)
-    
+
         (0..<numberOfSublayers).forEach { index in
 			let width = calculatedWidthForLine(at: index, totalLines: numberOfSublayers, lastLineFillPercent: config.lastLineFillPercent, paddingInsets: config.paddingInsets)
             if let layer = layerBuilder
@@ -89,11 +89,11 @@ extension CALayer {
         let paddingInsets = config.calculatedPaddingInsets
         let multilineSpacing = config.multilineSpacing
         var height = config.lineHeight
-        
+
         if numberOfSublayers == 1 && SkeletonAppearance.default.renderSingleLineAsView {
             height = bounds.height
         }
-        
+
         for (index, layer) in currentSkeletonSublayers.enumerated() {
             let width = calculatedWidthForLine(at: index, totalLines: numberOfSublayers, lastLineFillPercent: lastLineFillPercent, paddingInsets: paddingInsets)
             layer.updateLayerFrame(for: index,
@@ -118,26 +118,26 @@ extension CALayer {
                               y: CGFloat(index) * spaceRequiredForEachLine + paddingInsets.top,
                               width: size.width,
                               height: size.height)
-        
+
         frame = flipRectForRTLIfNeeded(newFrame, isRTL: isRTL)
     }
-    
+
     private func calculateNumLines(for config: SkeletonMultilinesLayerConfig) -> Int {
         let definedNumberOfLines = config.lines
         let requiredSpaceForEachLine = config.lineHeight + config.multilineSpacing
         let calculatedNumberOfLines = Int(round(CGFloat(bounds.height - config.paddingInsets.top - config.paddingInsets.bottom) / CGFloat(requiredSpaceForEachLine)))
-        
+
         guard calculatedNumberOfLines > 0 else {
             return 1
         }
-        
+
         if definedNumberOfLines > 0, definedNumberOfLines <= calculatedNumberOfLines {
             return definedNumberOfLines
         }
-        
+
         return calculatedNumberOfLines
     }
-    
+
     private func flipRectForRTLIfNeeded(_ rect: CGRect, isRTL: Bool) -> CGRect {
         var newRect = rect
         if isRTL {
@@ -152,7 +152,7 @@ public extension CALayer {
     var pulse: CAAnimation {
         let pulseAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.backgroundColor))
         pulseAnimation.fromValue = backgroundColor
-        
+
         // swiftlint:disable:next force_unwrapping
         pulseAnimation.toValue = UIColor(cgColor: backgroundColor!).complementaryColor.cgColor
         pulseAnimation.duration = 1
@@ -162,7 +162,7 @@ public extension CALayer {
         pulseAnimation.isRemovedOnCompletion = false
         return pulseAnimation
     }
-    
+
     func playAnimation(_ anim: SkeletonLayerAnimation, key: String, completion: (() -> Void)? = nil) {
         skeletonSublayers.recursiveSearch(leafBlock: {
             DispatchQueue.main.async { CATransaction.begin() }
@@ -173,7 +173,7 @@ public extension CALayer {
             $0.playAnimation(anim, key: key, completion: completion)
         }
     }
-    
+
     func stopAnimation(forKey key: String) {
         skeletonSublayers.recursiveSearch(leafBlock: {
             removeAnimation(forKey: key)

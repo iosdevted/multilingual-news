@@ -6,7 +6,7 @@ extension Int {
     var whitespace: String {
         whitespaces
     }
-    
+
     var whitespaces: String {
         String(repeating: " ", count: self)
     }

@@ -25,13 +25,13 @@ class SkeletonMultilineLayerBuilder {
         self.index = index
         return self
     }
-    
+
     @discardableResult
     func setHeight(_ height: CGFloat) -> SkeletonMultilineLayerBuilder {
         self.height = height
         return self
     }
-    
+
     @discardableResult
     func setWidth(_ width: CGFloat) -> SkeletonMultilineLayerBuilder {
         self.width = width
@@ -55,7 +55,7 @@ class SkeletonMultilineLayerBuilder {
         self.paddingInsets = insets
         return self
     }
-    
+
     @discardableResult
     func setIsRTL(_ isRTL: Bool) -> SkeletonMultilineLayerBuilder {
         self.isRTL = isRTL

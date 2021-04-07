@@ -8,7 +8,7 @@
 import UIKit
 
 extension UILabel {
-    
+
     // adding space between each characters
     func addCharacterSpacing(kernValue: Double = 3) {
         if let labelText = text, labelText.isEmpty == false {

@@ -13,6 +13,7 @@
 		9F3B22A32608C71F00A930FD /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B22A22608C71F00A930FD /* String+Extension.swift */; };
 		9F3B22A72608D61A00A930FD /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B22A62608D61A00A930FD /* Setting.swift */; };
 		9F3B22AE2608FA8400A930FD /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B22AD2608FA8400A930FD /* Tab.swift */; };
+		9F83D4FF261DA4B7003FCDC3 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 9F83D4FE261DA4B7003FCDC3 /* .swiftlint.yml */; };
 		9F9E42E1260B145100E16C34 /* Setting.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9F9E42DF260B145100E16C34 /* Setting.xcdatamodeld */; };
 		9F9E42F3260B1BFD00E16C34 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9E42F2260B1BFD00E16C34 /* PersistenceManager.swift */; };
 		9F9E4303260C64C900E16C34 /* RefreshManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9E4302260C64C900E16C34 /* RefreshManager.swift */; };
@@ -43,7 +44,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		470E0FAA9ED40A4D192DE7C4 /* Pods-one-article.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-one-article.debug.xcconfig"; path = "Target Support Files/Pods-one-article/Pods-one-article.debug.xcconfig"; sourceTree = "<group>"; };
 		485ED3C3699E506307A3DE1F /* Pods-Multilingual News.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Multilingual News.debug.xcconfig"; path = "Target Support Files/Pods-Multilingual News/Pods-Multilingual News.debug.xcconfig"; sourceTree = "<group>"; };
 		9F1EA72B261C5BCD00515363 /* InitialCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialCoreData.swift; sourceTree = "<group>"; };
 		9F3B2283260898F100A930FD /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
@@ -51,6 +51,7 @@
 		9F3B22A22608C71F00A930FD /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		9F3B22A62608D61A00A930FD /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		9F3B22AD2608FA8400A930FD /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
+		9F83D4FE261DA4B7003FCDC3 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		9F9E42E0260B145100E16C34 /* Setting.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Setting.xcdatamodel; sourceTree = "<group>"; };
 		9F9E42F2260B1BFD00E16C34 /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
 		9F9E4302260C64C900E16C34 /* RefreshManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshManager.swift; sourceTree = "<group>"; };
@@ -79,7 +80,6 @@
 		9FD240AB26075C53003C2F2D /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
 		9FD240AE26075D33003C2F2D /* ArticleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleViewModel.swift; sourceTree = "<group>"; };
 		9FD240B126075E29003C2F2D /* ArticleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleTableViewCell.swift; sourceTree = "<group>"; };
-		A3D7251E1766EDD5619D5FB2 /* Pods-one-article.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-one-article.release.xcconfig"; path = "Target Support Files/Pods-one-article/Pods-one-article.release.xcconfig"; sourceTree = "<group>"; };
 		CC4D4A9F14D6C4517601BFE7 /* Pods_Multilingual_News.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Multilingual_News.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3A5E4F1631E84B726A7EB5F /* Pods-Multilingual News.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Multilingual News.release.xcconfig"; path = "Target Support Files/Pods-Multilingual News/Pods-Multilingual News.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -99,8 +99,6 @@
 		40ACE52E735C667236607C34 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				470E0FAA9ED40A4D192DE7C4 /* Pods-one-article.debug.xcconfig */,
-				A3D7251E1766EDD5619D5FB2 /* Pods-one-article.release.xcconfig */,
 				485ED3C3699E506307A3DE1F /* Pods-Multilingual News.debug.xcconfig */,
 				F3A5E4F1631E84B726A7EB5F /* Pods-Multilingual News.release.xcconfig */,
 			);
@@ -168,6 +166,7 @@
 		9FD24056260715C1003C2F2D = {
 			isa = PBXGroup;
 			children = (
+				9F83D4FE261DA4B7003FCDC3 /* .swiftlint.yml */,
 				9FD24061260715C1003C2F2D /* Multilingual News */,
 				9FD24060260715C1003C2F2D /* Products */,
 				40ACE52E735C667236607C34 /* Pods */,
@@ -261,6 +260,7 @@
 			buildConfigurationList = 9FD24073260715C2003C2F2D /* Build configuration list for PBXNativeTarget "Multilingual News" */;
 			buildPhases = (
 				E10515FE380067EB88848329 /* [CP] Check Pods Manifest.lock */,
+				9F83D4C8261D9738003FCDC3 /* ShellScript */,
 				9FD2405B260715C1003C2F2D /* Sources */,
 				9FD2405C260715C1003C2F2D /* Frameworks */,
 				9FD2405D260715C1003C2F2D /* Resources */,
@@ -315,6 +315,7 @@
 				9FD2406F260715C2003C2F2D /* LaunchScreen.storyboard in Resources */,
 				9FD2406C260715C2003C2F2D /* Assets.xcassets in Resources */,
 				9FD2406A260715C1003C2F2D /* Main.storyboard in Resources */,
+				9F83D4FF261DA4B7003FCDC3 /* .swiftlint.yml in Resources */,
 				9FCAD8C3261315F700F4965C /* RedHatDisplay-Regular.ttf in Resources */,
 				9FCAD8C2261315F700F4965C /* RedHatDisplay-Medium.ttf in Resources */,
 				9FCAD8C4261315F700F4965C /* RedHatDisplay-Bold.ttf in Resources */,
@@ -324,6 +325,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		9F83D4C8261D9738003FCDC3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint autocorrect\n";
+		};
 		CF933719AD55EA16AF040138 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

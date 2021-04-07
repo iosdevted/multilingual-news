@@ -7,7 +7,7 @@
 //
 
 import RxSwift
-    
+
 extension ControlEvent {
     /// Converts `ControlEvent` to `Driver` trait.
     ///

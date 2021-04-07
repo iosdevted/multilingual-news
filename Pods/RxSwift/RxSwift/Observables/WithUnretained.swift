@@ -27,7 +27,7 @@ extension ObservableType {
 
             return resultSelector(obj, element)
         }
-        .catch{ error -> Observable<Out> in
+        .catch { error -> Observable<Out> in
             guard let unretainedError = error as? UnretainedError,
                   unretainedError == .failedRetaining else {
                 return .error(error)
@@ -37,7 +37,6 @@ extension ObservableType {
         }
     }
 
-    
     /**
      Provides an unretained, safe to use (i.e. not implicitly unwrapped), reference to an object along with the events emitted by the sequence.
      

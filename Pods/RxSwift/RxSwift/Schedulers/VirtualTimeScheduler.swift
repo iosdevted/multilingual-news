@@ -7,17 +7,16 @@
 //
 
 /// Base class for virtual time schedulers using a priority queue for scheduled items.
-open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>
-    : SchedulerType {
+open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>: SchedulerType {
 
     public typealias VirtualTime = Converter.VirtualTimeUnit
     public typealias VirtualTimeInterval = Converter.VirtualTimeIntervalUnit
 
-    private var running : Bool
+    private var running: Bool
 
     private var currentClock: VirtualTime
 
-    private var schedulerQueue : PriorityQueue<VirtualSchedulerItem<VirtualTime>>
+    private var schedulerQueue: PriorityQueue<VirtualSchedulerItem<VirtualTime>>
     private var converter: Converter
 
     private var nextId = 0
@@ -115,9 +114,9 @@ open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>
         self.nextId += 1
 
         self.schedulerQueue.enqueue(item)
-        
+
         _ = compositeDisposable.insert(item)
-        
+
         return compositeDisposable
     }
 
@@ -230,10 +229,9 @@ extension VirtualTimeScheduler: CustomDebugStringConvertible {
     }
 }
 
-final class VirtualSchedulerItem<Time>
-    : Disposable {
+final class VirtualSchedulerItem<Time>: Disposable {
     typealias Action = () -> Disposable
-    
+
     let action: Action
     let time: Time
     let id: Int
@@ -241,9 +239,9 @@ final class VirtualSchedulerItem<Time>
     var isDisposed: Bool {
         self.disposable.isDisposed
     }
-    
+
     var disposable = SingleAssignmentDisposable()
-    
+
     init(action: @escaping Action, time: Time, id: Int) {
         self.action = action
         self.time = time
@@ -253,14 +251,13 @@ final class VirtualSchedulerItem<Time>
     func invoke() {
          self.disposable.setDisposable(self.action())
     }
-    
+
     func dispose() {
         self.disposable.dispose()
     }
 }
 
-extension VirtualSchedulerItem
-    : CustomDebugStringConvertible {
+extension VirtualSchedulerItem: CustomDebugStringConvertible {
     var debugDescription: String {
         "\(self.time)"
     }

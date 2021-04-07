@@ -12,12 +12,12 @@ import RxSwift
 import Cocoa
 
 extension Reactive where Base: NSButton {
-    
+
     /// Reactive wrapper for control event.
     public var tap: ControlEvent<Void> {
         self.controlEvent
     }
-    
+
     /// Reactive wrapper for `state` property`.
     public var state: ControlProperty<NSControl.StateValue> {
         return self.base.rx.controlProperty(

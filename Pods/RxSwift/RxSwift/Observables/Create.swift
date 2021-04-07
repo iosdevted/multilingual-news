@@ -23,7 +23,7 @@ extension ObservableType {
 }
 
 final private class AnonymousObservableSink<Observer: ObserverType>: Sink<Observer>, ObserverType {
-    typealias Element = Observer.Element 
+    typealias Element = Observer.Element
     typealias Parent = AnonymousObservable<Element>
 
     // state

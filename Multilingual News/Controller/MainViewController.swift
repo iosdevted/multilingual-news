@@ -18,9 +18,9 @@ protocol MainViewControllerDelegate: class {
 }
 
 class MainViewController: UIViewController {
-    
-    //MARK: - Properties
-    
+
+    // MARK: - Properties
+
     private let persistenceManager = PersistenceManager.shared
     private let initialCoreData = InitialCoreData.shared
     private let apiManager = APIManager.shared
@@ -33,7 +33,7 @@ class MainViewController: UIViewController {
     private var articleUrl: String = ""
     private var selectedLanguagesName: [String] = []
     private var selectedLanguagesCode: [String] = []
-    
+
     var coreDataLanguages: [Languages] = [] {
         didSet {
             selectedLanguagesName.removeAll()
@@ -47,15 +47,15 @@ class MainViewController: UIViewController {
             print(selectedLanguagesCode)
         }
     }
-    
+
     private var articleVM: ArticleViewModel! {
         didSet {
             populateTopNews()
         }
     }
-    
+
     private var tabsView = TabsView()
-    
+
     private var topHeaderContainerView: TopHeaderView = {
         let view = TopHeaderView()
         view.backgroundColor = .white
@@ -66,9 +66,9 @@ class MainViewController: UIViewController {
         view.layer.shadowOffset = CGSize(width: 0, height: 0)
         return view
     }()
-    
-    //MARK: - Life Cycle
-    
+
+    // MARK: - Life Cycle
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchCoreData()
@@ -79,41 +79,41 @@ class MainViewController: UIViewController {
         setupPageViewController()
         loadTopNews()
     }
-    
+
 //    override func viewDidLoad() {
 //        super.viewDidLoad()
 //        persistenceManager.deleteAll(request: request)
 //    }
-    
-    //MARK: - Selectors
-    
+
+    // MARK: - Selectors
+
     @objc func topHeaderContainerViewTapped() {
         guard let url = URL(string: articleUrl) else { return }
-        
+
         let safariViewController = SFSafariViewController(url: url)
         present(safariViewController, animated: true, completion: nil)
     }
-    
+
     @objc func rightBarButtonTapped() {
         let settingViewController = SettingViewController(languages: coreDataLanguages)
-        
+
         let nav = UINavigationController(rootViewController: settingViewController)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
     }
-    
-    //MARK: - Fetch & Populate Data
-    
+
+    // MARK: - Fetch & Populate Data
+
     func reloadData() {
         topHeaderContainerView.setNeedsDisplay()
-        //한 번에 업데이트
+        // 한 번에 업데이트
         loadTopNews()
         setupTabs()
     }
-    
+
     private func fetchCoreData() {
         coreDataLanguages = persistenceManager.fetch(request: request)
-        
+
         if coreDataLanguages.isEmpty {
             initialCoreData.saveInitialData(persistenceManager: persistenceManager)
             coreDataLanguages = persistenceManager.fetch(request: request)
@@ -121,7 +121,7 @@ class MainViewController: UIViewController {
             print("Not First Run")
         }
     }
-    
+
     private func loadTopNews() {
         apiManager.produceApiKey(apiKeys: apiKey)
             .map(apiManager.makeResource(selectedLanguagesCode: selectedLanguagesCode[0]))
@@ -133,17 +133,17 @@ class MainViewController: UIViewController {
             })
             .disposed(by: disposeBag)
     }
-    
+
     private func populateTopNews() {
         DispatchQueue.main.async {
             self.articleVM.title.asDriver(onErrorJustReturn: "")
                 .drive(self.topHeaderContainerView.titleLabel.rx.text)
                 .disposed(by: self.disposeBag)
-            
+
             self.articleVM.publishedAt.bind { (date) in
                 self.topHeaderContainerView.dateLabel.text = date.utcToLocalWithDate()
             }.disposed(by: self.disposeBag)
-            
+
             self.articleVM.urlToImage.bind { (url) in
                 if url == "NoImage" {
                     let image = UIImage(named: "NoImage")?.withRenderingMode(.alwaysOriginal)
@@ -155,65 +155,64 @@ class MainViewController: UIViewController {
                     self.topHeaderContainerView.topHeaderImageView.kf.setImage(with: url)
                 }
             }.disposed(by: self.disposeBag)
-            
+
             self.articleVM.url.bind { (url) in
                 self.articleUrl = url
             }.disposed(by: self.disposeBag)
         }
     }
-    
-    //MARK: - ConfigureUI
-    
+
+    // MARK: - ConfigureUI
+
     private func configureGesture() {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(topHeaderContainerViewTapped))
         topHeaderContainerView.addGestureRecognizer(gesture)
     }
-    
+
     private func configureNavigationBarUI() {
-        
+
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white
         appearance.shadowColor = .clear // Hide UINavigationBar 1px bottom line
 //        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)]
         appearance.largeTitleTextAttributes = [.foregroundColor: UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1), .font: UIFont(name: "RedHatDisplay-Bold", size: 35) ?? .systemFont(ofSize: 20)]
-        
+
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.topItem?.title = "Main News"
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
-        
+
         var rightBarImage = UIImage(systemName: "globe")?.withTintColor(UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1))
         rightBarImage = rightBarImage?.withRenderingMode(.alwaysOriginal)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: rightBarImage, style:.plain, target: self, action:  #selector(rightBarButtonTapped))
-        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: rightBarImage, style: .plain, target: self, action: #selector(rightBarButtonTapped))
+
     }
-    
+
     private func configureUI() {
         view.backgroundColor = .white
-        
+
         view.addSubview(topHeaderContainerView)
-        
+
         topHeaderContainerView.snp.makeConstraints { (make) -> Void in
             make.height.equalToSuperview().multipliedBy(0.35)
-            
+
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
             make.leading.trailing.equalTo(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
         }
 
         view.addSubview(tabsView)
-        
+
         tabsView.snp.makeConstraints { (make) -> Void in
             make.height.equalTo(50)
-            
+
             make.top.equalTo(topHeaderContainerView.snp.bottom).offset(10)
             make.leading.trailing.equalTo(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
         }
     }
-    
-    //MARK: - ConfigureTabs
-    
+
+    // MARK: - ConfigureTabs
+
     private func setupTabs() {
         tabsView.tabs = [
             Tab(icon: nil, title: selectedLanguagesName[0]),
@@ -221,26 +220,26 @@ class MainViewController: UIViewController {
             Tab(icon: nil, title: selectedLanguagesName[2]),
             Tab(icon: nil, title: selectedLanguagesName[3])
         ]
-        
+
         // Set TabMode to '.fixed' for stretched tabs in full width of screen or '.scrollable' for scrolling to see all tabs
         tabsView.tabMode = .fixed
         tabsView.titleColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
         tabsView.iconColor = .black
         tabsView.indicatorColor = UIColor(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
         tabsView.titleFont = UIFont(name: "RedHatDisplay-Regular", size: 14)!
-        //tabsView.titleFont = UIFont.systemFont(ofSize: 16, weight: .regular)
+        // tabsView.titleFont = UIFont.systemFont(ofSize: 16, weight: .regular)
         tabsView.collectionView.backgroundColor = .white
         tabsView.delegate = self
         tabsView.collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: true, scrollPosition: .centeredVertically)
     }
-    
+
     private func showViewController(_ index: Int) -> UIViewController? {
         if (self.tabsView.tabs.count == 0) || (index >= self.tabsView.tabs.count) {
             return nil
         }
-        
+
         currentIndex = index
-        
+
         if index == 0 {
             let contentVC = FirstNewsViewController()
             contentVC.languageCode = selectedLanguagesCode[0]
@@ -267,23 +266,23 @@ class MainViewController: UIViewController {
             return contentVC
         }
     }
-    
+
     private func setupPageViewController() {
         // PageViewController
         self.pageController = TabsPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-        
+
         self.addChild(self.pageController)
         self.view.addSubview(self.pageController.view)
-        
+
         // Set PageViewController Delegate & DataSource
         pageController.delegate = self
         pageController.dataSource = self
-        
+
         // Set the selected ViewController in the PageViewController when the app starts
         pageController.setViewControllers([showViewController(0)!], direction: .forward, animated: true, completion: nil)
-        
+
         // PageViewController Constraints
-        
+
         pageController.view.snp.makeConstraints { (make) -> Void in
             make.centerX.width.equalToSuperview()
             make.top.equalTo(tabsView.snp.bottom)
@@ -293,7 +292,7 @@ class MainViewController: UIViewController {
     }
 }
 
-//MARK: - TabsDelegate
+// MARK: - TabsDelegate
 
 extension MainViewController: TabsDelegate {
     func tabsViewDidSelectItemAt(position: Int) {
@@ -301,7 +300,7 @@ extension MainViewController: TabsDelegate {
         if position != currentIndex {
             if position > currentIndex {
                 self.pageController.setViewControllers([showViewController(position)!], direction: .forward, animated: true, completion: nil)
-                
+
             } else {
                 self.pageController.setViewControllers([showViewController(position)!], direction: .reverse, animated: true, completion: nil)
             }
@@ -310,7 +309,7 @@ extension MainViewController: TabsDelegate {
     }
 }
 
-//MARK: - UIPageViewControllerDataSource
+// MARK: - UIPageViewControllerDataSource
 
 extension MainViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     // return ViewController when go forward
@@ -326,13 +325,13 @@ extension MainViewController: UIPageViewControllerDataSource, UIPageViewControll
             return self.showViewController(index)
         }
     }
-    
+
     // return ViewController when go backward
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         let vc = pageViewController.viewControllers?.first
         var index: Int
         index = getVCPageIndex(vc)
-        
+
         if index == 0 {
             return nil
         } else {
@@ -340,22 +339,22 @@ extension MainViewController: UIPageViewControllerDataSource, UIPageViewControll
             return self.showViewController(index)
         }
     }
-    
+
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if finished {
             if completed {
                 guard let vc = pageViewController.viewControllers?.first else { return }
                 let index: Int
-                
+
                 index = getVCPageIndex(vc)
-                
+
                 tabsView.collectionView.selectItem(at: IndexPath(item: index, section: 0), animated: true, scrollPosition: .centeredVertically)
                 // Animate the tab in the TabsView to be centered when you are scrolling using .scrollable
                 tabsView.collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .centeredHorizontally, animated: true)
             }
         }
     }
-    
+
     // Return the current position that is saved in the UIViewControllers we have in the UIPageViewController
     func getVCPageIndex(_ viewController: UIViewController?) -> Int {
         switch viewController {
@@ -375,13 +374,12 @@ extension MainViewController: UIPageViewControllerDataSource, UIPageViewControll
     }
 }
 
-//MARK: - MainViewControllerDelegate
+// MARK: - MainViewControllerDelegate
 
 extension MainViewController: MainViewControllerDelegate {
     func SafariServicesOpen(url: URL) {
-        
+
         let safariViewController = SFSafariViewController(url: url)
         present(safariViewController, animated: true, completion: nil)
     }
 }
-

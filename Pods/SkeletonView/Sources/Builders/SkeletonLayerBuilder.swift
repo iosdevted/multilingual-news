@@ -31,13 +31,13 @@ class SkeletonLayerBuilder {
         self.holder = holder
         return self
 	}
-	
+
     @discardableResult
 	func build() -> SkeletonLayer? {
 		guard let type = skeletonType,
 			let holder = holder
 			else { return nil }
-		
+
 		return SkeletonLayer(type: type,
 							 colors: colors,
 							 skeletonHolder: holder)

@@ -15,11 +15,11 @@ import Foundation
 
 // A set of default values used to initialize the object
 struct DefaultValues {
-    
+
     static let animation: M13Checkbox.Animation = .stroke
     static let markType: M13Checkbox.MarkType = .checkmark
     static let boxType: M13Checkbox.BoxType = .circle
     static let checkState: M13Checkbox.CheckState = .unchecked
     static let controller: M13CheckboxController = M13CheckboxStrokeController()
-    
+
 }

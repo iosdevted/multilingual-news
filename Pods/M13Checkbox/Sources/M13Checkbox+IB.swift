@@ -14,7 +14,7 @@
 import UIKit
 
 public extension M13Checkbox {
-    
+
     /// A proxy to set the box type compatible with interface builder.
     @IBInspectable var _IBStateChangeAnimation: String {
         get {
@@ -28,7 +28,7 @@ public extension M13Checkbox {
             }
         }
     }
-    
+
     /// A proxy to set the mark type compatible with interface builder.
     @IBInspectable var _IBMarkType: String {
         get {
@@ -42,7 +42,7 @@ public extension M13Checkbox {
             }
         }
     }
-    
+
     /// A proxy to set the box type compatible with interface builder.
     @IBInspectable var _IBBoxType: String {
         get {
@@ -56,7 +56,7 @@ public extension M13Checkbox {
             }
         }
     }
-    
+
     /// A proxy to set the check state compatible with interface builder.
     @IBInspectable var _IBCheckState: String {
         get {
@@ -70,5 +70,5 @@ public extension M13Checkbox {
             }
         }
     }
-    
+
 }

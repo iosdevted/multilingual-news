@@ -24,16 +24,16 @@ extension ObservableType {
 
 final private class ToArraySink<SourceType, Observer: ObserverType>: Sink<Observer>, ObserverType where Observer.Element == [SourceType] {
     typealias Parent = ToArray<SourceType>
-    
+
     let parent: Parent
     var list = [SourceType]()
-    
+
     init(parent: Parent, observer: Observer, cancel: Cancelable) {
         self.parent = parent
-        
+
         super.init(observer: observer, cancel: cancel)
     }
-    
+
     func on(_ event: Event<SourceType>) {
         switch event {
         case .next(let value):
@@ -55,7 +55,7 @@ final private class ToArray<SourceType>: Producer<[SourceType]> {
     init(source: Observable<SourceType>) {
         self.source = source
     }
-    
+
     override func run<Observer: ObserverType>(_ observer: Observer, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where Observer.Element == [SourceType] {
         let sink = ToArraySink(parent: self, observer: observer, cancel: cancel)
         let subscription = self.source.subscribe(sink)

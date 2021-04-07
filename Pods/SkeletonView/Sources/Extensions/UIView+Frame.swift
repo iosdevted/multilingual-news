@@ -23,19 +23,19 @@ extension UIView {
         }
         return CGRect(origin: .zero, size: definedMaxSize)
     }
-    
+
     var definedMaxSize: CGSize {
         CGSize(width: definedMaxWidth, height: definedMaxHeight)
     }
-    
+
     var definedMaxWidth: CGFloat {
         max(between: frame.size.width, andContantsOf: widthConstraints)
     }
-    
+
     var definedMaxHeight: CGFloat {
         max(between: frame.size.height, andContantsOf: heightConstraints)
     }
-    
+
     var isRTL: Bool {
         if #available(iOS 10.0, *), #available(tvOS 10.0, *) {
             return effectiveUserInterfaceLayoutDirection == .rightToLeft
@@ -43,7 +43,7 @@ extension UIView {
             return false
         }
     }
-    
+
     private func max(between value: CGFloat, andContantsOf constraints: [NSLayoutConstraint]) -> CGFloat {
         let max = constraints.reduce(value, { max, constraint in
             var tempMax = max

@@ -23,7 +23,7 @@ extension ObservableType {
 
 final private class EnumeratedSink<Element, Observer: ObserverType>: Sink<Observer>, ObserverType where Observer.Element == (index: Int, element: Element) {
     var index = 0
-    
+
     func on(_ event: Event<Element>) {
         switch event {
         case .next(let value):
@@ -31,8 +31,7 @@ final private class EnumeratedSink<Element, Observer: ObserverType>: Sink<Observ
                 let nextIndex = try incrementChecked(&self.index)
                 let next = (index: nextIndex, element: value)
                 self.forwardOn(.next(next))
-            }
-            catch let e {
+            } catch let e {
                 self.forwardOn(.error(e))
                 self.dispose()
             }

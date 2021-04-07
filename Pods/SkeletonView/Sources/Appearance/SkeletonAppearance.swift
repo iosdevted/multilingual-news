@@ -31,7 +31,7 @@ class SkeletonViewAppearance: Appearance {
     var multilineLastLineFillPercent: Int = 70
 
     var multilineCornerRadius: Int = 0
-    
+
     var renderSingleLineAsView: Bool = false
 }
 // codebeat:enable[TOO_MANY_IVARS]

@@ -36,18 +36,18 @@ extension ObservableType {
     }
 }
 
-private final class SingleAsyncSink<Observer: ObserverType> : Sink<Observer>, ObserverType {
+private final class SingleAsyncSink<Observer: ObserverType>: Sink<Observer>, ObserverType {
     typealias Element = Observer.Element
     typealias Parent = SingleAsync<Element>
-    
+
     private let parent: Parent
     private var seenValue: Bool = false
-    
+
     init(parent: Parent, observer: Observer, cancel: Cancelable) {
         self.parent = parent
         super.init(observer: observer, cancel: cancel)
     }
-    
+
     func on(_ event: Event<Element>) {
         switch event {
         case .next(let value):
@@ -56,8 +56,7 @@ private final class SingleAsyncSink<Observer: ObserverType> : Sink<Observer>, Ob
                 if !forward {
                     return
                 }
-            }
-            catch let error {
+            } catch let error {
                 self.forwardOn(.error(error as Swift.Error))
                 self.dispose()
                 return
@@ -87,15 +86,15 @@ private final class SingleAsyncSink<Observer: ObserverType> : Sink<Observer>, Ob
 
 final class SingleAsync<Element>: Producer<Element> {
     typealias Predicate = (Element) throws -> Bool
-    
+
     private let source: Observable<Element>
     fileprivate let predicate: Predicate?
-    
+
     init(source: Observable<Element>, predicate: Predicate? = nil) {
         self.source = source
         self.predicate = predicate
     }
-    
+
     override func run<Observer: ObserverType>(_ observer: Observer, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where Observer.Element == Element {
         let sink = SingleAsyncSink(parent: self, observer: observer, cancel: cancel)
         let subscription = self.source.subscribe(sink)

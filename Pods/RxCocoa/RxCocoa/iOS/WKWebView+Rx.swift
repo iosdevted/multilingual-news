@@ -13,20 +13,20 @@ import WebKit
 
 @available(iOS 8.0, OSX 10.10, OSXApplicationExtension 10.10, *)
 extension Reactive where Base: WKWebView {
-    
+
     /// Reactive wrapper for `navigationDelegate`.
     /// For more information take a look at `DelegateProxyType` protocol documentation.
     public var navigationDelegate: DelegateProxy<WKWebView, WKNavigationDelegate> {
         RxWKNavigationDelegateProxy.proxy(for: base)
     }
-    
+
     /// Reactive wrapper for `navigationDelegate` message.
     public var didCommit: Observable<WKNavigation> {
         navigationDelegate
             .methodInvoked(#selector(WKNavigationDelegate.webView(_:didCommit:)))
             .map { a in try castOrThrow(WKNavigation.self, a[1]) }
     }
-    
+
     /// Reactive wrapper for `navigationDelegate` message.
     public var didStartLoad: Observable<WKNavigation> {
         navigationDelegate

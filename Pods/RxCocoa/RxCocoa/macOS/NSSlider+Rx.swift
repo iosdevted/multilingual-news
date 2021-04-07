@@ -12,7 +12,7 @@ import RxSwift
 import Cocoa
 
 extension Reactive where Base: NSSlider {
-    
+
     /// Reactive wrapper for `value` property.
     public var value: ControlProperty<Double> {
         return self.base.rx.controlProperty(
@@ -24,7 +24,7 @@ extension Reactive where Base: NSSlider {
             }
         )
     }
-    
+
 }
 
 #endif

@@ -9,9 +9,9 @@ import UIKit
 import CoreData
 
 class InitialCoreData {
-    
+
     static var shared: InitialCoreData = InitialCoreData()
-    
+
     func saveInitialData(persistenceManager: PersistenceManager) {
         let language1 = Setting(isChecked: true, title: "English", code: "us", icon: "united-states-of-america")
         let language2 = Setting(isChecked: true, title: "French", code: "fr", icon: "france")

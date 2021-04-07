@@ -31,11 +31,11 @@ extension UITextView: ContainsMultilineText {
     var constraintHeight: CGFloat? {
         heightConstraints.first?.constant
     }
-    
+
     var numLines: Int {
         -1
     }
-	
+
     var lastLineFillingPercent: Int {
         get {
             let defaultValue = SkeletonAppearance.default.multilineLastLineFillPercent

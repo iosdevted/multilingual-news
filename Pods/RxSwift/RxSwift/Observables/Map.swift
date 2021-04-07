@@ -26,7 +26,7 @@ extension ObservableType {
 final private class MapSink<SourceType, Observer: ObserverType>: Sink<Observer>, ObserverType {
     typealias Transform = (SourceType) throws -> ResultType
 
-    typealias ResultType = Observer.Element 
+    typealias ResultType = Observer.Element
     typealias Element = SourceType
 
     private let transform: Transform
@@ -42,8 +42,7 @@ final private class MapSink<SourceType, Observer: ObserverType>: Sink<Observer>,
             do {
                 let mappedElement = try self.transform(element)
                 self.forwardOn(.next(mappedElement))
-            }
-            catch let e {
+            } catch let e {
                 self.forwardOn(.error(e))
                 self.dispose()
             }

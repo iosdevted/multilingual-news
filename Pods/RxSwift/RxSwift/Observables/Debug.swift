@@ -32,12 +32,12 @@ private func logEvent(_ identifier: String, dateFormat: DateFormatter, content: 
 }
 
 final private class DebugSink<Source: ObservableType, Observer: ObserverType>: Sink<Observer>, ObserverType where Observer.Element == Source.Element {
-    typealias Element = Observer.Element 
+    typealias Element = Observer.Element
     typealias Parent = Debug<Source>
-    
+
     private let parent: Parent
     private let timestampFormatter = DateFormatter()
-    
+
     init(parent: Parent, observer: Observer, cancel: Cancelable) {
         self.parent = parent
         self.timestampFormatter.dateFormat = dateFormat
@@ -46,7 +46,7 @@ final private class DebugSink<Source: ObservableType, Observer: ObserverType>: S
 
         super.init(observer: observer, cancel: cancel)
     }
-    
+
     func on(_ event: Event<Element>) {
         let maxEventTextLength = 40
         let eventText = "\(event)"
@@ -62,7 +62,7 @@ final private class DebugSink<Source: ObservableType, Observer: ObserverType>: S
             self.dispose()
         }
     }
-    
+
     override func dispose() {
         if !self.isDisposed {
             logEvent(self.parent.identifier, dateFormat: self.timestampFormatter, content: "isDisposed")
@@ -80,20 +80,18 @@ final private class Debug<Source: ObservableType>: Producer<Source.Element> {
         self.trimOutput = trimOutput
         if let identifier = identifier {
             self.identifier = identifier
-        }
-        else {
+        } else {
             let trimmedFile: String
             if let lastIndex = file.lastIndex(of: "/") {
                 trimmedFile = String(file[file.index(after: lastIndex) ..< file.endIndex])
-            }
-            else {
+            } else {
                 trimmedFile = file
             }
             self.identifier = "\(trimmedFile):\(line) (\(function))"
         }
         self.source = source
     }
-    
+
     override func run<Observer: ObserverType>(_ observer: Observer, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where Observer.Element == Source.Element {
         let sink = DebugSink(parent: self, observer: observer, cancel: cancel)
         let subscription = self.source.subscribe(sink)

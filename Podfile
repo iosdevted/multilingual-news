@@ -14,5 +14,6 @@ target 'Multilingual News' do
   pod 'SkeletonView'
   pod 'M13Checkbox'
   pod "KRProgressHUD"
+  pod 'SwiftLint'
 
 end

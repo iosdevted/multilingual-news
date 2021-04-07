@@ -76,16 +76,16 @@ extension ObservableType {
 }
 
 final private class DistinctUntilChangedSink<Observer: ObserverType, Key>: Sink<Observer>, ObserverType {
-    typealias Element = Observer.Element 
-    
+    typealias Element = Observer.Element
+
     private let parent: DistinctUntilChanged<Element, Key>
     private var currentKey: Key?
-    
+
     init(parent: DistinctUntilChanged<Element, Key>, observer: Observer, cancel: Cancelable) {
         self.parent = parent
         super.init(observer: observer, cancel: cancel)
     }
-    
+
     func on(_ event: Event<Element>) {
         switch event {
         case .next(let value):
@@ -95,16 +95,15 @@ final private class DistinctUntilChangedSink<Observer: ObserverType, Key>: Sink<
                 if let currentKey = self.currentKey {
                     areEqual = try self.parent.comparer(currentKey, key)
                 }
-                
+
                 if areEqual {
                     return
                 }
-                
+
                 self.currentKey = key
-                
+
                 self.forwardOn(event)
-            }
-            catch let error {
+            } catch let error {
                 self.forwardOn(.error(error))
                 self.dispose()
             }
@@ -118,17 +117,17 @@ final private class DistinctUntilChangedSink<Observer: ObserverType, Key>: Sink<
 final private class DistinctUntilChanged<Element, Key>: Producer<Element> {
     typealias KeySelector = (Element) throws -> Key
     typealias EqualityComparer = (Key, Key) throws -> Bool
-    
+
     private let source: Observable<Element>
     fileprivate let selector: KeySelector
     fileprivate let comparer: EqualityComparer
-    
+
     init(source: Observable<Element>, selector: @escaping KeySelector, comparer: @escaping EqualityComparer) {
         self.source = source
         self.selector = selector
         self.comparer = comparer
     }
-    
+
     override func run<Observer: ObserverType>(_ observer: Observer, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where Observer.Element == Element {
         let sink = DistinctUntilChangedSink(parent: self, observer: observer, cancel: cancel)
         let subscription = self.source.subscribe(sink)

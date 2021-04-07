@@ -10,9 +10,9 @@ import SnapKit
 import M13Checkbox
 
 class SettingsViewTableCell: UITableViewCell {
-    
-    //MARK: - Properties
-        
+
+    // MARK: - Properties
+
     var checkBox: M13Checkbox = {
        let cb = M13Checkbox()
         cb.cornerRadius = 1
@@ -25,14 +25,14 @@ class SettingsViewTableCell: UITableViewCell {
 //        cb.addTarget(self, action: #selector(checkboxValueChanged(_:)), for: .valueChanged)
         return cb
     }()
-    
+
     var languageImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        
+
         return imageView
     }()
-    
+
     var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15, weight: .light)
@@ -40,29 +40,29 @@ class SettingsViewTableCell: UITableViewCell {
         label.numberOfLines = 0
         return label
     }()
-    
-    //MARK: - Lifecycle
-    
+
+    // MARK: - Lifecycle
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureUI()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    //MARK: - Selectors
-    
+
+    // MARK: - Selectors
+
 //    @objc func checkboxValueChanged(_ sender: M13Checkbox) {
 //        print(sender.checkState)
 //    }
-    
-    //MARK: - Helpers
-    
+
+    // MARK: - Helpers
+
     private func configureUI() {
         selectionStyle = .none
-        
+
         addSubview(checkBox)
 
         checkBox.snp.makeConstraints { (make) -> Void in
@@ -70,7 +70,7 @@ class SettingsViewTableCell: UITableViewCell {
             make.leading.equalToSuperview().offset(23)
             make.centerY.equalToSuperview()
         }
-        
+
         addSubview(languageImageView)
 
         languageImageView.snp.makeConstraints { (make) -> Void in
@@ -78,14 +78,14 @@ class SettingsViewTableCell: UITableViewCell {
             make.leading.equalTo(checkBox.snp.trailing).offset(15)
             make.centerY.equalToSuperview()
         }
-        
+
         addSubview(titleLabel)
 
         titleLabel.snp.makeConstraints { (make) -> Void in
             make.leading.equalTo(languageImageView.snp.trailing).offset(15)
             make.centerY.equalToSuperview()
         }
-        
+
     }
-    
+
 }

@@ -23,30 +23,29 @@ extension ObservableType {
     }
 }
 
-final private class DelaySubscriptionSink<Observer: ObserverType>
-    : Sink<Observer>, ObserverType {
-    typealias Element = Observer.Element 
-    
+final private class DelaySubscriptionSink<Observer: ObserverType>: Sink<Observer>, ObserverType {
+    typealias Element = Observer.Element
+
     func on(_ event: Event<Element>) {
         self.forwardOn(event)
         if event.isStopEvent {
             self.dispose()
         }
     }
-    
+
 }
 
 final private class DelaySubscription<Element>: Producer<Element> {
     private let source: Observable<Element>
     private let dueTime: RxTimeInterval
     private let scheduler: SchedulerType
-    
+
     init(source: Observable<Element>, dueTime: RxTimeInterval, scheduler: SchedulerType) {
         self.source = source
         self.dueTime = dueTime
         self.scheduler = scheduler
     }
-    
+
     override func run<Observer: ObserverType>(_ observer: Observer, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where Observer.Element == Element {
         let sink = DelaySubscriptionSink(observer: observer, cancel: cancel)
         let subscription = self.scheduler.scheduleRelative((), dueTime: self.dueTime) { _ in

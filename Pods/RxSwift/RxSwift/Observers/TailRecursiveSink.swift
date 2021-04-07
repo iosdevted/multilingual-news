@@ -16,11 +16,9 @@ enum TailRecursiveSinkCommand {
 #endif
 
 /// This class is usually used with `Generator` version of the operators.
-class TailRecursiveSink<Sequence: Swift.Sequence, Observer: ObserverType>
-    : Sink<Observer>
-    , InvocableWithValueType where Sequence.Element: ObservableConvertibleType, Sequence.Element.Element == Observer.Element {
+class TailRecursiveSink<Sequence: Swift.Sequence, Observer: ObserverType>: Sink<Observer>, InvocableWithValueType where Sequence.Element: ObservableConvertibleType, Sequence.Element.Element == Observer.Element {
     typealias Value = TailRecursiveSinkCommand
-    typealias Element = Observer.Element 
+    typealias Element = Observer.Element
     typealias SequenceGenerator = (generator: Sequence.Iterator, remaining: IntMax?)
 
     var generators: [SequenceGenerator] = []
@@ -74,13 +72,13 @@ class TailRecursiveSink<Sequence: Swift.Sequence, Observer: ObserverType>
             guard let (g, left) = self.generators.last else {
                 break
             }
-            
+
             if self.isDisposed {
                 return
             }
 
             self.generators.removeLast()
-            
+
             var e = g
 
             guard let nextCandidate = e.next()?.asObservable() else {
@@ -100,8 +98,7 @@ class TailRecursiveSink<Sequence: Swift.Sequence, Observer: ObserverType>
                 if knownOriginalLeft - 1 >= 1 {
                     self.generators.append((e, knownOriginalLeft - 1))
                 }
-            }
-            else {
+            } else {
                 self.generators.append((e, nil))
             }
 
@@ -114,8 +111,7 @@ class TailRecursiveSink<Sequence: Swift.Sequence, Observer: ObserverType>
                         maxTailRecursiveSinkStackSize = self.generators.count
                     }
                 #endif
-            }
-            else {
+            } else {
                 next = nextCandidate
             }
         } while next == nil
@@ -141,11 +137,10 @@ class TailRecursiveSink<Sequence: Swift.Sequence, Observer: ObserverType>
 
     override func dispose() {
         super.dispose()
-        
+
         self.subscription.dispose()
         self.gate.dispose()
-        
+
         self.schedule(.dispose)
     }
 }
-

@@ -17,7 +17,7 @@ protocol CollectionSkeleton {
     var skeletonDataSource: SkeletonCollectionDataSource? { get set }
     var skeletonDelegate: SkeletonCollectionDelegate? { get set }
     var estimatedNumberOfRows: Int { get }
-    
+
     func addDummyDataSource()
     func updateDummyDataSource()
     func removeDummyDataSource(reloadAfter: Bool)
@@ -34,7 +34,7 @@ extension CollectionSkeleton where Self: UIScrollView {
         isUserInteractionEnabled = false
         isScrollEnabled = false
     }
-    
+
     func enableUserInteraction() {
         isUserInteractionEnabled = true
         isScrollEnabled = true

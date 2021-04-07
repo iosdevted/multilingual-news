@@ -25,18 +25,16 @@ extension ObservableType {
     }
 }
 
-final private class DelaySink<Observer: ObserverType>
-    : Sink<Observer>
-    , ObserverType {
-    typealias Element = Observer.Element 
+final private class DelaySink<Observer: ObserverType>: Sink<Observer>, ObserverType {
+    typealias Element = Observer.Element
     typealias Source = Observable<Element>
     typealias DisposeKey = Bag<Disposable>.KeyType
-    
+
     private let lock = RecursiveLock()
 
     private let dueTime: RxTimeInterval
     private let scheduler: SchedulerType
-    
+
     private let sourceSubscription = SingleAssignmentDisposable()
     private let cancelable = SerialDisposable()
 
@@ -48,7 +46,7 @@ final private class DelaySink<Observer: ObserverType>
 
     // state
     private var queue = Queue<(eventTime: RxTime, event: Event<Element>)>(capacity: 0)
-    
+
     init(observer: Observer, dueTime: RxTimeInterval, scheduler: SchedulerType, cancel: Cancelable) {
         self.dueTime = dueTime
         self.scheduler = scheduler
@@ -61,12 +59,12 @@ final private class DelaySink<Observer: ObserverType>
     //
     // Another complication is that scheduler is potentially concurrent so internal queue is used.
     func drainQueue(state: (), scheduler: AnyRecursiveScheduler<()>) {
-        self.lock.lock()    
+        self.lock.lock()
         let hasFailed = self.errorEvent != nil
         if !hasFailed {
             self.running = true
         }
-        self.lock.unlock()  
+        self.lock.unlock()
 
         if hasFailed {
             return
@@ -75,7 +73,7 @@ final private class DelaySink<Observer: ObserverType>
         var ranAtLeastOnce = false
 
         while true {
-            self.lock.lock() 
+            self.lock.lock()
             let errorEvent = self.errorEvent
 
             let eventToForwardImmediately = ranAtLeastOnce ? nil : self.queue.dequeue()?.event
@@ -83,23 +81,20 @@ final private class DelaySink<Observer: ObserverType>
 
             if errorEvent == nil {
                 if eventToForwardImmediately != nil {
-                }
-                else if nextEventToScheduleOriginalTime != nil {
+                } else if nextEventToScheduleOriginalTime != nil {
                     self.running = false
-                }
-                else {
+                } else {
                     self.running = false
                     self.active = false
                 }
             }
-            self.lock.unlock() 
+            self.lock.unlock()
 
             if let errorEvent = errorEvent {
                 self.forwardOn(errorEvent)
                 self.dispose()
                 return
-            }
-            else {
+            } else {
                 if let eventToForwardImmediately = eventToForwardImmediately {
                     ranAtLeastOnce = true
                     self.forwardOn(eventToForwardImmediately)
@@ -107,18 +102,16 @@ final private class DelaySink<Observer: ObserverType>
                         self.dispose()
                         return
                     }
-                }
-                else if let nextEventToScheduleOriginalTime = nextEventToScheduleOriginalTime {
+                } else if let nextEventToScheduleOriginalTime = nextEventToScheduleOriginalTime {
                     scheduler.schedule((), dueTime: self.dueTime.reduceWithSpanBetween(earlierDate: nextEventToScheduleOriginalTime, laterDate: self.scheduler.now))
                     return
-                }
-                else {
+                } else {
                     return
                 }
             }
         }
     }
-    
+
     func on(_ event: Event<Element>) {
         if event.isStopEvent {
             self.sourceSubscription.dispose()
@@ -126,29 +119,29 @@ final private class DelaySink<Observer: ObserverType>
 
         switch event {
         case .error:
-            self.lock.lock()    
+            self.lock.lock()
             let shouldSendImmediately = !self.running
             self.queue = Queue(capacity: 0)
             self.errorEvent = event
-            self.lock.unlock()  
+            self.lock.unlock()
 
             if shouldSendImmediately {
                 self.forwardOn(event)
                 self.dispose()
             }
         default:
-            self.lock.lock()    
+            self.lock.lock()
             let shouldSchedule = !self.active
             self.active = true
             self.queue.enqueue((self.scheduler.now, event))
-            self.lock.unlock()  
+            self.lock.unlock()
 
             if shouldSchedule {
                 self.cancelable.disposable = self.scheduler.scheduleRecursive((), dueTime: self.dueTime, action: self.drainQueue)
             }
         }
     }
-    
+
     func run(source: Observable<Element>) -> Disposable {
         self.sourceSubscription.setDisposable(source.subscribe(self))
         return Disposables.create(sourceSubscription, cancelable)
@@ -159,7 +152,7 @@ final private class Delay<Element>: Producer<Element> {
     private let source: Observable<Element>
     private let dueTime: RxTimeInterval
     private let scheduler: SchedulerType
-    
+
     init(source: Observable<Element>, dueTime: RxTimeInterval, scheduler: SchedulerType) {
         self.source = source
         self.dueTime = dueTime

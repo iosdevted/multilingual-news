@@ -16,13 +16,13 @@ extension UIView {
         collection.addDummyDataSource()
         collection.disableUserInteraction()
     }
-    
+
     func updateDummyDataSourceIfNeeded() {
         guard let collection = self as? CollectionSkeleton,
             !ProcessInfo.isRunningXCTest else { return }
         collection.updateDummyDataSource()
     }
-    
+
     func removeDummyDataSourceIfNeeded(reloadAfter reload: Bool = true) {
         guard let collection = self as? CollectionSkeleton,
             !ProcessInfo.isRunningXCTest else { return }

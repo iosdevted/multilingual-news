@@ -6,22 +6,22 @@ import UIKit
 struct SkeletonConfig {
     /// Type of skeleton layer
     let type: SkeletonType
-    
+
     /// Colors used in skeleton layer
     let colors: [UIColor]
-    
+
     /// If type is gradient, which gradient direction
     let gradientDirection: GradientDirection?
-    
+
     /// Specify if skeleton is animated or not
     let animated: Bool
-    
+
     /// Used to execute a custom animation
     let animation: SkeletonLayerAnimation?
-    
+
     ///  Transition style
     var transition: SkeletonTransitionStyle
-    
+
     init(type: SkeletonType,
          colors: [UIColor],
          gradientDirection: GradientDirection? = nil,

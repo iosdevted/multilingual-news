@@ -72,7 +72,7 @@ final private class ObserveOn<Element>: Producer<Element> {
 #endif
 }
 
-enum ObserveOnState : Int32 {
+enum ObserveOnState: Int32 {
     // pump is not running
     case stopped = 0
     // pump is running
@@ -80,7 +80,7 @@ enum ObserveOnState : Int32 {
 }
 
 final private class ObserveOnSink<Observer: ObserverType>: ObserverBase<Observer.Element> {
-    typealias Element = Observer.Element 
+    typealias Element = Observer.Element
 
     let scheduler: ImmediateSchedulerType
 
@@ -122,8 +122,7 @@ final private class ObserveOnSink<Observer: ObserverType>: ObserverBase<Observer
         let (nextEvent, observer) = self.lock.performLocked { () -> (Event<Element>?, Observer) in
             if !self.queue.isEmpty {
                 return (self.queue.dequeue(), self.observer)
-            }
-            else {
+            } else {
                 self.state = .stopped
                 return (nil, self.observer)
             }
@@ -134,8 +133,7 @@ final private class ObserveOnSink<Observer: ObserverType>: ObserverBase<Observer
             if nextEvent.isStopEvent {
                 self.dispose()
             }
-        }
-        else {
+        } else {
             return
         }
 

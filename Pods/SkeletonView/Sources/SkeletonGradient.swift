@@ -10,11 +10,11 @@ import UIKit
 
 public struct SkeletonGradient {
     private let gradientColors: [UIColor]
-    
+
     public var colors: [UIColor] {
         return gradientColors
     }
-    
+
     public init(baseColor: UIColor, secondaryColor: UIColor? = nil) {
         if let secondary = secondaryColor {
             self.gradientColors = [baseColor, secondary, baseColor]

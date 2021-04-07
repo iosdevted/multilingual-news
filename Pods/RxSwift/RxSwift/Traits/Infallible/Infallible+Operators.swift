@@ -499,8 +499,6 @@ extension InfallibleType {
     }
 }
 
-
-
 // MARK: - Take and Skip {
 extension InfallibleType {
     /**
@@ -664,7 +662,7 @@ extension InfallibleType {
     ) -> Infallible<Out> {
         Infallible(self.asObservable().withUnretained(obj, resultSelector: resultSelector))
     }
-    
+
     /**
      Provides an unretained, safe to use (i.e. not implicitly unwrapped), reference to an object along with the events emitted by the sequence.
      

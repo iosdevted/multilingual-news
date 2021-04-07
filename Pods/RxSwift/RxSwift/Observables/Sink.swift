@@ -55,7 +55,7 @@ class Sink<Observer: ObserverType>: Disposable {
 }
 
 final class SinkForward<Observer: ObserverType>: ObserverType {
-    typealias Element = Observer.Element 
+    typealias Element = Observer.Element
 
     private let forward: Sink<Observer>
 

@@ -15,10 +15,7 @@
         public typealias Delegate = UIPickerViewDelegate
     }
 
-    open class RxPickerViewDelegateProxy
-        : DelegateProxy<UIPickerView, UIPickerViewDelegate>
-        , DelegateProxyType 
-        , UIPickerViewDelegate {
+    open class RxPickerViewDelegateProxy: DelegateProxy<UIPickerView, UIPickerViewDelegate>, DelegateProxyType, UIPickerViewDelegate {
 
         /// Typed parent object.
         public weak private(set) var pickerView: UIPickerView?

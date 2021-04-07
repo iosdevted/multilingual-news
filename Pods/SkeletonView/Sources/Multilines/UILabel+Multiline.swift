@@ -8,19 +8,19 @@ public extension UILabel {
         get { return lastLineFillingPercent }
         set { lastLineFillingPercent = min(newValue, 100) }
     }
-    
+
     @IBInspectable
     var linesCornerRadius: Int {
         get { return multilineCornerRadius }
         set { multilineCornerRadius = newValue }
     }
-    
+
     @IBInspectable
     var skeletonLineSpacing: CGFloat {
         get { return multilineSpacing }
         set { multilineSpacing = newValue }
     }
-    
+
     var skeletonPaddingInsets: UIEdgeInsets {
         get { return paddingInsets }
         set { paddingInsets = newValue }
@@ -55,7 +55,7 @@ extension UILabel: ContainsMultilineText {
         get { return ao_get(pkey: &MultilineAssociatedKeys.paddingInsets) as? UIEdgeInsets ?? .zero }
         set { ao_set(newValue, pkey: &MultilineAssociatedKeys.paddingInsets) }
     }
-    
+
     var backupHeightConstraints: [NSLayoutConstraint] {
         get { return ao_get(pkey: &MultilineAssociatedKeys.backupHeightConstraints) as? [NSLayoutConstraint] ?? [] }
         set { ao_set(newValue, pkey: &MultilineAssociatedKeys.backupHeightConstraints) }

@@ -6,7 +6,7 @@ extension ProcessInfo {
     enum Constants {
         static let testConfigurationFilePathKey = "XCTestConfigurationFilePath"
     }
-    
+
     static var isRunningXCTest: Bool {
         return processInfo.environment[Constants.testConfigurationFilePathKey] != nil
     }

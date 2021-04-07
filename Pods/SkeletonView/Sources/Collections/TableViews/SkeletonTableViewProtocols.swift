@@ -18,7 +18,7 @@ public extension SkeletonTableViewDataSource {
     func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return skeletonView.estimatedNumberOfRows
     }
-    
+
     func numSections(in collectionSkeletonView: UITableView) -> Int { return 1 }
 
     /// Keeping the misspelled version around until it can be deprecated

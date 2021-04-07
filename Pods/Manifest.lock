@@ -12,6 +12,7 @@ PODS:
   - RxSwift (6.1.0)
   - SkeletonView (1.13.0)
   - SnapKit (4.2.0)
+  - SwiftLint (0.43.1)
 
 DEPENDENCIES:
   - Kingfisher (~> 6.0)
@@ -21,6 +22,7 @@ DEPENDENCIES:
   - RxSwift (~> 6.1.0)
   - SkeletonView
   - SnapKit (~> 4.0)
+  - SwiftLint
 
 SPEC REPOS:
   trunk:
@@ -33,6 +35,7 @@ SPEC REPOS:
     - RxSwift
     - SkeletonView
     - SnapKit
+    - SwiftLint
 
 SPEC CHECKSUMS:
   Kingfisher: e71c6fac2aebb1262888cabc2cb13d313362a48f
@@ -44,7 +47,8 @@ SPEC CHECKSUMS:
   RxSwift: a834e5c538e89eca0cae86f403f4fbf0336786ce
   SkeletonView: 2b14cb767a7da384d17d5d7e1db0d55a6cf9566a
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
+  SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
 
-PODFILE CHECKSUM: 61266f773567f66206bd9c287deecdebb98a481e
+PODFILE CHECKSUM: 61acfa9bd76eb05cc75d02750c3792706e38dd6e
 
 COCOAPODS: 1.10.1

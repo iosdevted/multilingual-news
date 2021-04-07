@@ -12,18 +12,16 @@ import UIKit
 import RxSwift
 
 // objc monkey business
-class _RxTableViewReactiveArrayDataSource
-    : NSObject
-    , UITableViewDataSource {
-    
+class _RxTableViewReactiveArrayDataSource: NSObject, UITableViewDataSource {
+
     func numberOfSections(in tableView: UITableView) -> Int {
         1
     }
-   
+
     func _tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         0
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         _tableView(tableView, numberOfRowsInSection: section)
     }
@@ -37,10 +35,7 @@ class _RxTableViewReactiveArrayDataSource
     }
 }
 
-
-class RxTableViewReactiveArrayDataSourceSequenceWrapper<Sequence: Swift.Sequence>
-    : RxTableViewReactiveArrayDataSource<Sequence.Element>
-    , RxTableViewDataSourceType {
+class RxTableViewReactiveArrayDataSourceSequenceWrapper<Sequence: Swift.Sequence>: RxTableViewReactiveArrayDataSource<Sequence.Element>, RxTableViewDataSourceType {
     typealias Element = Sequence
 
     override init(cellFactory: @escaping CellFactory) {
@@ -56,13 +51,11 @@ class RxTableViewReactiveArrayDataSourceSequenceWrapper<Sequence: Swift.Sequence
 }
 
 // Please take a look at `DelegateProxyType.swift`
-class RxTableViewReactiveArrayDataSource<Element>
-    : _RxTableViewReactiveArrayDataSource
-    , SectionedViewDataSourceType {
+class RxTableViewReactiveArrayDataSource<Element>: _RxTableViewReactiveArrayDataSource, SectionedViewDataSourceType {
     typealias CellFactory = (UITableView, Int, Element) -> UITableViewCell
-    
+
     var itemModels: [Element]?
-    
+
     func modelAtIndex(_ index: Int) -> Element? {
         itemModels?[index]
     }
@@ -76,24 +69,24 @@ class RxTableViewReactiveArrayDataSource<Element>
     }
 
     let cellFactory: CellFactory
-    
+
     init(cellFactory: @escaping CellFactory) {
         self.cellFactory = cellFactory
     }
-    
+
     override func _tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         itemModels?.count ?? 0
     }
-    
+
     override func _tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         cellFactory(tableView, indexPath.item, itemModels![indexPath.row])
     }
-    
+
     // reactive
-    
+
     func tableView(_ tableView: UITableView, observedElements: [Element]) {
         self.itemModels = observedElements
-        
+
         tableView.reloadData()
     }
 }

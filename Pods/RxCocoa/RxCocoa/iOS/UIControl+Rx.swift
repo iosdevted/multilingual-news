@@ -58,7 +58,7 @@ extension Reactive where Base: UIControl {
                         observer.on(.next(getter(control)))
                     }
                 }
-                
+
                 return Disposables.create(with: controlTarget.dispose)
             }
             .take(until: deallocated)

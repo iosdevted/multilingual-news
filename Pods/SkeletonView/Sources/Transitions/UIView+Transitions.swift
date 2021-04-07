@@ -22,7 +22,7 @@ extension UIView {
                 transitionBlock()
                 return
         }
-        
+
         if case let .crossDissolve(duration) = transitionStyle {
             UIView.transition(with: self,
                               duration: duration,

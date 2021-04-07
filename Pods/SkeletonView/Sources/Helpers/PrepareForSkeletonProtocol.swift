@@ -23,13 +23,13 @@ extension UILabel {
         let spaceNeededForEachLine = lineHeight * CGFloat(numberOfLines)
         let spaceNeededForSpaces = skeletonLineSpacing * CGFloat(numberOfLines - 1)
         let padding = paddingInsets.top + paddingInsets.bottom
-        
+
         return spaceNeededForEachLine + spaceNeededForSpaces + padding
     }
-    
+
     func updateHeightConstraintsIfNeeded() {
         guard numberOfLines > 1 else { return }
-        
+
         let desiredHeight = desiredHeightBasedOnNumberOfLines
         if desiredHeight > definedMaxHeight {
             backupHeightConstraints = heightConstraints
@@ -37,7 +37,7 @@ extension UILabel {
             setHeight(equalToConstant: desiredHeight)
         }
     }
-    
+
     func restoreBackupHeightConstraints() {
         heightConstraints.forEach {
             removeConstraint($0)
@@ -46,7 +46,7 @@ extension UILabel {
         NSLayoutConstraint.activate(backupHeightConstraints)
         backupHeightConstraints.removeAll()
     }
-    
+
     override func prepareViewForSkeleton() {
         backgroundColor = .clear
         isUserInteractionEnabled = false

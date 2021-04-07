@@ -15,10 +15,7 @@
         public typealias Delegate = NSTextStorageDelegate
     }
 
-    open class RxTextStorageDelegateProxy
-        : DelegateProxy<NSTextStorage, NSTextStorageDelegate>
-        , DelegateProxyType 
-        , NSTextStorageDelegate {
+    open class RxTextStorageDelegateProxy: DelegateProxy<NSTextStorage, NSTextStorageDelegate>, DelegateProxyType, NSTextStorageDelegate {
 
         /// Typed parent object.
         public weak private(set) var textStorage: NSTextStorage?

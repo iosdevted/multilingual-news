@@ -26,36 +26,34 @@ extension ObservableType {
 
 final private class GenerateSink<Sequence, Observer: ObserverType>: Sink<Observer> {
     typealias Parent = Generate<Sequence, Observer.Element>
-    
+
     private let parent: Parent
-    
+
     private var state: Sequence
-    
+
     init(parent: Parent, observer: Observer, cancel: Cancelable) {
         self.parent = parent
         self.state = parent.initialState
         super.init(observer: observer, cancel: cancel)
     }
-    
+
     func run() -> Disposable {
         return self.parent.scheduler.scheduleRecursive(true) { isFirst, recurse -> Void in
             do {
                 if !isFirst {
                     self.state = try self.parent.iterate(self.state)
                 }
-                
+
                 if try self.parent.condition(self.state) {
                     let result = try self.parent.resultSelector(self.state)
                     self.forwardOn(.next(result))
-                    
+
                     recurse(false)
-                }
-                else {
+                } else {
                     self.forwardOn(.completed)
                     self.dispose()
                 }
-            }
-            catch let error {
+            } catch let error {
                 self.forwardOn(.error(error))
                 self.dispose()
             }
@@ -69,7 +67,7 @@ final private class Generate<Sequence, Element>: Producer<Element> {
     fileprivate let iterate: (Sequence) throws -> Sequence
     fileprivate let resultSelector: (Sequence) throws -> Element
     fileprivate let scheduler: ImmediateSchedulerType
-    
+
     init(initialState: Sequence, condition: @escaping (Sequence) throws -> Bool, iterate: @escaping (Sequence) throws -> Sequence, resultSelector: @escaping (Sequence) throws -> Element, scheduler: ImmediateSchedulerType) {
         self.initialState = initialState
         self.condition = condition
@@ -78,7 +76,7 @@ final private class Generate<Sequence, Element>: Producer<Element> {
         self.scheduler = scheduler
         super.init()
     }
-    
+
     override func run<Observer: ObserverType>(_ observer: Observer, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where Observer.Element == Element {
         let sink = GenerateSink(parent: self, observer: observer, cancel: cancel)
         let subscription = sink.run()

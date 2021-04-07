@@ -8,8 +8,8 @@
 import UIKit
 
 class TabsPageViewController: UIPageViewController {
-    
-    //MARK: - Init
+
+    // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
 

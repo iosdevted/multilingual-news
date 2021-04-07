@@ -104,7 +104,7 @@ struct PriorityQueue<Element> {
     }
 }
 
-extension PriorityQueue : CustomDebugStringConvertible {
+extension PriorityQueue: CustomDebugStringConvertible {
     var debugDescription: String {
         elements.debugDescription
     }

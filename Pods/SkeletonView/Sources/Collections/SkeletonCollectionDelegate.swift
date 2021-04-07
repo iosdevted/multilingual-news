@@ -11,7 +11,7 @@ import UIKit
 class SkeletonCollectionDelegate: NSObject {
     weak var originalTableViewDelegate: SkeletonTableViewDelegate?
     weak var originalCollectionViewDelegate: SkeletonCollectionViewDelegate?
-    
+
     init(tableViewDelegate: SkeletonTableViewDelegate? = nil, collectionViewDelegate: SkeletonCollectionViewDelegate? = nil) {
         self.originalTableViewDelegate = tableViewDelegate
         self.originalCollectionViewDelegate = collectionViewDelegate
@@ -32,12 +32,12 @@ extension SkeletonCollectionDelegate: UITableViewDelegate {
         view.hideSkeleton()
         originalTableViewDelegate?.tableView?(tableView, didEndDisplayingHeaderView: view, forSection: section)
     }
-    
+
     func tableView(_ tableView: UITableView, didEndDisplayingFooterView view: UIView, forSection section: Int) {
         view.hideSkeleton()
         originalTableViewDelegate?.tableView?(tableView, didEndDisplayingFooterView: view, forSection: section)
     }
-    
+
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.hideSkeleton()
         originalTableViewDelegate?.tableView?(tableView, didEndDisplaying: cell, forRowAt: indexPath)

@@ -23,7 +23,7 @@ import Foundation
     let CGPointType = "{CGPoint=ff}"
 #endif
 
-extension CGRect : KVORepresentable {
+extension CGRect: KVORepresentable {
     public typealias KVOType = NSValue
 
     /// Constructs self from `NSValue`.
@@ -37,7 +37,7 @@ extension CGRect : KVORepresentable {
     }
 }
 
-extension CGPoint : KVORepresentable {
+extension CGPoint: KVORepresentable {
     public typealias KVOType = NSValue
 
     /// Constructs self from `NSValue`.
@@ -51,7 +51,7 @@ extension CGPoint : KVORepresentable {
     }
 }
 
-extension CGSize : KVORepresentable {
+extension CGSize: KVORepresentable {
     public typealias KVOType = NSValue
 
     /// Constructs self from `NSValue`.

@@ -8,7 +8,7 @@ public extension UIView {
         get { return skeletonable }
         set { skeletonable = newValue }
     }
-    
+
     @IBInspectable
     var isHiddenWhenSkeletonIsActive: Bool {
         get { return hiddenWhenSkeletonIsActive }
@@ -20,7 +20,7 @@ public extension UIView {
         get { return skeletonableCornerRadius }
         set { skeletonableCornerRadius = newValue }
     }
-    
+
     var isSkeletonActive: Bool {
         return status == .on || subviewsSkeletonables.contains(where: { $0.isSkeletonActive })
     }
@@ -29,7 +29,7 @@ public extension UIView {
         get { return ao_get(pkey: &ViewAssociatedKeys.skeletonable) as? Bool ?? false }
         set { ao_set(newValue, pkey: &ViewAssociatedKeys.skeletonable) }
     }
-    
+
     private var hiddenWhenSkeletonIsActive: Bool {
         get { return ao_get(pkey: &ViewAssociatedKeys.hiddenWhenSkeletonIsActive) as? Bool ?? false }
         set { ao_set(newValue, pkey: &ViewAssociatedKeys.hiddenWhenSkeletonIsActive) }

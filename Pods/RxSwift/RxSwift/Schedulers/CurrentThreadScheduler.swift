@@ -10,7 +10,7 @@ import Dispatch
 import Foundation
 
 #if os(Linux)
-    fileprivate enum CurrentThreadSchedulerQueueKey {
+    private enum CurrentThreadSchedulerQueueKey {
         fileprivate static let instance = "RxSwift.CurrentThreadScheduler.Queue"
     }
 #else
@@ -35,7 +35,7 @@ import Foundation
 /// This is the default scheduler for operators that generate elements.
 ///
 /// This scheduler is also sometimes called `trampoline scheduler`.
-public class CurrentThreadScheduler : ImmediateSchedulerType {
+public class CurrentThreadScheduler: ImmediateSchedulerType {
     typealias ScheduleQueue = RxMutableBox<Queue<ScheduledItemType>>
 
     /// The singleton instance of the current thread scheduler.
@@ -44,7 +44,7 @@ public class CurrentThreadScheduler : ImmediateSchedulerType {
     private static var isScheduleRequiredKey: pthread_key_t = { () -> pthread_key_t in
         let key = UnsafeMutablePointer<pthread_key_t>.allocate(capacity: 1)
         defer { key.deallocate() }
-                                                               
+
         guard pthread_key_create(key, nil) == 0 else {
             rxFatalError("isScheduleRequired key creation failed")
         }
@@ -56,7 +56,7 @@ public class CurrentThreadScheduler : ImmediateSchedulerType {
         return UnsafeRawPointer(UnsafeMutablePointer<Int>.allocate(capacity: 1))
     }()
 
-    static var queue : ScheduleQueue? {
+    static var queue: ScheduleQueue? {
         get {
             return Thread.getThreadLocalStorageValueForKey(CurrentThreadSchedulerQueueKey.instance)
         }
@@ -117,8 +117,7 @@ public class CurrentThreadScheduler : ImmediateSchedulerType {
         let queue: RxMutableBox<Queue<ScheduledItemType>>
         if let existingQueue = existingQueue {
             queue = existingQueue
-        }
-        else {
+        } else {
             queue = RxMutableBox(Queue<ScheduledItemType>(capacity: 1))
             CurrentThreadScheduler.queue = queue
         }
