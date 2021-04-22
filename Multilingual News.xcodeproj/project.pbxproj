@@ -204,6 +204,43 @@
 			path = "Multilingual NewsUITests";
 			sourceTree = "<group>";
 		};
+		9F7732902631509700E44B71 /* NewsVC */ = {
+			isa = PBXGroup;
+			children = (
+				9FD240952607343B003C2F2D /* FirstNewsViewController.swift */,
+				9FD2409826073448003C2F2D /* SecondNewsViewController.swift */,
+				9FD2409B26073453003C2F2D /* ThirdNewsViewController.swift */,
+				9FD2409E26073462003C2F2D /* FourthNewsViewController.swift */,
+			);
+			path = NewsVC;
+			sourceTree = "<group>";
+		};
+		9F773294263150B200E44B71 /* TabView */ = {
+			isa = PBXGroup;
+			children = (
+				9FD2408C26073221003C2F2D /* TabsView.swift */,
+				9FD2408F26073246003C2F2D /* TabCell.swift */,
+				9FD240B126075E29003C2F2D /* ArticleTableViewCell.swift */,
+			);
+			path = TabView;
+			sourceTree = "<group>";
+		};
+		9F773298263150BB00E44B71 /* MainHeaderView */ = {
+			isa = PBXGroup;
+			children = (
+				9FD2408726072F22003C2F2D /* TopHeaderView.swift */,
+			);
+			path = MainHeaderView;
+			sourceTree = "<group>";
+		};
+		9F77329C263150C400E44B71 /* SettingView */ = {
+			isa = PBXGroup;
+			children = (
+				9F3B228626089D0700A930FD /* SettingsViewTableCell.swift */,
+			);
+			path = SettingView;
+			sourceTree = "<group>";
+		};
 		9F9E42E9260B155F00E16C34 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -275,11 +312,9 @@
 		9FD2407F2607182B003C2F2D /* View */ = {
 			isa = PBXGroup;
 			children = (
-				9FD2408726072F22003C2F2D /* TopHeaderView.swift */,
-				9FD2408C26073221003C2F2D /* TabsView.swift */,
-				9FD2408F26073246003C2F2D /* TabCell.swift */,
-				9FD240B126075E29003C2F2D /* ArticleTableViewCell.swift */,
-				9F3B228626089D0700A930FD /* SettingsViewTableCell.swift */,
+				9F773298263150BB00E44B71 /* MainHeaderView */,
+				9F773294263150B200E44B71 /* TabView */,
+				9F77329C263150C400E44B71 /* SettingView */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -287,12 +322,9 @@
 		9FD2408026071833003C2F2D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				9F7732902631509700E44B71 /* NewsVC */,
 				9FD24066260715C1003C2F2D /* MainViewController.swift */,
 				9FD2409226073404003C2F2D /* TabsPageViewController.swift */,
-				9FD240952607343B003C2F2D /* FirstNewsViewController.swift */,
-				9FD2409826073448003C2F2D /* SecondNewsViewController.swift */,
-				9FD2409B26073453003C2F2D /* ThirdNewsViewController.swift */,
-				9FD2409E26073462003C2F2D /* FourthNewsViewController.swift */,
 				9F3B2283260898F100A930FD /* SettingViewController.swift */,
 			);
 			path = Controller;
