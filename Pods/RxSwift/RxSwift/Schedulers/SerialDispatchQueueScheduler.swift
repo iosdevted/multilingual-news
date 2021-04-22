@@ -26,17 +26,17 @@ In case some customization need to be made on it before usage,
 internal serial queue can be customized using `serialQueueConfiguration`
 callback.
 */
-public class SerialDispatchQueueScheduler: SchedulerType {
+public class SerialDispatchQueueScheduler : SchedulerType {
     public typealias TimeInterval = Foundation.TimeInterval
     public typealias Time = Date
-
+    
     /// - returns: Current time.
-    public var now: Date {
+    public var now : Date {
         Date()
     }
 
     let configuration: DispatchQueueConfiguration
-
+    
     /**
     Constructs new `SerialDispatchQueueScheduler` that wraps `serialQueue`.
 
@@ -61,7 +61,7 @@ public class SerialDispatchQueueScheduler: SchedulerType {
         serialQueueConfiguration?(queue)
         self.init(serialQueue: queue, leeway: leeway)
     }
-
+    
     /**
     Constructs new `SerialDispatchQueueScheduler` named `internalSerialQueueName` that wraps `queue`.
     
@@ -88,7 +88,7 @@ public class SerialDispatchQueueScheduler: SchedulerType {
     public convenience init(qos: DispatchQoS, internalSerialQueueName: String = "rx.global_dispatch_queue.serial", leeway: DispatchTimeInterval = DispatchTimeInterval.nanoseconds(0)) {
         self.init(queue: DispatchQueue.global(qos: qos.qosClass), internalSerialQueueName: internalSerialQueueName, leeway: leeway)
     }
-
+    
     /**
     Schedules an action to be executed immediately.
     
@@ -115,7 +115,7 @@ public class SerialDispatchQueueScheduler: SchedulerType {
     public final func scheduleRelative<StateType>(_ state: StateType, dueTime: RxTimeInterval, action: @escaping (StateType) -> Disposable) -> Disposable {
         self.configuration.scheduleRelative(state, dueTime: dueTime, action: action)
     }
-
+    
     /**
     Schedules a periodic piece of work.
     

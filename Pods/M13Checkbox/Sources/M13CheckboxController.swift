@@ -14,39 +14,39 @@
 import UIKit
 
 internal class M13CheckboxController {
-
-    // ----------------------------
+    
+    //----------------------------
     // MARK: - Properties
-    // ----------------------------
-
+    //----------------------------
+    
     /// The path presets for the manager.
     var pathGenerator: M13CheckboxPathGenerator = M13CheckboxCheckPathGenerator()
-
+    
     /// The animation presets for the manager.
     var animationGenerator: M13CheckboxAnimationGenerator = M13CheckboxAnimationGenerator()
-
+    
     /// The current state of the checkbox.
     var state: M13Checkbox.CheckState = DefaultValues.checkState
-
+    
     /// The current tint color.
     /// - Note: Subclasses should override didSet to update the layers when this value changes.
     var tintColor: UIColor = UIColor.black
-
+    
     /// The secondary tint color.
     /// - Note: Subclasses should override didSet to update the layers when this value changes.
     var secondaryTintColor: UIColor? = UIColor.lightGray
-
+    
     /// The secondary color of the mark.
     /// - Note: Subclasses should override didSet to update the layers when this value changes.
     var secondaryCheckmarkTintColor: UIColor? = UIColor.white
-
+    
     /// Whether or not to hide the box.
     /// - Note: Subclasses should override didSet to update the layers when this value changes.
     var hideBox: Bool = false
-
+    
     /// Whether or not to allow morphong between states.
     var enableMorphing: Bool = true
-
+    
     // The type of mark to display.
     var markType: M13Checkbox.MarkType {
         get {
@@ -56,9 +56,9 @@ internal class M13CheckboxController {
             setMarkType(type: newValue, animated: false)
         }
     }
-
+    
     private var _markType: M13Checkbox.MarkType = DefaultValues.markType
-
+    
     func setMarkType(type: M13Checkbox.MarkType, animated: Bool) {
         guard type != _markType else {
             return
@@ -66,7 +66,7 @@ internal class M13CheckboxController {
         _setMarkType(type: type, animated: animated)
         _markType = type
     }
-
+    
     private func _setMarkType(type: M13Checkbox.MarkType, animated: Bool) {
         var newPathGenerator: M13CheckboxPathGenerator
         switch type {
@@ -79,13 +79,13 @@ internal class M13CheckboxController {
         case .disclosure:
             newPathGenerator = M13CheckboxDisclosurePathGenerator()
         }
-
+        
         newPathGenerator.boxLineWidth = pathGenerator.boxLineWidth
         newPathGenerator.boxType = pathGenerator.boxType
         newPathGenerator.checkmarkLineWidth = pathGenerator.checkmarkLineWidth
         newPathGenerator.cornerRadius = pathGenerator.cornerRadius
         newPathGenerator.size = pathGenerator.size
-
+        
         // Animate the change.
         if pathGenerator.pathForMark(state) != nil && animated {
             let previousState = state
@@ -106,20 +106,20 @@ internal class M13CheckboxController {
             resetLayersForState(state)
         }
     }
-
-    // ----------------------------
+    
+    //----------------------------
     // MARK: - Layers
-    // ----------------------------
-
+    //----------------------------
+    
     /// The layers to display in the checkbox. The top layer is the last layer in the array.
     var layersToDisplay: [CALayer] {
         return []
     }
-
-    // ----------------------------
+    
+    //----------------------------
     // MARK: - Animations
-    // ----------------------------
-
+    //----------------------------
+    
     /**
      Animates the layers between the two states.
      - parameter fromState: The previous state of the checkbox.
@@ -130,20 +130,20 @@ internal class M13CheckboxController {
             state = toState
         }
     }
-
-    // ----------------------------
+    
+    //----------------------------
     // MARK: - Layout
-    // ----------------------------
-
+    //----------------------------
+    
     /// Layout the layers.
     func layoutLayers() {
-
+        
     }
-
-    // ----------------------------
+    
+    //----------------------------
     // MARK: - Display
-    // ----------------------------
-
+    //----------------------------
+    
     /**
      Reset the layers to be in the given state.
      - parameter state: The new state of the checkbox.
@@ -154,5 +154,5 @@ internal class M13CheckboxController {
         }
         layoutLayers()
     }
-
+    
 }

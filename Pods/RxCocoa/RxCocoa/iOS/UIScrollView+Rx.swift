@@ -21,7 +21,7 @@
         public var delegate: DelegateProxy<UIScrollView, UIScrollViewDelegate> {
             return RxScrollViewDelegateProxy.proxy(for: base)
         }
-
+        
         /// Reactive wrapper for `contentOffset`.
         public var contentOffset: ControlProperty<CGPoint> {
             let proxy = RxScrollViewDelegateProxy.proxy(for: base)
@@ -38,25 +38,25 @@
             let source = RxScrollViewDelegateProxy.proxy(for: base).contentOffsetPublishSubject
             return ControlEvent(events: source)
         }
-
+        
         /// Reactive wrapper for delegate method `scrollViewWillBeginDecelerating`
         public var willBeginDecelerating: ControlEvent<Void> {
             let source = delegate.methodInvoked(#selector(UIScrollViewDelegate.scrollViewWillBeginDecelerating(_:))).map { _ in }
             return ControlEvent(events: source)
         }
-
+    	
     	/// Reactive wrapper for delegate method `scrollViewDidEndDecelerating`
     	public var didEndDecelerating: ControlEvent<Void> {
     		let source = delegate.methodInvoked(#selector(UIScrollViewDelegate.scrollViewDidEndDecelerating(_:))).map { _ in }
     		return ControlEvent(events: source)
     	}
-
+    	
         /// Reactive wrapper for delegate method `scrollViewWillBeginDragging`
         public var willBeginDragging: ControlEvent<Void> {
             let source = delegate.methodInvoked(#selector(UIScrollViewDelegate.scrollViewWillBeginDragging(_:))).map { _ in }
             return ControlEvent(events: source)
         }
-
+        
         /// Reactive wrapper for delegate method `scrollViewWillEndDragging(_:withVelocity:targetContentOffset:)`
         public var willEndDragging: ControlEvent<WillEndDraggingEvent> {
             let source = delegate.methodInvoked(#selector(UIScrollViewDelegate.scrollViewWillEndDragging(_:withVelocity:targetContentOffset:)))
@@ -71,7 +71,7 @@
             }
             return ControlEvent(events: source)
         }
-
+        
     	/// Reactive wrapper for delegate method `scrollViewDidEndDragging(_:willDecelerate:)`
         public var didEndDragging: ControlEvent<Bool> {
     		let source = delegate.methodInvoked(#selector(UIScrollViewDelegate.scrollViewDidEndDragging(_:willDecelerate:))).map { value -> Bool in
@@ -86,18 +86,19 @@
             return ControlEvent(events: source)
         }
 
+
         /// Reactive wrapper for delegate method `scrollViewDidScrollToTop`
         public var didScrollToTop: ControlEvent<Void> {
             let source = delegate.methodInvoked(#selector(UIScrollViewDelegate.scrollViewDidScrollToTop(_:))).map { _ in }
             return ControlEvent(events: source)
         }
-
+        
         /// Reactive wrapper for delegate method `scrollViewDidEndScrollingAnimation`
         public var didEndScrollingAnimation: ControlEvent<Void> {
             let source = delegate.methodInvoked(#selector(UIScrollViewDelegate.scrollViewDidEndScrollingAnimation(_:))).map { _ in }
             return ControlEvent(events: source)
         }
-
+        
         /// Reactive wrapper for delegate method `scrollViewWillBeginZooming(_:with:)`
         public var willBeginZooming: ControlEvent<UIView?> {
             let source = delegate.methodInvoked(#selector(UIScrollViewDelegate.scrollViewWillBeginZooming(_:with:))).map { value -> UIView? in
@@ -105,7 +106,7 @@
             }
             return ControlEvent(events: source)
         }
-
+        
         /// Reactive wrapper for delegate method `scrollViewDidEndZooming(_:with:atScale:)`
         public var didEndZooming: ControlEvent<EndZoomEvent> {
             let source = delegate.methodInvoked(#selector(UIScrollViewDelegate.scrollViewDidEndZooming(_:with:atScale:))).map { value -> EndZoomEvent in

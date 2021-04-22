@@ -47,9 +47,9 @@ extension Reactive where Base: UICollectionView {
             let dataSource = RxCollectionViewReactiveArrayDataSourceSequenceWrapper<Sequence>(cellFactory: cellFactory)
             return self.items(dataSource: dataSource)(source)
         }
-
+        
     }
-
+    
     /**
     Binds sequences of elements to collection view items.
     
@@ -86,12 +86,13 @@ extension Reactive where Base: UICollectionView {
                     configureCell(i, item, cell)
                     return cell
                 }
-
+                    
                 return self.items(dataSource: dataSource)(source)
             }
         }
     }
 
+    
     /**
     Binds sequences of elements to collection view items using a custom reactive data used to perform the transformation.
     
@@ -136,7 +137,8 @@ extension Reactive where Base: UICollectionView {
             Source: ObservableType>
         (dataSource: DataSource)
         -> (_ source: Source)
-        -> Disposable where DataSource.Element == Source.Element {
+        -> Disposable where DataSource.Element == Source.Element
+          {
         return { source in
             // This is called for sideeffects only, and to make sure delegate proxy is in place when
             // data source is being bound.
@@ -166,7 +168,7 @@ extension Reactive where Base: UICollectionView {
     public var dataSource: DelegateProxy<UICollectionView, UICollectionViewDataSource> {
         RxCollectionViewDataSourceProxy.proxy(for: base)
     }
-
+    
     /// Installs data source as forwarding delegate on `rx.dataSource`.
     /// Data source won't be retained.
     ///
@@ -178,14 +180,14 @@ extension Reactive where Base: UICollectionView {
         -> Disposable {
         RxCollectionViewDataSourceProxy.installForwardDelegate(dataSource, retainDelegate: false, onProxyForObject: self.base)
     }
-
+   
     /// Reactive wrapper for `delegate` message `collectionView(_:didSelectItemAtIndexPath:)`.
     public var itemSelected: ControlEvent<IndexPath> {
         let source = delegate.methodInvoked(#selector(UICollectionViewDelegate.collectionView(_:didSelectItemAt:)))
             .map { a in
                 return try castOrThrow(IndexPath.self, a[1])
             }
-
+        
         return ControlEvent(events: source)
     }
 
@@ -205,7 +207,7 @@ extension Reactive where Base: UICollectionView {
             .map { a in
                 return try castOrThrow(IndexPath.self, a[1])
             }
-
+        
         return ControlEvent(events: source)
     }
 
@@ -215,7 +217,7 @@ extension Reactive where Base: UICollectionView {
             .map { a in
                 return try castOrThrow(IndexPath.self, a[1])
             }
-
+        
         return ControlEvent(events: source)
     }
 
@@ -225,7 +227,7 @@ extension Reactive where Base: UICollectionView {
             .map { a in
                 return (try castOrThrow(UICollectionViewCell.self, a[1]), try castOrThrow(IndexPath.self, a[2]))
             }
-
+        
         return ControlEvent(events: source)
     }
 
@@ -262,7 +264,7 @@ extension Reactive where Base: UICollectionView {
 
         return ControlEvent(events: source)
     }
-
+    
     /// Reactive wrapper for `delegate` message `collectionView(_:didSelectItemAtIndexPath:)`.
     ///
     /// It can be only used when one of the `rx.itemsWith*` methods is used to bind observable sequence,
@@ -280,7 +282,7 @@ extension Reactive where Base: UICollectionView {
 
             return Observable.just(try view.rx.model(at: indexPath))
         }
-
+        
         return ControlEvent(events: source)
     }
 
@@ -304,11 +306,11 @@ extension Reactive where Base: UICollectionView {
 
         return ControlEvent(events: source)
     }
-
+    
     /// Synchronous helper method for retrieving a model at indexPath through a reactive data source
     public func model<T>(at indexPath: IndexPath) throws -> T {
         let dataSource: SectionedViewDataSourceType = castOrFatalError(self.dataSource.forwardToDelegate(), message: "This method only works in case one of the `rx.itemsWith*` methods was used.")
-
+        
         let element = try dataSource.model(at: indexPath)
 
         return try castOrThrow(T.self, element)
@@ -361,7 +363,7 @@ extension Reactive where Base: UICollectionView {
 #if os(tvOS)
 
 extension Reactive where Base: UICollectionView {
-
+    
     /// Reactive wrapper for `delegate` message `collectionView(_:didUpdateFocusInContext:withAnimationCoordinator:)`.
     public var didUpdateFocusInContextWithAnimationCoordinator: ControlEvent<(context: UICollectionViewFocusUpdateContext, animationCoordinator: UIFocusAnimationCoordinator)> {
 

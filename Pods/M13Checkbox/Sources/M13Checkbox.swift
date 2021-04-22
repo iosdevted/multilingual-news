@@ -16,11 +16,11 @@ import UIKit
 /// A customizable checkbox control for iOS.
 @IBDesignable
 open class M13Checkbox: UIControl {
-
-    // ----------------------------
+    
+    //----------------------------
     // MARK: - Constants
-    // ----------------------------
-
+    //----------------------------
+    
     /**
     The possible states the check can be in.
     
@@ -36,7 +36,7 @@ open class M13Checkbox: UIControl {
         /// A dash is shown.
         case mixed = "Mixed"
     }
-
+    
     /**
      The possible shapes of the box.
      
@@ -49,7 +49,7 @@ open class M13Checkbox: UIControl {
         /// The box is square with optional rounded corners.
         case square = "Square"
     }
-
+    
     /**
      The possible shapes of the mark.
      
@@ -66,7 +66,7 @@ open class M13Checkbox: UIControl {
         /// The mark is a disclosure indicator.
         case disclosure = "Disclosure"
     }
-
+    
     /**
      The possible animations for switching to and from the unchecked state.
      */
@@ -87,7 +87,7 @@ open class M13Checkbox: UIControl {
         case fade(AnimationStyle)
         /// Start the box as a dot, and expand the box.
         case dot(AnimationStyle)
-
+        
         public init?(rawValue: String) {
             // Map the integer values to the animation types.
             // This is only for interface builder support. I would like this to be removed eventually.
@@ -122,7 +122,7 @@ open class M13Checkbox: UIControl {
                 return nil
             }
         }
-
+        
         public var rawValue: String {
             // Map the animation types to integer values.
             // This is only for interface builder support. I would like this to be removed eventually.
@@ -170,7 +170,7 @@ open class M13Checkbox: UIControl {
                 }
             }
         }
-
+        
         /// The manager for the specific animation type.
         fileprivate var manager: M13CheckboxController {
             switch self {
@@ -192,12 +192,12 @@ open class M13Checkbox: UIControl {
                 return M13CheckboxDotController(style: style)
             }
         }
-
+        
         public var hashValue: Int {
             return self.rawValue.hashValue
         }
     }
-
+    
     /**
      The possible animation styles.
      - Note: Not all animations support all styles.
@@ -208,29 +208,29 @@ open class M13Checkbox: UIControl {
         // The animation will focus on the fill.
         case fill = "Fill"
     }
-
-    // ----------------------------
+    
+    //----------------------------
     // MARK: - Properties
-    // ----------------------------
-
+    //----------------------------
+    
     /// The manager that manages display and animations of the checkbox.
     /// The default animation is a stroke.
     fileprivate var controller: M13CheckboxController = M13CheckboxStrokeController()
-
-    // ----------------------------
+    
+    //----------------------------
     // MARK: - Initalization
-    // ----------------------------
-
+    //----------------------------
+    
     override public init(frame: CGRect) {
         super.init(frame: frame)
         sharedSetup()
     }
-
+    
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         sharedSetup()
     }
-
+    
     /// The setup shared between initalizers.
     fileprivate func sharedSetup() {
         // Set up the inital state.
@@ -239,24 +239,24 @@ open class M13Checkbox: UIControl {
         }
         controller.tintColor = tintColor
         controller.resetLayersForState(DefaultValues.checkState)
-
+        
         let longPressGesture = M13CheckboxGestureRecognizer(target: self, action: #selector(M13Checkbox.handleLongPress(_:)))
         addGestureRecognizer(longPressGesture)
     }
-
-    // ----------------------------
+    
+    //----------------------------
     // MARK: - Values
-    // ----------------------------
-
+    //----------------------------
+    
     /// The object to return from `value` when the checkbox is checked.
     open var checkedValue: Any?
-
+    
     /// The object to return from `value` when the checkbox is unchecked.
     open var uncheckedValue: Any?
-
+    
     /// The object to return from `value` when the checkbox is mixed.
     open var mixedValue: Any?
-
+    
     /**
      Returns one of the three "value" properties depending on the checkbox state.
      - returns: The value coresponding to the checkbox state.
@@ -272,11 +272,11 @@ open class M13Checkbox: UIControl {
             return mixedValue
         }
     }
-
-    // ----------------------------
+    
+    //----------------------------
     // MARK: - State
-    // ----------------------------
-
+    //----------------------------
+    
     /// The current state of the checkbox.
     open var checkState: CheckState {
         get {
@@ -286,7 +286,7 @@ open class M13Checkbox: UIControl {
             setCheckState(newValue, animated: false)
         }
     }
-
+    
     /**
      Change the check state.
      - parameter checkState: The new state of the checkbox.
@@ -296,7 +296,7 @@ open class M13Checkbox: UIControl {
         if checkState == newState {
             return
         }
-
+        
         if animated {
             if enableMorphing {
                 controller.animate(checkState, toState: newState)
@@ -310,7 +310,7 @@ open class M13Checkbox: UIControl {
             controller.resetLayersForState(newState)
         }
     }
-
+    
     /**
      Toggle the check state between unchecked and checked.
      - parameter animated: Whether or not to animate the change. Defaults to false.
@@ -329,11 +329,11 @@ open class M13Checkbox: UIControl {
             break
         }
     }
-
-    // ----------------------------
+    
+    //----------------------------
     // MARK: - Animations
-    // ----------------------------
-
+    //----------------------------
+    
     /// The duration of the animation that occurs when the checkbox switches states. The default is 0.3 seconds.
     @IBInspectable open var animationDuration: TimeInterval {
         get {
@@ -343,11 +343,11 @@ open class M13Checkbox: UIControl {
             controller.animationGenerator.animationDuration = newValue
         }
     }
-
+    
     /// The type of animation to preform when changing from the unchecked state to any other state.
     open var stateChangeAnimation: Animation = DefaultValues.animation {
         didSet {
-
+            
             // Remove the sublayers
             if let layers = layer.sublayers {
                 for sublayer in layers {
@@ -355,10 +355,10 @@ open class M13Checkbox: UIControl {
                     sublayer.removeFromSuperlayer()
                 }
             }
-
+            
             // Set the manager
             let newManager = stateChangeAnimation.manager
-
+            
             newManager.tintColor = tintColor
             newManager.secondaryTintColor = secondaryTintColor
             newManager.secondaryCheckmarkTintColor = secondaryCheckmarkTintColor
@@ -368,19 +368,19 @@ open class M13Checkbox: UIControl {
             newManager.state = controller.state
             newManager.enableMorphing = controller.enableMorphing
             newManager.setMarkType(type: controller.markType, animated: false)
-
+            
             // Set up the inital state.
             for aLayer in newManager.layersToDisplay {
                 layer.addSublayer(aLayer)
             }
-
+            
             // Layout and reset
             newManager.resetLayersForState(checkState)
             controller = newManager
 
         }
     }
-
+    
     /// Whether or not to enable morphing between states.
     @IBInspectable open var enableMorphing: Bool {
         get {
@@ -390,11 +390,11 @@ open class M13Checkbox: UIControl {
             controller.enableMorphing = newValue
         }
     }
-
-    // ----------------------------
+    
+    //----------------------------
     // MARK: - UIControl
-    // ----------------------------
-
+    //----------------------------
+    
     @objc func handleLongPress(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began || sender.state == .changed {
             isSelected = true
@@ -406,11 +406,11 @@ open class M13Checkbox: UIControl {
             }
         }
     }
-
-    // ----------------------------
+    
+    //----------------------------
     // MARK: - Appearance
-    // ----------------------------
-
+    //----------------------------
+    
     /// The color of the checkbox's tint color when not in the unselected state. The tint color is is the main color used when not in the unselected state.
     @IBInspectable open var secondaryTintColor: UIColor? {
         get {
@@ -420,7 +420,7 @@ open class M13Checkbox: UIControl {
             controller.secondaryTintColor = newValue
         }
     }
-
+    
     /// The color of the checkmark when it is displayed against a filled background.
     @IBInspectable open var secondaryCheckmarkTintColor: UIColor? {
         get {
@@ -430,7 +430,7 @@ open class M13Checkbox: UIControl {
             controller.secondaryCheckmarkTintColor = newValue
         }
     }
-
+    
     /// The stroke width of the checkmark.
     @IBInspectable open var checkmarkLineWidth: CGFloat {
         get {
@@ -441,7 +441,7 @@ open class M13Checkbox: UIControl {
             controller.resetLayersForState(checkState)
         }
     }
-
+    
     /// The type of mark to display.
     open var markType: MarkType {
         get {
@@ -452,12 +452,12 @@ open class M13Checkbox: UIControl {
             setNeedsLayout()
         }
     }
-
+    
     /// Set the mark type with the option of animating the change.
     open func setMarkType(markType: MarkType, animated: Bool) {
         controller.setMarkType(type: markType, animated: animated)
     }
-
+    
     /// The stroke width of the box.
     @IBInspectable open var boxLineWidth: CGFloat {
         get {
@@ -468,7 +468,7 @@ open class M13Checkbox: UIControl {
             controller.resetLayersForState(checkState)
         }
     }
-
+    
     /// The corner radius of the box if the box type is square.
     @IBInspectable open var cornerRadius: CGFloat {
         get {
@@ -479,7 +479,7 @@ open class M13Checkbox: UIControl {
             setNeedsLayout()
         }
     }
-
+    
     /// The shape of the checkbox.
     open var boxType: BoxType {
         get {
@@ -490,7 +490,7 @@ open class M13Checkbox: UIControl {
             setNeedsLayout()
         }
     }
-
+    
     /// Wether or not to hide the checkbox.
     @IBInspectable open var hideBox: Bool {
         get {
@@ -500,16 +500,16 @@ open class M13Checkbox: UIControl {
             controller.hideBox = newValue
         }
     }
-
+    
     open override func tintColorDidChange() {
         super.tintColorDidChange()
         controller.tintColor = tintColor
     }
-
-    // ----------------------------
+    
+    //----------------------------
     // MARK: - Layout
-    // ----------------------------
-
+    //----------------------------
+    
     open override func layoutSubviews() {
         super.layoutSubviews()
         // Update size

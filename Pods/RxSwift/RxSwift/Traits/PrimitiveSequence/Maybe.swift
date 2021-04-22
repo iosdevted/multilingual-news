@@ -18,17 +18,17 @@ public typealias Maybe<Element> = PrimitiveSequence<MaybeTrait, Element>
 @frozen public enum MaybeEvent<Element> {
     /// One and only sequence element is produced. (underlying observable sequence emits: `.next(Element)`, `.completed`)
     case success(Element)
-
+    
     /// Sequence terminated with an error. (underlying observable sequence emits: `.error(Error)`)
     case error(Swift.Error)
-
+    
     /// Sequence completed successfully.
     case completed
 }
 
 extension PrimitiveSequenceType where Trait == MaybeTrait {
     public typealias MaybeObserver = (MaybeEvent<Element>) -> Void
-
+    
     /**
      Creates an observable sequence from a specified subscribe method implementation.
      
@@ -51,10 +51,10 @@ extension PrimitiveSequenceType where Trait == MaybeTrait {
                 }
             }
         }
-
+        
         return PrimitiveSequence(raw: source)
     }
-
+    
     /**
      Subscribes `observer` to receive events for this sequence.
      
@@ -65,7 +65,7 @@ extension PrimitiveSequenceType where Trait == MaybeTrait {
         return self.primitiveSequence.asObservable().subscribe { event in
             if stopped { return }
             stopped = true
-
+            
             switch event {
             case .next(let element):
                 observer(.success(element))
@@ -76,7 +76,7 @@ extension PrimitiveSequenceType where Trait == MaybeTrait {
             }
         }
     }
-
+    
     /**
      Subscribes a success handler, an error handler, and a completion handler for this sequence.
      
@@ -118,7 +118,7 @@ extension PrimitiveSequenceType where Trait == MaybeTrait {
             }
         )
     }
-
+    
     /**
      Subscribes a success handler, an error handler, and a completion handler for this sequence.
      
@@ -182,7 +182,7 @@ extension PrimitiveSequenceType where Trait == MaybeTrait {
     public static func just(_ element: Element) -> Maybe<Element> {
         Maybe(raw: Observable.just(element))
     }
-
+    
     /**
      Returns an observable sequence that contains a single element.
      
@@ -269,7 +269,7 @@ extension PrimitiveSequenceType where Trait == MaybeTrait {
                 onDispose: onDispose)
             )
     }
-
+    
     /**
      Filters the elements of an observable sequence based on a predicate.
      
@@ -282,7 +282,7 @@ extension PrimitiveSequenceType where Trait == MaybeTrait {
         -> Maybe<Element> {
             return Maybe(raw: self.primitiveSequence.source.filter(predicate))
     }
-
+    
     /**
      Projects each element of an observable sequence into a new form.
      

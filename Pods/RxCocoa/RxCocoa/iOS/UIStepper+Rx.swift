@@ -12,7 +12,7 @@ import UIKit
 import RxSwift
 
 extension Reactive where Base: UIStepper {
-
+    
     /// Reactive wrapper for `value` property.
     public var value: ControlProperty<Double> {
         return base.rx.controlPropertyWithDefaultEvents(
@@ -26,3 +26,4 @@ extension Reactive where Base: UIStepper {
 }
 
 #endif
+

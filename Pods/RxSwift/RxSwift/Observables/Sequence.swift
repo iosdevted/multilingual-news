@@ -63,7 +63,8 @@ final private class ObservableSequenceSink<Sequence: Swift.Sequence, Observer: O
             if let next = mutableIterator.next() {
                 self.forwardOn(.next(next))
                 recurse(mutableIterator)
-            } else {
+            }
+            else {
                 self.forwardOn(.completed)
                 self.dispose()
             }

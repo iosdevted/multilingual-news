@@ -136,7 +136,7 @@ extension SharedSequenceConvertibleType where SharingStrategy == DriverSharingSt
         MainScheduler.ensureRunningOnMainThread(errorMessage: errorMessage)
         return with(self.asObservable())(curriedArgument)
     }
-
+    
     /**
     Subscribes an element handler, a completion handler and disposed handler to an observable sequence.
     This method can be only called from `MainThread`.
@@ -164,7 +164,7 @@ extension SharedSequenceConvertibleType where SharingStrategy == DriverSharingSt
         MainScheduler.ensureRunningOnMainThread(errorMessage: errorMessage)
         return self.asObservable().subscribe(with: object, onNext: onNext, onCompleted: onCompleted, onDisposed: onDisposed)
     }
-
+    
     /**
     Subscribes an element handler, a completion handler and disposed handler to an observable sequence.
     This method can be only called from `MainThread`.
@@ -199,3 +199,5 @@ extension SharedSequenceConvertibleType where SharingStrategy == DriverSharingSt
         drive(onNext: nil, onCompleted: nil, onDisposed: nil)
     }
 }
+
+

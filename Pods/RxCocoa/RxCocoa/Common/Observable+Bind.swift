@@ -61,7 +61,7 @@ extension ObservableType {
     public func bind<R1, R2>(to binder: (Self) -> (R1) -> R2, curriedArgument: R1) -> R2 {
         binder(self)(curriedArgument)
     }
-
+    
     /**
     Subscribes an element handler to an observable sequence.
     In case error occurs in debug mode, `fatalError` will be raised.
@@ -85,7 +85,7 @@ extension ObservableType {
             rxFatalErrorInDebug("Binding error: \(error)")
         })
     }
-
+    
     /**
     Subscribes an element handler to an observable sequence.
     In case error occurs in debug mode, `fatalError` will be raised.

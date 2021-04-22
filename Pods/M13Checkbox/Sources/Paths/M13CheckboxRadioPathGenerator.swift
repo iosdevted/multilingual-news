@@ -14,11 +14,11 @@
 import UIKit
 
 internal class M13CheckboxRadioPathGenerator: M13CheckboxPathGenerator {
-
-    // ----------------------------
+    
+    //----------------------------
     // MARK: - Mark Generation
-    // ----------------------------
-
+    //----------------------------
+    
     override func pathForMark() -> UIBezierPath? {
         let transform = CGAffineTransform(scaleX: 0.665, y: 0.665)
         let translate = CGAffineTransform(translationX: size * 0.1675, y: size * 0.1675)
@@ -27,7 +27,7 @@ internal class M13CheckboxRadioPathGenerator: M13CheckboxPathGenerator {
         path?.apply(translate)
         return path
     }
-
+    
     override func pathForLongMark() -> UIBezierPath? {
         return pathForBox()
     }
@@ -35,7 +35,7 @@ internal class M13CheckboxRadioPathGenerator: M13CheckboxPathGenerator {
     override func pathForMixedMark() -> UIBezierPath? {
         return pathForMark()
     }
-
+    
     override func pathForLongMixedMark() -> UIBezierPath? {
         return pathForBox()
     }
@@ -43,8 +43,9 @@ internal class M13CheckboxRadioPathGenerator: M13CheckboxPathGenerator {
     override func pathForUnselectedMark() -> UIBezierPath? {
         return nil
     }
-
+    
     override func pathForLongUnselectedMark() -> UIBezierPath? {
         return nil
     }
 }
+

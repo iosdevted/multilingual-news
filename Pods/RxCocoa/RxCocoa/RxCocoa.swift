@@ -17,7 +17,9 @@ import RxSwift
 #endif
 
 /// RxCocoa errors.
-public enum RxCocoaError: Swift.Error, CustomDebugStringConvertible {
+public enum RxCocoaError
+    : Swift.Error
+    , CustomDebugStringConvertible {
     /// Unknown error has occurred.
     case unknown
     /// Invalid operation was attempted.
@@ -33,6 +35,7 @@ public enum RxCocoaError: Swift.Error, CustomDebugStringConvertible {
     /// Casting error.
     case castingError(object: Any, targetType: Any.Type)
 }
+
 
 // MARK: Debug descriptions
 
@@ -58,6 +61,8 @@ extension RxCocoaError {
     }
 }
 
+
+
 // MARK: Error binding policies
 
 func bindingError(_ error: Swift.Error) {
@@ -74,7 +79,7 @@ func rxAbstractMethod(message: String = "Abstract method", file: StaticString = 
     rxFatalError(message, file: file, line: line)
 }
 
-func rxFatalError(_ lastMessage: @autoclosure () -> String, file: StaticString = #file, line: UInt = #line) -> Swift.Never {
+func rxFatalError(_ lastMessage: @autoclosure () -> String, file: StaticString = #file, line: UInt = #line) -> Swift.Never  {
     // The temptation to comment this line is great, but please don't, it's for your own good. The choice is yours.
     fatalError(lastMessage(), file: file, line: line)
 }
@@ -123,7 +128,7 @@ func castOrFatalError<T>(_ value: AnyObject!, message: String) -> T {
     guard let result = maybeResult else {
         rxFatalError(message)
     }
-
+    
     return result
 }
 
@@ -132,7 +137,7 @@ func castOrFatalError<T>(_ value: Any!) -> T {
     guard let result = maybeResult else {
         rxFatalError("Failure converting from \(String(describing: value)) to \(T.self)")
     }
-
+    
     return result
 }
 
@@ -143,7 +148,8 @@ let delegateNotSet = "Delegate not set"
 
 // MARK: Shared with RxSwift
 
-func rxFatalError(_ lastMessage: String) -> Never {
+func rxFatalError(_ lastMessage: String) -> Never  {
     // The temptation to comment this line is great, but please don't, it's for your own good. The choice is yours.
     fatalError(lastMessage)
 }
+

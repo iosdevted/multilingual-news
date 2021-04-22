@@ -7,6 +7,8 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
+
+
 // 2
 
 extension ObservableType {
@@ -46,7 +48,7 @@ extension ObservableType where Element == Any {
     }
 }
 
-final class CombineLatestSink2_<E1, E2, Observer: ObserverType>: CombineLatestSink<Observer> {
+final class CombineLatestSink2_<E1, E2, Observer: ObserverType> : CombineLatestSink<Observer> {
     typealias Result = Observer.Element
     typealias Parent = CombineLatest2<E1, E2, Result>
 
@@ -81,7 +83,7 @@ final class CombineLatestSink2_<E1, E2, Observer: ObserverType>: CombineLatestSi
     }
 }
 
-final class CombineLatest2<E1, E2, Result>: Producer<Result> {
+final class CombineLatest2<E1, E2, Result> : Producer<Result> {
     typealias ResultSelector = (E1, E2) throws -> Result
 
     let source1: Observable<E1>
@@ -102,6 +104,8 @@ final class CombineLatest2<E1, E2, Result>: Producer<Result> {
         return (sink: sink, subscription: subscription)
     }
 }
+
+
 
 // 3
 
@@ -142,7 +146,7 @@ extension ObservableType where Element == Any {
     }
 }
 
-final class CombineLatestSink3_<E1, E2, E3, Observer: ObserverType>: CombineLatestSink<Observer> {
+final class CombineLatestSink3_<E1, E2, E3, Observer: ObserverType> : CombineLatestSink<Observer> {
     typealias Result = Observer.Element
     typealias Parent = CombineLatest3<E1, E2, E3, Result>
 
@@ -182,7 +186,7 @@ final class CombineLatestSink3_<E1, E2, E3, Observer: ObserverType>: CombineLate
     }
 }
 
-final class CombineLatest3<E1, E2, E3, Result>: Producer<Result> {
+final class CombineLatest3<E1, E2, E3, Result> : Producer<Result> {
     typealias ResultSelector = (E1, E2, E3) throws -> Result
 
     let source1: Observable<E1>
@@ -205,6 +209,8 @@ final class CombineLatest3<E1, E2, E3, Result>: Producer<Result> {
         return (sink: sink, subscription: subscription)
     }
 }
+
+
 
 // 4
 
@@ -245,7 +251,7 @@ extension ObservableType where Element == Any {
     }
 }
 
-final class CombineLatestSink4_<E1, E2, E3, E4, Observer: ObserverType>: CombineLatestSink<Observer> {
+final class CombineLatestSink4_<E1, E2, E3, E4, Observer: ObserverType> : CombineLatestSink<Observer> {
     typealias Result = Observer.Element
     typealias Parent = CombineLatest4<E1, E2, E3, E4, Result>
 
@@ -290,7 +296,7 @@ final class CombineLatestSink4_<E1, E2, E3, E4, Observer: ObserverType>: Combine
     }
 }
 
-final class CombineLatest4<E1, E2, E3, E4, Result>: Producer<Result> {
+final class CombineLatest4<E1, E2, E3, E4, Result> : Producer<Result> {
     typealias ResultSelector = (E1, E2, E3, E4) throws -> Result
 
     let source1: Observable<E1>
@@ -315,6 +321,8 @@ final class CombineLatest4<E1, E2, E3, E4, Result>: Producer<Result> {
         return (sink: sink, subscription: subscription)
     }
 }
+
+
 
 // 5
 
@@ -355,7 +363,7 @@ extension ObservableType where Element == Any {
     }
 }
 
-final class CombineLatestSink5_<E1, E2, E3, E4, E5, Observer: ObserverType>: CombineLatestSink<Observer> {
+final class CombineLatestSink5_<E1, E2, E3, E4, E5, Observer: ObserverType> : CombineLatestSink<Observer> {
     typealias Result = Observer.Element
     typealias Parent = CombineLatest5<E1, E2, E3, E4, E5, Result>
 
@@ -405,7 +413,7 @@ final class CombineLatestSink5_<E1, E2, E3, E4, E5, Observer: ObserverType>: Com
     }
 }
 
-final class CombineLatest5<E1, E2, E3, E4, E5, Result>: Producer<Result> {
+final class CombineLatest5<E1, E2, E3, E4, E5, Result> : Producer<Result> {
     typealias ResultSelector = (E1, E2, E3, E4, E5) throws -> Result
 
     let source1: Observable<E1>
@@ -432,6 +440,8 @@ final class CombineLatest5<E1, E2, E3, E4, E5, Result>: Producer<Result> {
         return (sink: sink, subscription: subscription)
     }
 }
+
+
 
 // 6
 
@@ -472,7 +482,7 @@ extension ObservableType where Element == Any {
     }
 }
 
-final class CombineLatestSink6_<E1, E2, E3, E4, E5, E6, Observer: ObserverType>: CombineLatestSink<Observer> {
+final class CombineLatestSink6_<E1, E2, E3, E4, E5, E6, Observer: ObserverType> : CombineLatestSink<Observer> {
     typealias Result = Observer.Element
     typealias Parent = CombineLatest6<E1, E2, E3, E4, E5, E6, Result>
 
@@ -527,7 +537,7 @@ final class CombineLatestSink6_<E1, E2, E3, E4, E5, E6, Observer: ObserverType>:
     }
 }
 
-final class CombineLatest6<E1, E2, E3, E4, E5, E6, Result>: Producer<Result> {
+final class CombineLatest6<E1, E2, E3, E4, E5, E6, Result> : Producer<Result> {
     typealias ResultSelector = (E1, E2, E3, E4, E5, E6) throws -> Result
 
     let source1: Observable<E1>
@@ -556,6 +566,8 @@ final class CombineLatest6<E1, E2, E3, E4, E5, E6, Result>: Producer<Result> {
         return (sink: sink, subscription: subscription)
     }
 }
+
+
 
 // 7
 
@@ -596,7 +608,7 @@ extension ObservableType where Element == Any {
     }
 }
 
-final class CombineLatestSink7_<E1, E2, E3, E4, E5, E6, E7, Observer: ObserverType>: CombineLatestSink<Observer> {
+final class CombineLatestSink7_<E1, E2, E3, E4, E5, E6, E7, Observer: ObserverType> : CombineLatestSink<Observer> {
     typealias Result = Observer.Element
     typealias Parent = CombineLatest7<E1, E2, E3, E4, E5, E6, E7, Result>
 
@@ -656,7 +668,7 @@ final class CombineLatestSink7_<E1, E2, E3, E4, E5, E6, E7, Observer: ObserverTy
     }
 }
 
-final class CombineLatest7<E1, E2, E3, E4, E5, E6, E7, Result>: Producer<Result> {
+final class CombineLatest7<E1, E2, E3, E4, E5, E6, E7, Result> : Producer<Result> {
     typealias ResultSelector = (E1, E2, E3, E4, E5, E6, E7) throws -> Result
 
     let source1: Observable<E1>
@@ -687,6 +699,8 @@ final class CombineLatest7<E1, E2, E3, E4, E5, E6, E7, Result>: Producer<Result>
         return (sink: sink, subscription: subscription)
     }
 }
+
+
 
 // 8
 
@@ -727,7 +741,7 @@ extension ObservableType where Element == Any {
     }
 }
 
-final class CombineLatestSink8_<E1, E2, E3, E4, E5, E6, E7, E8, Observer: ObserverType>: CombineLatestSink<Observer> {
+final class CombineLatestSink8_<E1, E2, E3, E4, E5, E6, E7, E8, Observer: ObserverType> : CombineLatestSink<Observer> {
     typealias Result = Observer.Element
     typealias Parent = CombineLatest8<E1, E2, E3, E4, E5, E6, E7, E8, Result>
 
@@ -792,7 +806,7 @@ final class CombineLatestSink8_<E1, E2, E3, E4, E5, E6, E7, E8, Observer: Observ
     }
 }
 
-final class CombineLatest8<E1, E2, E3, E4, E5, E6, E7, E8, Result>: Producer<Result> {
+final class CombineLatest8<E1, E2, E3, E4, E5, E6, E7, E8, Result> : Producer<Result> {
     typealias ResultSelector = (E1, E2, E3, E4, E5, E6, E7, E8) throws -> Result
 
     let source1: Observable<E1>
@@ -825,3 +839,5 @@ final class CombineLatest8<E1, E2, E3, E4, E5, E6, E7, E8, Result>: Producer<Res
         return (sink: sink, subscription: subscription)
     }
 }
+
+

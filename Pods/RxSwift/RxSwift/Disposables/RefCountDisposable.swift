@@ -7,7 +7,7 @@
 //
 
 /// Represents a disposable resource that only disposes its underlying disposable resource when all dependent disposable objects have been disposed.
-public final class RefCountDisposable: DisposeBase, Cancelable {
+public final class RefCountDisposable : DisposeBase, Cancelable {
     private var lock = SpinLock()
     private var disposable = nil as Disposable?
     private var primaryDisposed = false
@@ -93,7 +93,8 @@ public final class RefCountDisposable: DisposeBase, Cancelable {
     }
 }
 
-internal final class RefCountInnerDisposable: DisposeBase, Disposable {
+internal final class RefCountInnerDisposable: DisposeBase, Disposable
+{
     private let parent: RefCountDisposable
     private let isDisposed = AtomicInt(0)
 
@@ -102,7 +103,8 @@ internal final class RefCountInnerDisposable: DisposeBase, Disposable {
         super.init()
     }
 
-    internal func dispose() {
+    internal func dispose()
+    {
         if fetchOr(self.isDisposed, 1) == 0 {
             self.parent.release()
         }

@@ -5,7 +5,7 @@
 //  Created by Ted on 2021/03/22.
 //
 
-import UIKit
+import Foundation
 
 struct Setting {
     var isChecked: Bool

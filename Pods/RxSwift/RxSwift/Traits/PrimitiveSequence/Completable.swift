@@ -18,14 +18,14 @@ public typealias Completable = PrimitiveSequence<CompletableTrait, Swift.Never>
 @frozen public enum CompletableEvent {
     /// Sequence terminated with an error. (underlying observable sequence emits: `.error(Error)`)
     case error(Swift.Error)
-
+    
     /// Sequence completed successfully.
     case completed
 }
 
 extension PrimitiveSequenceType where Trait == CompletableTrait, Element == Swift.Never {
     public typealias CompletableObserver = (CompletableEvent) -> Void
-
+    
     /**
      Creates an observable sequence from a specified subscribe method implementation.
      
@@ -45,10 +45,10 @@ extension PrimitiveSequenceType where Trait == CompletableTrait, Element == Swif
                 }
             }
         }
-
+        
         return PrimitiveSequence(raw: source)
     }
-
+    
     /**
      Subscribes `observer` to receive events for this sequence.
      
@@ -59,7 +59,7 @@ extension PrimitiveSequenceType where Trait == CompletableTrait, Element == Swif
         return self.primitiveSequence.asObservable().subscribe { event in
             if stopped { return }
             stopped = true
-
+            
             switch event {
             case .next:
                 rxFatalError("Completables can't emit values")
@@ -70,7 +70,7 @@ extension PrimitiveSequenceType where Trait == CompletableTrait, Element == Swif
             }
         }
     }
-
+    
     /**
      Subscribes a completion handler and an error handler for this sequence.
      
@@ -104,7 +104,7 @@ extension PrimitiveSequenceType where Trait == CompletableTrait, Element == Swif
             }
         )
     }
-
+    
     /**
      Subscribes a completion handler and an error handler for this sequence.
      
@@ -223,6 +223,8 @@ extension PrimitiveSequenceType where Trait == CompletableTrait, Element == Swif
             )
     }
 
+
+
     /**
      Concatenates the second observable sequence to `self` upon successful termination of `self`.
      
@@ -234,7 +236,7 @@ extension PrimitiveSequenceType where Trait == CompletableTrait, Element == Swif
     public func concat(_ second: Completable) -> Completable {
         Completable.concat(self.primitiveSequence, second)
     }
-
+    
     /**
      Concatenates all observable sequences in the given sequence, as long as the previous observable sequence terminated successfully.
      
@@ -247,7 +249,7 @@ extension PrimitiveSequenceType where Trait == CompletableTrait, Element == Swif
             let source = Observable.concat(sequence.lazy.map { $0.asObservable() })
             return Completable(raw: source)
     }
-
+    
     /**
      Concatenates all observable sequences in the given sequence, as long as the previous observable sequence terminated successfully.
      
@@ -260,7 +262,7 @@ extension PrimitiveSequenceType where Trait == CompletableTrait, Element == Swif
             let source = Observable.concat(collection.map { $0.asObservable() })
             return Completable(raw: source)
     }
-
+    
     /**
      Concatenates all observable sequences in the given sequence, as long as the previous observable sequence terminated successfully.
      

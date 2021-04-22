@@ -23,8 +23,12 @@ extension ObservableType {
     }
 }
 
-final private class DebounceSink<Observer: ObserverType>: Sink<Observer>, ObserverType, LockOwnerType, SynchronizedOnType {
-    typealias Element = Observer.Element
+final private class DebounceSink<Observer: ObserverType>
+    : Sink<Observer>
+    , ObserverType
+    , LockOwnerType
+    , SynchronizedOnType {
+    typealias Element = Observer.Element 
     typealias ParentType = Debounce<Element>
 
     private let parent: ParentType
@@ -59,6 +63,7 @@ final private class DebounceSink<Observer: ObserverType>: Sink<Observer>, Observ
             self.id = self.id &+ 1
             let currentId = self.id
             self.value = element
+
 
             let scheduler = self.parent.scheduler
             let dueTime = self.parent.dueTime
@@ -110,5 +115,5 @@ final private class Debounce<Element>: Producer<Element> {
         let subscription = sink.run()
         return (sink: sink, subscription: subscription)
     }
-
+    
 }
