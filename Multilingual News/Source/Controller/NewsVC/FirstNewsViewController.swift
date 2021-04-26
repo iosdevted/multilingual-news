@@ -18,38 +18,26 @@ class FirstNewsViewController: UIViewController {
     // MARK: - Properties
 
     weak var delegate: MainViewControllerDelegate?
+    var languageCode: String = ""
+    var pageIndex: Int!
+    
     private let apiManager = APIManager.shared
     private let apiKey: [String] = [Constants.THIRD_API_KEY, Constants.FOURTH_API_KEY]
-    var languageCode: String = ""
     private let tableView = UITableView()
     private let disposeBag = DisposeBag()
     private var articleListVM: ArticleListViewModel!
-    var pageIndex: Int!
     private var articleUrl = [String]()
 
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupTableViewUI()
         setupTableView()
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.separatorStyle = .none
-        tableView.register(ArticleTableViewCell.self, forCellReuseIdentifier: ReuseIdentifier)
-
         populateNews()
     }
-
-    // MARK: - Helpers
-
-    private func setupTableView() {
-        view.addSubview(tableView)
-
-        tableView.snp.makeConstraints { (make) -> Void in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
-        }
-    }
+    
+    // MARK: - Fetch & Populate Data
 
     private func populateNews() {
         apiManager.produceApiKey(apiKeys: apiKey)
@@ -79,7 +67,7 @@ class FirstNewsViewController: UIViewController {
             cell.articleImageView.kf.setImage(with: url) { result in
                 switch result {
                 case .success:
-                    print("Task done")
+                    print("DEBUG(populateImage): Task done")
                 case .failure(let error):
                     cell.articleImageView.image = image
                     cell.articleImageView.contentMode = .center
@@ -87,6 +75,24 @@ class FirstNewsViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    // MARK: - ConfigureUI
+    
+    private func setupTableViewUI() {
+        view.addSubview(tableView)
+
+        tableView.snp.makeConstraints { (make) -> Void in
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+        }
+    }
+
+    private func setupTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .none
+        tableView.register(ArticleTableViewCell.self, forCellReuseIdentifier: ReuseIdentifier)
     }
 }
 

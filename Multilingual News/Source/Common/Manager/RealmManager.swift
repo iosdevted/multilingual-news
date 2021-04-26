@@ -2,83 +2,95 @@
 //  RealmManager.swift
 //  Multilingual News
 //
-//  Created by Ted on 2021/04/22.
+//  Created by Ted on 2021/04/23.
 //
 
 import Foundation
 import RealmSwift
-import RxSwift
 
-protocol RealmManagerDataSource {
-    func saveLanguageInfo(withInfo data: Language) -> Completable
-    func fetchLanguageInfo() -> Single<Language>
-}
+let realmObject = try! Realm()
 
-struct RealmManager: RealmManagerDataSource {
-    private var queueScheduler: SchedulerType!
-
-    init(withQueueScheduler queueScheduler: SchedulerType = ConcurrentDispatchQueueScheduler(qos: DispatchQoS.background)) {
-        self.queueScheduler = queueScheduler
+class RealmManager: NSObject {
+    
+    static let shared = RealmManager()
+    
+    func retrieveDataForCertainObject(_ T : Object.Type, with criteria: NSPredicate) -> [Object] {
+        
+        var objects = [Object]()
+        for result in realmObject.objects(T).filter(criteria) {
+            objects.append(result)
+        }
+        return objects
     }
-
-    /// clear and save language info to DB
-    func saveLanguageInfo(withInfo info: Language) -> Completable {
-        return deleteLanguageInfo()
-        .andThen(saveInfo(withInfo: info))
+    
+    func retrieveAllDataForObject(_ T : Object.Type) -> [Object] {
+        
+        var objects = [Object]()
+        for result in realmObject.objects(T) {
+            objects.append(result)
+        }
+        return objects
     }
-
-    /// Save language info to DB
-   private func saveInfo(withInfo data: Language) -> Completable {
-        return Completable.create { completable in
-            do {
-                let realm = try Realm()
-                let realmLanguage = RealmLanguage()
-
-                try realm.write {
-                    realmLanguage.update(withLanguageModel: data)
-                    realm.add(realmLanguage)
-                }
-                completable(.completed)
-                return Disposables.create {}
-            } catch {
-                completable(.error(error))
-                return Disposables.create {}
-            }
-        }.subscribe(on: ConcurrentDispatchQueueScheduler(qos: DispatchQoS.default))
+    
+    func deleteAllDataForObject(_ T : Object.Type) {
+        
+        self.delete(self.retrieveAllDataForObject(T))
     }
-
-    /// get language info from DB
-    func fetchLanguageInfo() -> Single<Language> {
-        return Single<Language>.create { single in
-            do {
-            let realm = try Realm()
-                let realmLanguage = RealmLanguage(value: realm.objects(RealmLanguage.self))
-                
-                let result = Language(withRealmLanguage: realmLanguage)
-                single(.success(result))
-
-            } catch {
-                single(.failure(error))
-            }
-            return Disposables.create {}
-        }.subscribe(on: self.queueScheduler)
+    
+    func replaceAllDataForObject(_ T : Object.Type, with objects : [Object]) {
+        
+        deleteAllDataForObject(T)
+        add(objects)
     }
-
-    /// clear language info from DB
-    private func deleteLanguageInfo() -> Completable {
-        return Completable.create { completable in
-            do {
-                let realm = try Realm()
-                let realmLanguage = realm.objects(RealmLanguage.self)
-                try realm.write {
-                    realm.delete(realmLanguage)
-                }
-                completable(.completed)
-                return Disposables.create {}
-            } catch {
-                completable(.error(error))
-                return Disposables.create {}
-            }
-        }.subscribe(on: ConcurrentDispatchQueueScheduler(qos: DispatchQoS.background))
+    
+    func add(with data: [Language]) {
+        data.forEach {
+            let realmLanguage = RealmLanguage()
+            realmLanguage.update(with: $0)
+            add(realmLanguage)
+        }
+    }
+    
+    func add(_ object : Object) {
+        
+        try! realmObject.write {
+            
+            realmObject.add(object)
+        }
+    }
+    
+    func add(_ objects : [Object], completion : @escaping() -> Void) {
+        
+        try! realmObject.write {
+            
+            realmObject.add(objects)
+            completion()
+        }
+    }
+    
+    func add(_ objects : [Object]) {
+        
+        try! realmObject.write {
+            
+            realmObject.add(objects)
+        }
+    }
+    
+    func update(_ block: @escaping () -> Void) {
+        
+        try! realmObject.write(block)
+    }
+    
+    func delete(_ objects : [Object]) {
+        
+        try! realmObject.write {
+            realmObject.delete(objects)
+        }
+    }
+    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentsDirectory = paths[0]
+        return documentsDirectory
     }
 }

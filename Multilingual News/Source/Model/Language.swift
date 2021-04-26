@@ -15,16 +15,10 @@ struct Language: Equatable {
 }
 
 extension Language {
-    init(withRealmLanguage realmLanguage: RealmLanguage) {
+    init(with realmLanguage: RealmLanguage) {
         self.isChecked = realmLanguage.isChecked
         self.title = realmLanguage.title
         self.code = realmLanguage.code
         self.icon = realmLanguage.icon
-    }
-}
-    
-extension Language {
-    static var empty: Language {
-        return Language(isChecked: false, title: "", code: "", icon: "")
     }
 }

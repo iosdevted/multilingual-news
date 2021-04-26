@@ -15,15 +15,16 @@ protocol TabsDelegate: class {
 class TabsView: UIView {
 
     // MARK: - Properties
+
+    weak var delegate: TabsDelegate?
     // Set TabMode to '.fixed' for stretched tabs in full width of screen or '.scrollable' for scrolling to see all tabs
     var tabMode: TabMode = .fixed
     var tabs: [Tab] = []
+    var collectionView: UICollectionView!
     var titleColor: UIColor = Constants.customUIColor.oceanBlue
     var titleFont: UIFont = Constants.defaultFont ?? UIFont.systemFont(ofSize: 16, weight: .regular)
     var iconColor: UIColor = .black
     var indicatorColor: UIColor = Constants.customUIColor.oceanBlue
-    var collectionView: UICollectionView!
-    weak var delegate: TabsDelegate?
 
     // MARK: - Init
 

@@ -14,7 +14,7 @@ class RealmLanguage: Object {
     @objc dynamic var code: String = ""
     @objc dynamic var icon: String = ""
     
-    func update(withLanguageModel language: Language) {
+    func update(with language: Language) {
         self.isChecked = language.isChecked
         self.title = language.title
         self.code = language.code
