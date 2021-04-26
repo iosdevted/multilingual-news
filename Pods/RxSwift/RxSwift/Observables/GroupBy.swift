@@ -24,7 +24,7 @@ extension ObservableType {
 final private class GroupedObservableImpl<Element>: Observable<Element> {
     private var subject: PublishSubject<Element>
     private var refCount: RefCountDisposable
-
+    
     init(subject: PublishSubject<Element>, refCount: RefCountDisposable) {
         self.subject = subject
         self.refCount = refCount
@@ -37,41 +37,44 @@ final private class GroupedObservableImpl<Element>: Observable<Element> {
     }
 }
 
-final private class GroupBySink<Key: Hashable, Element, Observer: ObserverType>: Sink<Observer>, ObserverType where Observer.Element == GroupedObservable<Key, Element> {
-    typealias ResultType = Observer.Element
+
+final private class GroupBySink<Key: Hashable, Element, Observer: ObserverType>
+    : Sink<Observer>
+    , ObserverType where Observer.Element == GroupedObservable<Key, Element> {
+    typealias ResultType = Observer.Element 
     typealias Parent = GroupBy<Key, Element>
 
     private let parent: Parent
     private let subscription = SingleAssignmentDisposable()
     private var refCountDisposable: RefCountDisposable!
     private var groupedSubjectTable: [Key: PublishSubject<Element>]
-
+    
     init(parent: Parent, observer: Observer, cancel: Cancelable) {
         self.parent = parent
         self.groupedSubjectTable = [Key: PublishSubject<Element>]()
         super.init(observer: observer, cancel: cancel)
     }
-
+    
     func run() -> Disposable {
         self.refCountDisposable = RefCountDisposable(disposable: self.subscription)
-
+        
         self.subscription.setDisposable(self.parent.source.subscribe(self))
-
+        
         return self.refCountDisposable
     }
-
+    
     private func onGroupEvent(key: Key, value: Element) {
         if let writer = self.groupedSubjectTable[key] {
             writer.on(.next(value))
         } else {
             let writer = PublishSubject<Element>()
             self.groupedSubjectTable[key] = writer
-
+            
             let group = GroupedObservable(
                 key: key,
                 source: GroupedObservableImpl(subject: writer, refCount: refCountDisposable)
             )
-
+            
             self.forwardOn(.next(group))
             writer.on(.next(value))
         }
@@ -83,7 +86,8 @@ final private class GroupBySink<Key: Hashable, Element, Observer: ObserverType>:
             do {
                 let groupKey = try self.parent.selector(value)
                 self.onGroupEvent(key: groupKey, value: value)
-            } catch let e {
+            }
+            catch let e {
                 self.error(e)
                 return
             }
@@ -103,7 +107,7 @@ final private class GroupBySink<Key: Hashable, Element, Observer: ObserverType>:
         self.subscription.dispose()
         self.dispose()
     }
-
+    
     final func forwardOnGroups(event: Event<Element>) {
         for writer in self.groupedSubjectTable.values {
             writer.on(event)
@@ -111,18 +115,18 @@ final private class GroupBySink<Key: Hashable, Element, Observer: ObserverType>:
     }
 }
 
-final private class GroupBy<Key: Hashable, Element>: Producer<GroupedObservable<Key, Element>> {
+final private class GroupBy<Key: Hashable, Element>: Producer<GroupedObservable<Key,Element>> {
     typealias KeySelector = (Element) throws -> Key
 
     fileprivate let source: Observable<Element>
     fileprivate let selector: KeySelector
-
+    
     init(source: Observable<Element>, selector: @escaping KeySelector) {
         self.source = source
         self.selector = selector
     }
 
-    override func run<Observer: ObserverType>(_ observer: Observer, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where Observer.Element == GroupedObservable<Key, Element> {
+    override func run<Observer: ObserverType>(_ observer: Observer, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where Observer.Element == GroupedObservable<Key,Element> {
         let sink = GroupBySink(parent: self, observer: observer, cancel: cancel)
         return (sink: sink, subscription: sink.run())
     }

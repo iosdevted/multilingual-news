@@ -34,7 +34,7 @@ extension ObservableType {
 }
 
 final private class SkipWhileSink<Observer: ObserverType>: Sink<Observer>, ObserverType {
-    typealias Element = Observer.Element
+    typealias Element = Observer.Element 
     typealias Parent = SkipWhile<Element>
 
     private let parent: Parent

@@ -10,10 +10,11 @@ import Foundation
 
 import RxSwift
 
-class RxTarget: NSObject, Disposable {
-
+class RxTarget : NSObject
+               , Disposable {
+    
     private var retainSelf: RxTarget?
-
+    
     override init() {
         super.init()
         self.retainSelf = self
@@ -26,7 +27,7 @@ class RxTarget: NSObject, Disposable {
         MainScheduler.ensureRunningOnMainThread()
 #endif
     }
-
+    
     func dispose() {
 #if DEBUG
         MainScheduler.ensureRunningOnMainThread()

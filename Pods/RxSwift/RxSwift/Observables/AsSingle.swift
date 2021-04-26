@@ -6,7 +6,7 @@
 //  Copyright © 2017 Krunoslav Zaher. All rights reserved.
 //
 
-private final class AsSingleSink<Observer: ObserverType>: Sink<Observer>, ObserverType {
+private final class AsSingleSink<Observer: ObserverType> : Sink<Observer>, ObserverType {
     typealias Element = Observer.Element
 
     private var element: Event<Element>?
@@ -27,7 +27,8 @@ private final class AsSingleSink<Observer: ObserverType>: Sink<Observer>, Observ
             if let element = self.element {
                 self.forwardOn(element)
                 self.forwardOn(.completed)
-            } else {
+            }
+            else {
                 self.forwardOn(.error(RxError.noElements))
             }
             self.dispose()

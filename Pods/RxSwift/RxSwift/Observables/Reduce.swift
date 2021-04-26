@@ -6,6 +6,7 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
+
 extension ObservableType {
     /**
     Applies an `accumulator` function over an observable sequence, returning the result of the aggregation as a single element in the result sequence. The specified `seed` value is used as the initial accumulator value.
@@ -42,25 +43,26 @@ extension ObservableType {
 }
 
 final private class ReduceSink<SourceType, AccumulateType, Observer: ObserverType>: Sink<Observer>, ObserverType {
-    typealias ResultType = Observer.Element
+    typealias ResultType = Observer.Element 
     typealias Parent = Reduce<SourceType, AccumulateType, ResultType>
-
+    
     private let parent: Parent
     private var accumulation: AccumulateType
-
+    
     init(parent: Parent, observer: Observer, cancel: Cancelable) {
         self.parent = parent
         self.accumulation = parent.seed
-
+        
         super.init(observer: observer, cancel: cancel)
     }
-
+    
     func on(_ event: Event<SourceType>) {
         switch event {
         case .next(let value):
             do {
                 self.accumulation = try self.parent.accumulator(self.accumulation, value)
-            } catch let e {
+            }
+            catch let e {
                 self.forwardOn(.error(e))
                 self.dispose()
             }
@@ -73,7 +75,8 @@ final private class ReduceSink<SourceType, AccumulateType, Observer: ObserverTyp
                 self.forwardOn(.next(result))
                 self.forwardOn(.completed)
                 self.dispose()
-            } catch let e {
+            }
+            catch let e {
                 self.forwardOn(.error(e))
                 self.dispose()
             }
@@ -84,12 +87,12 @@ final private class ReduceSink<SourceType, AccumulateType, Observer: ObserverTyp
 final private class Reduce<SourceType, AccumulateType, ResultType>: Producer<ResultType> {
     typealias AccumulatorType = (AccumulateType, SourceType) throws -> AccumulateType
     typealias ResultSelectorType = (AccumulateType) throws -> ResultType
-
+    
     private let source: Observable<SourceType>
     fileprivate let seed: AccumulateType
     fileprivate let accumulator: AccumulatorType
     fileprivate let mapResult: ResultSelectorType
-
+    
     init(source: Observable<SourceType>, seed: AccumulateType, accumulator: @escaping AccumulatorType, mapResult: @escaping ResultSelectorType) {
         self.source = source
         self.seed = seed
@@ -103,3 +106,4 @@ final private class Reduce<SourceType, AccumulateType, ResultType>: Producer<Res
         return (sink: sink, subscription: subscription)
     }
 }
+

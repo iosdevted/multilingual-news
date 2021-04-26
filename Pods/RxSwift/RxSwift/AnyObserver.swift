@@ -9,7 +9,7 @@
 /// A type-erased `ObserverType`.
 ///
 /// Forwards operations to an arbitrary underlying observer with the same `Element` type, hiding the specifics of the underlying observer type.
-public struct AnyObserver<Element>: ObserverType {
+public struct AnyObserver<Element> : ObserverType {
     /// Anonymous event handler type.
     public typealias EventHandler = (Event<Element>) -> Void
 
@@ -21,14 +21,14 @@ public struct AnyObserver<Element>: ObserverType {
     public init(eventHandler: @escaping EventHandler) {
         self.observer = eventHandler
     }
-
+    
     /// Construct an instance whose `on(event)` calls `observer.on(event)`
     ///
     /// - parameter observer: Observer that receives sequence events.
     public init<Observer: ObserverType>(_ observer: Observer) where Observer.Element == Element {
         self.observer = observer.on
     }
-
+    
     /// Send `event` to this observer.
     ///
     /// - parameter event: Event instance.

@@ -94,7 +94,8 @@
 
             if let subject = subject {
                 return subject.asObservable()
-            } else {
+            }
+            else {
                 let subject = MessageDispatcher(selector: selector, delegateProxy: self)
                 self._sentMessageForSelector[selector] = subject
                 return subject.asObservable()
@@ -150,7 +151,8 @@
 
             if let subject = subject {
                 return subject.asObservable()
-            } else {
+            }
+            else {
                 let subject = MessageDispatcher(selector: selector, delegateProxy: self)
                 self._methodInvokedForSelector[selector] = subject
                 return subject.asObservable()
@@ -250,6 +252,7 @@
                 _ = Resources.decrementTotal()
             #endif
         }
+    
 
     }
 
@@ -286,5 +289,5 @@
             return self.result
         }
     }
-
+    
 #endif

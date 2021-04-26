@@ -9,7 +9,7 @@
 #if os(iOS) || os(tvOS)
     import RxSwift
     import UIKit
-
+    
     extension Reactive where Base: NSTextStorage {
 
         /// Reactive wrapper for `delegate`.
@@ -27,7 +27,7 @@
                     let editedMask = NSTextStorage.EditActions(rawValue: try castOrThrow(UInt.self, a[1]) )
                     let editedRange = try castOrThrow(NSValue.self, a[2]).rangeValue
                     let delta = try castOrThrow(Int.self, a[3])
-
+                    
                     return (editedMask, editedRange, delta)
                 }
         }

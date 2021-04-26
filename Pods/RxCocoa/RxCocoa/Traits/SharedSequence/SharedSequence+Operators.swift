@@ -10,7 +10,7 @@ import RxSwift
 
 // MARK: map
 extension SharedSequenceConvertibleType {
-
+    
     /**
     Projects each element of an observable sequence into a new form.
     
@@ -27,7 +27,7 @@ extension SharedSequenceConvertibleType {
 
 // MARK: compactMap
 extension SharedSequenceConvertibleType {
-
+    
     /**
      Projects each element of an observable sequence into an optional form and filters all optional results.
      
@@ -61,7 +61,7 @@ extension SharedSequenceConvertibleType {
 
 // MARK: switchLatest
 extension SharedSequenceConvertibleType where Element: SharedSequenceConvertibleType {
-
+    
     /**
     Transforms an observable sequence of observable sequences into an observable sequence
     producing values only from the most recent observable sequence.
@@ -145,7 +145,7 @@ extension SharedSequenceConvertibleType {
 
 // MARK: debug
 extension SharedSequenceConvertibleType {
-
+    
     /**
     Prints received events for all observers on standard output.
     
@@ -161,7 +161,7 @@ extension SharedSequenceConvertibleType {
 
 // MARK: distinctUntilChanged
 extension SharedSequenceConvertibleType where Element: Equatable {
-
+    
     /**
     Returns an observable sequence that contains only distinct contiguous elements according to equality operator.
     
@@ -171,13 +171,13 @@ extension SharedSequenceConvertibleType where Element: Equatable {
         -> SharedSequence<SharingStrategy, Element> {
         let source = self.asObservable()
             .distinctUntilChanged({ $0 }, comparer: { ($0 == $1) })
-
+            
         return SharedSequence(source)
     }
 }
 
 extension SharedSequenceConvertibleType {
-
+    
     /**
     Returns an observable sequence that contains only distinct contiguous elements according to the `keySelector`.
     
@@ -189,7 +189,7 @@ extension SharedSequenceConvertibleType {
             .distinctUntilChanged(keySelector, comparer: { $0 == $1 })
         return SharedSequence(source)
     }
-
+   
     /**
     Returns an observable sequence that contains only distinct contiguous elements according to the `comparer`.
     
@@ -201,7 +201,7 @@ extension SharedSequenceConvertibleType {
             .distinctUntilChanged({ $0 }, comparer: comparer)
         return SharedSequence<SharingStrategy, Element>(source)
     }
-
+    
     /**
     Returns an observable sequence that contains only distinct contiguous elements according to the keySelector and the comparer.
     
@@ -216,9 +216,10 @@ extension SharedSequenceConvertibleType {
     }
 }
 
+
 // MARK: flatMap
 extension SharedSequenceConvertibleType {
-
+    
     /**
     Projects each element of an observable sequence to an observable sequence and merges the resulting observable sequences into one observable sequence.
     
@@ -228,7 +229,7 @@ extension SharedSequenceConvertibleType {
     public func flatMap<Sharing, Result>(_ selector: @escaping (Element) -> SharedSequence<Sharing, Result>) -> SharedSequence<Sharing, Result> {
         let source = self.asObservable()
             .flatMap(selector)
-
+        
         return SharedSequence(source)
     }
 }
@@ -274,7 +275,7 @@ extension SharedSequenceConvertibleType {
         let source = Observable.merge(sources.map { $0.asObservable() })
         return SharedSequence<SharingStrategy, Element>(source)
     }
-
+    
 }
 
 // MARK: merge
@@ -290,7 +291,7 @@ extension SharedSequenceConvertibleType where Element: SharedSequenceConvertible
             .merge()
         return SharedSequence<Element.SharingStrategy, Element.Element>(source)
     }
-
+    
     /**
     Merges elements from all inner observable sequences into a single observable sequence, limiting the number of concurrent subscriptions to inner sequences.
     
@@ -308,7 +309,7 @@ extension SharedSequenceConvertibleType where Element: SharedSequenceConvertible
 
 // MARK: throttle
 extension SharedSequenceConvertibleType {
-
+    
     /**
      Returns an Observable that emits the first and the latest item emitted by the source Observable during sequential time windows of a specified duration.
 
@@ -485,7 +486,7 @@ extension SharedSequenceConvertibleType where SharingStrategy == DriverSharingSt
     ) -> SharedSequence<SharingStrategy, Out> {
         SharedSequence(self.asObservable().withUnretained(obj, resultSelector: resultSelector))
     }
-
+    
     @available(*, message: "withUnretained has been deprecated for Driver. Consider using `drive(with:onNext:onCompleted:onDisposed:)`, instead", unavailable)
     public func withUnretained<Object: AnyObject>(_ obj: Object) -> SharedSequence<SharingStrategy, (Object, Element)> {
         SharedSequence(self.asObservable().withUnretained(obj) { ($0, $1) })
@@ -544,7 +545,7 @@ extension SharedSequenceConvertibleType {
 
 // MARK: startWith
 extension SharedSequenceConvertibleType {
-
+    
     /**
     Prepends a value to an observable sequence.
 

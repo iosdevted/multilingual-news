@@ -53,7 +53,7 @@ extension SharedSequenceConvertibleType where SharingStrategy == SignalSharingSt
             relays.forEach { $0.accept(e) }
         })
     }
-
+    
     /**
      Creates new subscription and sends elements to `BehaviorRelay`.
      - parameter to: Target relays for sequence elements.
@@ -64,7 +64,7 @@ extension SharedSequenceConvertibleType where SharingStrategy == SignalSharingSt
             relays.forEach { $0.accept(e) }
         })
     }
-
+    
     /**
      Creates new subscription and sends elements to `PublishRelay`.
 
@@ -112,7 +112,7 @@ extension SharedSequenceConvertibleType where SharingStrategy == SignalSharingSt
             relays.forEach { $0.accept(e) }
         })
     }
-
+    
     /**
      Subscribes an element handler, a completion handler and disposed handler to an observable sequence.
 

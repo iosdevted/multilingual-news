@@ -22,15 +22,15 @@ extension ObservableType {
 }
 
 final private class DefaultIfEmptySink<Observer: ObserverType>: Sink<Observer>, ObserverType {
-    typealias Element = Observer.Element
+    typealias Element = Observer.Element 
     private let `default`: Element
     private var isEmpty = true
-
+    
     init(default: Element, observer: Observer, cancel: Cancelable) {
         self.default = `default`
         super.init(observer: observer, cancel: cancel)
     }
-
+    
     func on(_ event: Event<Element>) {
         switch event {
         case .next:
@@ -52,12 +52,12 @@ final private class DefaultIfEmptySink<Observer: ObserverType>: Sink<Observer>, 
 final private class DefaultIfEmpty<SourceType>: Producer<SourceType> {
     private let source: Observable<SourceType>
     private let `default`: SourceType
-
+    
     init(source: Observable<SourceType>, `default`: SourceType) {
         self.source = source
         self.default = `default`
     }
-
+    
     override func run<Observer: ObserverType>(_ observer: Observer, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where Observer.Element == SourceType {
         let sink = DefaultIfEmptySink(default: self.default, observer: observer, cancel: cancel)
         let subscription = self.source.subscribe(sink)

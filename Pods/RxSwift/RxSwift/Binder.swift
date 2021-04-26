@@ -17,7 +17,7 @@
  */
 public struct Binder<Value>: ObserverType {
     public typealias Element = Value
-
+    
     private let binding: (Event<Value>) -> Void
 
     /// Initializes `Binder`

@@ -11,9 +11,14 @@ target 'Multilingual News' do
   pod 'RxSwift', '~> 6.1.0'
   pod 'RxCocoa', '~> 6.1.0'
   pod 'Kingfisher', '~> 6.0'
-  pod 'SkeletonView'
+  pod 'RealmSwift'
   pod 'M13Checkbox'
   pod "KRProgressHUD"
   pod 'SwiftLint'
 
+  target 'Multilingual NewsTests' do
+    inherit! :search_paths
+    pod 'RxSwift', '~> 6.1.0'
+    pod 'RxCocoa', '~> 6.1.0'
+  end
 end

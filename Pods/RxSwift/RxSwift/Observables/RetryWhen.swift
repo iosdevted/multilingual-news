@@ -66,11 +66,12 @@ extension ObservableType {
     }
 }
 
-final private class RetryTriggerSink<Sequence: Swift.Sequence, Observer: ObserverType, TriggerObservable: ObservableType, Error>: ObserverType where Sequence.Element: ObservableType, Sequence.Element.Element == Observer.Element {
+final private class RetryTriggerSink<Sequence: Swift.Sequence, Observer: ObserverType, TriggerObservable: ObservableType, Error>
+    : ObserverType where Sequence.Element: ObservableType, Sequence.Element.Element == Observer.Element {
     typealias Element = TriggerObservable.Element
-
+    
     typealias Parent = RetryWhenSequenceSinkIter<Sequence, Observer, TriggerObservable, Error>
-
+    
     private let parent: Parent
 
     init(parent: Parent) {
@@ -92,8 +93,10 @@ final private class RetryTriggerSink<Sequence: Swift.Sequence, Observer: Observe
     }
 }
 
-final private class RetryWhenSequenceSinkIter<Sequence: Swift.Sequence, Observer: ObserverType, TriggerObservable: ObservableType, Error>: ObserverType, Disposable where Sequence.Element: ObservableType, Sequence.Element.Element == Observer.Element {
-    typealias Element = Observer.Element
+final private class RetryWhenSequenceSinkIter<Sequence: Swift.Sequence, Observer: ObserverType, TriggerObservable: ObservableType, Error>
+    : ObserverType
+    , Disposable where Sequence.Element: ObservableType, Sequence.Element.Element == Observer.Element {
+    typealias Element = Observer.Element 
     typealias Parent = RetryWhenSequenceSink<Sequence, Observer, TriggerObservable, Error>
 
     fileprivate let parent: Parent
@@ -119,7 +122,8 @@ final private class RetryWhenSequenceSinkIter<Sequence: Swift.Sequence, Observer
                 let errorHandlerSubscription = self.parent.notifier.subscribe(RetryTriggerSink(parent: self))
                 self.errorHandlerSubscription.setDisposable(errorHandlerSubscription)
                 self.parent.errorSubject.on(.next(failedWith))
-            } else {
+            }
+            else {
                 self.parent.forwardOn(.error(error))
                 self.parent.dispose()
             }
@@ -135,14 +139,15 @@ final private class RetryWhenSequenceSinkIter<Sequence: Swift.Sequence, Observer
     }
 }
 
-final private class RetryWhenSequenceSink<Sequence: Swift.Sequence, Observer: ObserverType, TriggerObservable: ObservableType, Error>: TailRecursiveSink<Sequence, Observer> where Sequence.Element: ObservableType, Sequence.Element.Element == Observer.Element {
-    typealias Element = Observer.Element
+final private class RetryWhenSequenceSink<Sequence: Swift.Sequence, Observer: ObserverType, TriggerObservable: ObservableType, Error>
+    : TailRecursiveSink<Sequence, Observer> where Sequence.Element: ObservableType, Sequence.Element.Element == Observer.Element {
+    typealias Element = Observer.Element 
     typealias Parent = RetryWhenSequence<Sequence, TriggerObservable, Error>
-
+    
     let lock = RecursiveLock()
-
+    
     private let parent: Parent
-
+    
     fileprivate var lastError: Swift.Error?
     fileprivate let errorSubject = PublishSubject<Error>()
     private let handler: Observable<TriggerObservable.Element>
@@ -153,18 +158,19 @@ final private class RetryWhenSequenceSink<Sequence: Swift.Sequence, Observer: Ob
         self.handler = parent.notificationHandler(self.errorSubject).asObservable()
         super.init(observer: observer, cancel: cancel)
     }
-
+    
     override func done() {
         if let lastError = self.lastError {
             self.forwardOn(.error(lastError))
             self.lastError = nil
-        } else {
+        }
+        else {
             self.forwardOn(.completed)
         }
 
         self.dispose()
     }
-
+    
     override func extract(_ observable: Observable<Element>) -> SequenceGenerator? {
         // It is important to always return `nil` here because there are sideffects in the `run` method
         // that are dependant on particular `retryWhen` operator so single operator stack can't be reused in this
@@ -188,15 +194,15 @@ final private class RetryWhenSequenceSink<Sequence: Swift.Sequence, Observer: Ob
 
 final private class RetryWhenSequence<Sequence: Swift.Sequence, TriggerObservable: ObservableType, Error>: Producer<Sequence.Element.Element> where Sequence.Element: ObservableType {
     typealias Element = Sequence.Element.Element
-
+    
     private let sources: Sequence
     fileprivate let notificationHandler: (Observable<Error>) -> TriggerObservable
-
+    
     init(sources: Sequence, notificationHandler: @escaping (Observable<Error>) -> TriggerObservable) {
         self.sources = sources
         self.notificationHandler = notificationHandler
     }
-
+    
     override func run<Observer: ObserverType>(_ observer: Observer, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where Observer.Element == Element {
         let sink = RetryWhenSequenceSink<Sequence, Observer, TriggerObservable, Error>(parent: self, observer: observer, cancel: cancel)
         let subscription = sink.run((self.sources.makeIterator(), nil))

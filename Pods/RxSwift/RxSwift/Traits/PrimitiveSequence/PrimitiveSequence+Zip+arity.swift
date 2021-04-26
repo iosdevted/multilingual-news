@@ -7,6 +7,8 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
+
+
 // 2
 
 extension PrimitiveSequenceType where Trait == SingleTrait {
@@ -76,6 +78,9 @@ extension PrimitiveSequenceType where Element == Any, Trait == MaybeTrait {
             )
     }
 }
+
+
+
 
 // 3
 
@@ -147,6 +152,9 @@ extension PrimitiveSequenceType where Element == Any, Trait == MaybeTrait {
     }
 }
 
+
+
+
 // 4
 
 extension PrimitiveSequenceType where Trait == SingleTrait {
@@ -216,6 +224,9 @@ extension PrimitiveSequenceType where Element == Any, Trait == MaybeTrait {
             )
     }
 }
+
+
+
 
 // 5
 
@@ -287,6 +298,9 @@ extension PrimitiveSequenceType where Element == Any, Trait == MaybeTrait {
     }
 }
 
+
+
+
 // 6
 
 extension PrimitiveSequenceType where Trait == SingleTrait {
@@ -356,6 +370,9 @@ extension PrimitiveSequenceType where Element == Any, Trait == MaybeTrait {
             )
     }
 }
+
+
+
 
 // 7
 
@@ -427,6 +444,9 @@ extension PrimitiveSequenceType where Element == Any, Trait == MaybeTrait {
     }
 }
 
+
+
+
 // 8
 
 extension PrimitiveSequenceType where Trait == SingleTrait {
@@ -496,3 +516,6 @@ extension PrimitiveSequenceType where Element == Any, Trait == MaybeTrait {
             )
     }
 }
+
+
+

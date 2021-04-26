@@ -4,13 +4,17 @@ PODS:
   - KRProgressHUD (3.4.7):
     - KRActivityIndicatorView (= 3.0.7)
   - M13Checkbox (3.4.0)
+  - Realm (10.7.2):
+    - Realm/Headers (= 10.7.2)
+  - Realm/Headers (10.7.2)
+  - RealmSwift (10.7.2):
+    - Realm (= 10.7.2)
   - RxCocoa (6.1.0):
     - RxRelay (= 6.1.0)
     - RxSwift (= 6.1.0)
   - RxRelay (6.1.0):
     - RxSwift (= 6.1.0)
   - RxSwift (6.1.0)
-  - SkeletonView (1.13.0)
   - SnapKit (4.2.0)
   - SwiftLint (0.43.1)
 
@@ -18,9 +22,9 @@ DEPENDENCIES:
   - Kingfisher (~> 6.0)
   - KRProgressHUD
   - M13Checkbox
+  - RealmSwift
   - RxCocoa (~> 6.1.0)
   - RxSwift (~> 6.1.0)
-  - SkeletonView
   - SnapKit (~> 4.0)
   - SwiftLint
 
@@ -30,10 +34,11 @@ SPEC REPOS:
     - KRActivityIndicatorView
     - KRProgressHUD
     - M13Checkbox
+    - Realm
+    - RealmSwift
     - RxCocoa
     - RxRelay
     - RxSwift
-    - SkeletonView
     - SnapKit
     - SwiftLint
 
@@ -42,13 +47,14 @@ SPEC CHECKSUMS:
   KRActivityIndicatorView: ad69e89c4ce40c986cf580595be4829dcad0e35a
   KRProgressHUD: a248f0bc6c9c2aed40a37b76e03ffecc7f85c887
   M13Checkbox: 6f59404540ac98ba83a3d1afac335895a40c6a5d
+  Realm: e523da9ade306c5ae87e85dc09fdef148d3e1cc1
+  RealmSwift: 4f6758c3adbdcc87f7b7777107226532a077f61c
   RxCocoa: 5c51f02d562cbd94629f6c26cf0c80fe4ab8d343
   RxRelay: 483e1a19fad961b41f0b0c0bee506f46c1ae14fe
   RxSwift: a834e5c538e89eca0cae86f403f4fbf0336786ce
-  SkeletonView: 2b14cb767a7da384d17d5d7e1db0d55a6cf9566a
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
 
-PODFILE CHECKSUM: 61acfa9bd76eb05cc75d02750c3792706e38dd6e
+PODFILE CHECKSUM: ba1fd70a7327745f6335c5204a034137f627ab1a
 
 COCOAPODS: 1.10.1

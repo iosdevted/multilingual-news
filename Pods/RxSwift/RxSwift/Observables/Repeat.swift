@@ -24,12 +24,12 @@ extension ObservableType {
 final private class RepeatElement<Element>: Producer<Element> {
     fileprivate let element: Element
     fileprivate let scheduler: ImmediateSchedulerType
-
+    
     init(element: Element, scheduler: ImmediateSchedulerType) {
         self.element = element
         self.scheduler = scheduler
     }
-
+    
     override func run<Observer: ObserverType>(_ observer: Observer, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where Observer.Element == Element {
         let sink = RepeatElementSink(parent: self, observer: observer, cancel: cancel)
         let subscription = sink.run()
@@ -40,14 +40,14 @@ final private class RepeatElement<Element>: Producer<Element> {
 
 final private class RepeatElementSink<Observer: ObserverType>: Sink<Observer> {
     typealias Parent = RepeatElement<Observer.Element>
-
+    
     private let parent: Parent
-
+    
     init(parent: Parent, observer: Observer, cancel: Cancelable) {
         self.parent = parent
         super.init(observer: observer, cancel: cancel)
     }
-
+    
     func run() -> Disposable {
         return self.parent.scheduler.scheduleRecursive(self.parent.element) { e, recurse in
             self.forwardOn(.next(e))

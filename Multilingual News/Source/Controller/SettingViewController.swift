@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import CoreData
+import RxSwift
 import SnapKit
 import KRProgressHUD
 
@@ -15,18 +15,16 @@ private let ReuseIdentifier: String = "CellReuseIdentifier"
 class SettingViewController: UIViewController {
 
     // MARK: - Properties
-
-    private let mainViewController = MainViewController()
+    
+    private let realmManager = RealmManager.shared
+    private let disposeBag = DisposeBag()
     private let tableView = UITableView()
-    private let persistenceManager = PersistenceManager.shared
-    private let request: NSFetchRequest<Languages> = Languages.fetchRequest()
-    private var contextLanguages = [Languages(context: PersistenceManager.shared.context)]
-    private var coreDataLanguages: [Languages]
+    private var languages: [Language] = [Language]()
 
     // MARK: - Life Cycle
 
-    init(languages: [Languages]) {
-        self.coreDataLanguages = languages
+    init(languages: [Language]) {
+        self.languages = languages
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -36,7 +34,6 @@ class SettingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureUI()
         configureTableView()
         configureNavigationBarUI()
@@ -45,42 +42,43 @@ class SettingViewController: UIViewController {
     // MARK: - Selectors
 
     @objc func backButtonTapped() {
-
-        if isfourlanguages() {
-            goBackToMainView()
-        } else {
-            showErrorMessage()
-        }
+        isfourlanguages(with: languages) ? goBackToMainView() : showErrorMessage()
     }
 
     // MARK: - Helpers
 
-    private func isfourlanguages() -> Bool {
+    private func isfourlanguages(with languages: [Language]) -> Bool {
         var count = 0
-        coreDataLanguages.forEach { (language) in
-            if language.isChecked == true {
-                count += 1
-            }
+        languages.forEach {
+            $0.isChecked == true ? count += 1 : print("")
         }
-
         return (count == 4) ? true : false
     }
     
     private func goBackToMainView() {
-        contextLanguages = coreDataLanguages
-        persistenceManager.saveContext()
-
-        dismiss(animated: true) {
-            self.mainViewController.coreDataLanguages = self.coreDataLanguages
-            DispatchQueue.main.async {
-                self.mainViewController.reloadData()
-            }
-        }
+        self.saveRealmData(with: languages)
+        dismiss(animated: true)
     }
 
     private func showErrorMessage() {
         KRProgressHUD.appearance().style = .custom(background: .white, text: .black, icon: .black)
         KRProgressHUD.showInfo(withMessage: "You should select 4 languages")
+    }
+    
+    // MARK: - Realm
+    
+    private func deleteRealmData() {
+        realmManager.deleteAllDataForObject(RealmLanguage.self)
+    }
+    
+    private func saveRealmData(with languages: [Language]) {
+        deleteRealmData()
+
+        languages.forEach {
+            let realmLanguage = RealmLanguage()
+            realmLanguage.update(with: $0)
+            realmManager.add(realmLanguage)
+        }
     }
     
     // MARK: - ConfigureUI
@@ -98,7 +96,7 @@ class SettingViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
-        // tableView.isEditing = true
+        tableView.isEditing = true
         // Allow Selection During Editing, unless click doesn't work
         tableView.allowsSelectionDuringEditing = true
 
@@ -135,10 +133,10 @@ extension SettingViewController: UITableViewDelegate {
         switch cell.checkBox.checkState {
         case .unchecked:
             cell.checkBox.setCheckState(.checked, animated: true)
-            coreDataLanguages[indexPath.row].isChecked = true
+            languages[indexPath.row].isChecked = true
         case .checked:
             cell.checkBox.setCheckState(.unchecked, animated: true)
-            coreDataLanguages[indexPath.row].isChecked = false
+            languages[indexPath.row].isChecked = false
         default:
             print("Dont' use this type .mixed")
         }
@@ -157,15 +155,12 @@ extension SettingViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier, for: indexPath) as! SettingsViewTableCell
-        let language = coreDataLanguages[indexPath.row]
+        let language = languages[indexPath.row]
 
-        if language.title != nil {
-            cell.languageImageView.image = UIImage(named: language.icon!)
-            cell.titleLabel.text = language.title!
+        cell.languageImageView.image = UIImage(named: language.icon)
+        cell.titleLabel.text = language.title
 
-            (language.value(forKeyPath: "isChecked") as! Bool) ? (cell.checkBox.checkState = .checked) : (cell.checkBox.checkState = .unchecked)
-        }
-
+        cell.checkBox.checkState = language.isChecked ? .checked : .unchecked
         return cell
     }
 
@@ -177,10 +172,10 @@ extension SettingViewController: UITableViewDataSource {
         return false
     }
 
-//    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-//        let movedObject = self.coreDataLanguages[sourceIndexPath.row]
-//        coreDataLanguages.remove(at: sourceIndexPath.row)
-//        coreDataLanguages.insert(movedObject, at: destinationIndexPath.row)
-//
-//    }
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let movedObject = self.languages[sourceIndexPath.row]
+        languages.remove(at: sourceIndexPath.row)
+        languages.insert(movedObject, at: destinationIndexPath.row)
+
+    }
 }

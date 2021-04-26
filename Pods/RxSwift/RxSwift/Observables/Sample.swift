@@ -28,21 +28,24 @@ extension ObservableType {
     }
 }
 
-final private class SamplerSink<Observer: ObserverType, SampleType>: ObserverType, LockOwnerType, SynchronizedOnType {
+final private class SamplerSink<Observer: ObserverType, SampleType>
+    : ObserverType
+    , LockOwnerType
+    , SynchronizedOnType {
     typealias Element = SampleType
-
+    
     typealias Parent = SampleSequenceSink<Observer, SampleType>
-
+    
     private let parent: Parent
 
     var lock: RecursiveLock {
         self.parent.lock
     }
-
+    
     init(parent: Parent) {
         self.parent = parent
     }
-
+    
     func on(_ event: Event<Element>) {
         self.synchronizedOn(event)
     }
@@ -66,34 +69,38 @@ final private class SamplerSink<Observer: ObserverType, SampleType>: ObserverTyp
     }
 }
 
-final private class SampleSequenceSink<Observer: ObserverType, SampleType>: Sink<Observer>, ObserverType, LockOwnerType, SynchronizedOnType {
-    typealias Element = Observer.Element
+final private class SampleSequenceSink<Observer: ObserverType, SampleType>
+    : Sink<Observer>
+    , ObserverType
+    , LockOwnerType
+    , SynchronizedOnType {
+    typealias Element = Observer.Element 
     typealias Parent = Sample<Element, SampleType>
-
+    
     fileprivate let parent: Parent
     fileprivate let defaultValue: Element?
 
     let lock = RecursiveLock()
-
+    
     // state
     fileprivate var element = nil as Element?
     fileprivate var atEnd = false
-
+    
     private let sourceSubscription = SingleAssignmentDisposable()
-
+    
     init(parent: Parent, observer: Observer, cancel: Cancelable, defaultValue: Element? = nil) {
         self.parent = parent
         self.defaultValue = defaultValue
         super.init(observer: observer, cancel: cancel)
     }
-
+    
     func run() -> Disposable {
         self.sourceSubscription.setDisposable(self.parent.source.subscribe(self))
         let samplerSubscription = self.parent.sampler.subscribe(SamplerSink(parent: self))
-
+        
         return Disposables.create(sourceSubscription, samplerSubscription)
     }
-
+    
     func on(_ event: Event<Element>) {
         self.synchronizedOn(event)
     }
@@ -110,20 +117,20 @@ final private class SampleSequenceSink<Observer: ObserverType, SampleType>: Sink
             self.sourceSubscription.dispose()
         }
     }
-
+    
 }
 
 final private class Sample<Element, SampleType>: Producer<Element> {
     fileprivate let source: Observable<Element>
     fileprivate let sampler: Observable<SampleType>
     fileprivate let defaultValue: Element?
-
+    
     init(source: Observable<Element>, sampler: Observable<SampleType>, defaultValue: Element? = nil) {
         self.source = source
         self.sampler = sampler
         self.defaultValue = defaultValue
     }
-
+    
     override func run<Observer: ObserverType>(_ observer: Observer, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where Observer.Element == Element {
         let sink = SampleSequenceSink(parent: self, observer: observer, cancel: cancel, defaultValue: self.defaultValue)
         let subscription = sink.run()

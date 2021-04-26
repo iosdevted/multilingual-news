@@ -59,7 +59,7 @@ extension InfallibleType {
             onDisposed: onDisposed
         )
     }
-
+    
     /**
      Subscribes an element handler, a completion handler and disposed handler to an observable sequence.
      

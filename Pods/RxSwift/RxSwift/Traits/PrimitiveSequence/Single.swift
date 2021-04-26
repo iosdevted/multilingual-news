@@ -18,7 +18,7 @@ public typealias SingleEvent<Element> = Result<Element, Swift.Error>
 
 extension PrimitiveSequenceType where Trait == SingleTrait {
     public typealias SingleObserver = (SingleEvent<Element>) -> Void
-
+    
     /**
      Creates an observable sequence from a specified subscribe method implementation.
      
@@ -39,10 +39,10 @@ extension PrimitiveSequenceType where Trait == SingleTrait {
                 }
             }
         }
-
+        
         return PrimitiveSequence(raw: source)
     }
-
+    
     /**
      Subscribes `observer` to receive events for this sequence.
      
@@ -53,7 +53,7 @@ extension PrimitiveSequenceType where Trait == SingleTrait {
         return self.primitiveSequence.asObservable().subscribe { event in
             if stopped { return }
             stopped = true
-
+            
             switch event {
             case .next(let element):
                 observer(.success(element))
@@ -80,7 +80,7 @@ extension PrimitiveSequenceType where Trait == SingleTrait {
                           onDisposed: (() -> Void)? = nil) -> Disposable {
         subscribe(onSuccess: onSuccess, onFailure: onError, onDisposed: onDisposed)
     }
-
+    
     /**
      Subscribes a success handler, and an error handler for this sequence.
      
@@ -116,7 +116,7 @@ extension PrimitiveSequenceType where Trait == SingleTrait {
             }
         )
     }
-
+    
     /**
      Subscribes a success handler, and an error handler for this sequence.
      
@@ -176,7 +176,7 @@ extension PrimitiveSequenceType where Trait == SingleTrait {
     public static func just(_ element: Element) -> Single<Element> {
         Single(raw: Observable.just(element))
     }
-
+    
     /**
      Returns an observable sequence that contains a single element.
      
@@ -274,7 +274,7 @@ extension PrimitiveSequenceType where Trait == SingleTrait {
         -> Single<Result> {
             return Single(raw: self.primitiveSequence.source.map(transform))
     }
-
+    
     /**
      Projects each element of an observable sequence into an optional form and filters all optional results.
 
@@ -286,7 +286,7 @@ extension PrimitiveSequenceType where Trait == SingleTrait {
         -> Maybe<Result> {
         Maybe(raw: self.primitiveSequence.source.compactMap(transform))
     }
-
+    
     /**
      Projects each element of an observable sequence to an observable sequence and merges the resulting observable sequences into one observable sequence.
      
@@ -333,28 +333,28 @@ extension PrimitiveSequenceType where Trait == SingleTrait {
      - returns: An observable sequence containing the result of combining elements of the sources using the specified result selector function.
      */
     public static func zip<Collection: Swift.Collection, Result>(_ collection: Collection, resultSelector: @escaping ([Element]) throws -> Result) -> PrimitiveSequence<Trait, Result> where Collection.Element == PrimitiveSequence<Trait, Element> {
-
+        
         if collection.isEmpty {
             return PrimitiveSequence<Trait, Result>.deferred {
                 return PrimitiveSequence<Trait, Result>(raw: .just(try resultSelector([])))
             }
         }
-
+        
         let raw = Observable.zip(collection.map { $0.asObservable() }, resultSelector: resultSelector)
         return PrimitiveSequence<Trait, Result>(raw: raw)
     }
-
+    
     /**
      Merges the specified observable sequences into one observable sequence all of the observable sequences have produced an element at a corresponding index.
      
      - returns: An observable sequence containing the result of combining elements of the sources.
      */
     public static func zip<Collection: Swift.Collection>(_ collection: Collection) -> PrimitiveSequence<Trait, [Element]> where Collection.Element == PrimitiveSequence<Trait, Element> {
-
+        
         if collection.isEmpty {
             return PrimitiveSequence<Trait, [Element]>(raw: .just([]))
         }
-
+        
         let raw = Observable.zip(collection.map { $0.asObservable() })
         return PrimitiveSequence(raw: raw)
     }

@@ -1,5 +1,5 @@
 //
-//  SecondNewsViewController.swift
+//  ThirdNewsViewController.swift
 //  one-article
 //
 //  Created by Ted on 2021/03/21.
@@ -13,43 +13,31 @@ import Kingfisher
 
 private let ReuseIdentifier: String = "CellReuseIdentifier"
 
-class SecondNewsViewController: UIViewController {
+class ThirdNewsViewController: UIViewController {
 
     // MARK: - Properties
 
     weak var delegate: MainViewControllerDelegate?
-    private let apiManager = APIManager.shared
-    private let apiKey: [String] = [Constants.FIFTH_API_KEY]
     var languageCode: String = ""
+    var pageIndex: Int!
+    
+    private let apiManager = APIManager.shared
+    private let apiKey: [String] = [Constants.SIXTH_API_KEY]
     private let tableView = UITableView()
     private let disposeBag = DisposeBag()
     private var articleListVM: ArticleListViewModel!
-    var pageIndex: Int!
     private var articleUrl = [String]()
 
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupTableViewUI()
         setupTableView()
-        self.tableView.dataSource = self
-        self.tableView.delegate = self
-        self.tableView.rowHeight = UITableView.automaticDimension
-        self.tableView.separatorStyle = .none
-        self.tableView.register(ArticleTableViewCell.self, forCellReuseIdentifier: ReuseIdentifier)
-
-        self.populateNews()
+        populateNews()
     }
-
-    // MARK: - Helpers
-
-    private func setupTableView() {
-        view.addSubview(tableView)
-
-        tableView.snp.makeConstraints { (make) -> Void in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
-        }
-    }
+    
+    // MARK: - Fetch & Populate Data
 
     private func populateNews() {
         apiManager.produceApiKey(apiKeys: apiKey)
@@ -79,7 +67,7 @@ class SecondNewsViewController: UIViewController {
             cell.articleImageView.kf.setImage(with: url) { result in
                 switch result {
                 case .success:
-                    print("Task done")
+                    print("DEBUG(populateImage): Task done")
                 case .failure(let error):
                     cell.articleImageView.image = image
                     cell.articleImageView.contentMode = .center
@@ -88,11 +76,29 @@ class SecondNewsViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: - ConfigureUI
+    
+    private func setupTableViewUI() {
+        view.addSubview(tableView)
+
+        tableView.snp.makeConstraints { (make) -> Void in
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+        }
+    }
+
+    private func setupTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .none
+        tableView.register(ArticleTableViewCell.self, forCellReuseIdentifier: ReuseIdentifier)
+    }
 }
 
 // MARK: - UITableViewDelegate/DataSource
 
-extension SecondNewsViewController: UITableViewDelegate {
+extension ThirdNewsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         guard let url = URL(string: self.articleUrl[indexPath.row]) else { return }
@@ -102,7 +108,7 @@ extension SecondNewsViewController: UITableViewDelegate {
     }
 }
 
-extension SecondNewsViewController: UITableViewDataSource {
+extension ThirdNewsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.articleListVM == nil ? 0 : self.articleListVM.articlesVM.count
     }

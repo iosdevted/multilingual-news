@@ -21,42 +21,43 @@ extension ObservableType {
 }
 
 final private class SwitchIfEmpty<Element>: Producer<Element> {
-
+    
     private let source: Observable<Element>
     private let ifEmpty: Observable<Element>
-
+    
     init(source: Observable<Element>, ifEmpty: Observable<Element>) {
         self.source = source
         self.ifEmpty = ifEmpty
     }
-
+    
     override func run<Observer: ObserverType>(_ observer: Observer, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where Observer.Element == Element {
         let sink = SwitchIfEmptySink(ifEmpty: self.ifEmpty,
                                      observer: observer,
                                      cancel: cancel)
         let subscription = sink.run(self.source.asObservable())
-
+        
         return (sink: sink, subscription: subscription)
     }
 }
 
-final private class SwitchIfEmptySink<Observer: ObserverType>: Sink<Observer>, ObserverType {
+final private class SwitchIfEmptySink<Observer: ObserverType>: Sink<Observer>
+    , ObserverType {
     typealias Element = Observer.Element
-
+    
     private let ifEmpty: Observable<Element>
     private var isEmpty = true
     private let ifEmptySubscription = SingleAssignmentDisposable()
-
+    
     init(ifEmpty: Observable<Element>, observer: Observer, cancel: Cancelable) {
         self.ifEmpty = ifEmpty
         super.init(observer: observer, cancel: cancel)
     }
-
+    
     func run(_ source: Observable<Observer.Element>) -> Disposable {
         let subscription = source.subscribe(self)
         return Disposables.create(subscription, ifEmptySubscription)
     }
-
+    
     func on(_ event: Event<Element>) {
         switch event {
         case .next:
@@ -77,16 +78,17 @@ final private class SwitchIfEmptySink<Observer: ObserverType>: Sink<Observer>, O
     }
 }
 
-final private class SwitchIfEmptySinkIter<Observer: ObserverType>: ObserverType {
+final private class SwitchIfEmptySinkIter<Observer: ObserverType>
+    : ObserverType {
     typealias Element = Observer.Element
     typealias Parent = SwitchIfEmptySink<Observer>
-
+    
     private let parent: Parent
 
     init(parent: Parent) {
         self.parent = parent
     }
-
+    
     func on(_ event: Event<Element>) {
         switch event {
         case .next:

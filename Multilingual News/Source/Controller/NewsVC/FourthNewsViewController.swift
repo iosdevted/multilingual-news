@@ -1,5 +1,5 @@
 //
-//  FirstNewsViewController.swift
+//  FourthNewsViewController.swift
 //  one-article
 //
 //  Created by Ted on 2021/03/21.
@@ -13,43 +13,31 @@ import Kingfisher
 
 private let ReuseIdentifier: String = "CellReuseIdentifier"
 
-class FirstNewsViewController: UIViewController {
+class FourthNewsViewController: UIViewController {
 
     // MARK: - Properties
 
     weak var delegate: MainViewControllerDelegate?
-    private let apiManager = APIManager.shared
-    private let apiKey: [String] = [Constants.THIRD_API_KEY, Constants.FOURTH_API_KEY]
     var languageCode: String = ""
+    var pageIndex: Int!
+    
+    private let apiManager = APIManager.shared
+    private let apiKey: [String] = [Constants.SEVENTH_API_KEY]
     private let tableView = UITableView()
     private let disposeBag = DisposeBag()
     private var articleListVM: ArticleListViewModel!
-    var pageIndex: Int!
     private var articleUrl = [String]()
 
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupTableViewUI()
         setupTableView()
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.separatorStyle = .none
-        tableView.register(ArticleTableViewCell.self, forCellReuseIdentifier: ReuseIdentifier)
-
         populateNews()
     }
-
-    // MARK: - Helpers
-
-    private func setupTableView() {
-        view.addSubview(tableView)
-
-        tableView.snp.makeConstraints { (make) -> Void in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
-        }
-    }
+    
+    // MARK: - Fetch & Populate Data
 
     private func populateNews() {
         apiManager.produceApiKey(apiKeys: apiKey)
@@ -79,7 +67,7 @@ class FirstNewsViewController: UIViewController {
             cell.articleImageView.kf.setImage(with: url) { result in
                 switch result {
                 case .success:
-                    print("Task done")
+                    print("DEBUG(populateImage): Task done")
                 case .failure(let error):
                     cell.articleImageView.image = image
                     cell.articleImageView.contentMode = .center
@@ -88,12 +76,31 @@ class FirstNewsViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: - ConfigureUI
+    
+    private func setupTableViewUI() {
+        view.addSubview(tableView)
+
+        tableView.snp.makeConstraints { (make) -> Void in
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+        }
+    }
+
+    private func setupTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .none
+        tableView.register(ArticleTableViewCell.self, forCellReuseIdentifier: ReuseIdentifier)
+    }
 }
 
 // MARK: - UITableViewDelegate/DataSource
 
-extension FirstNewsViewController: UITableViewDelegate {
+extension FourthNewsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         guard let url = URL(string: self.articleUrl[indexPath.row]) else { return }
         delegate?.SafariServicesOpen(url: url)
 
@@ -101,15 +108,13 @@ extension FirstNewsViewController: UITableViewDelegate {
     }
 }
 
-extension FirstNewsViewController: UITableViewDataSource {
+extension FourthNewsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.articleListVM == nil ? 0 : self.articleListVM.articlesVM.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier, for: indexPath) as! ArticleTableViewCell
-        cell.titleLabel.numberOfLines = 0
-        cell.titleLabel.lineBreakMode = .byWordWrapping
 
         let articleVM = self.articleListVM.articleAt(indexPath.row)
 
@@ -128,6 +133,9 @@ extension FirstNewsViewController: UITableViewDataSource {
         articleVM.url.bind { (url) in
             self.articleUrl.append(url)
         }.disposed(by: disposeBag)
+
+        cell.titleLabel.numberOfLines = 0
+        cell.titleLabel.lineBreakMode = .byWordWrapping
 
         return cell
     }
