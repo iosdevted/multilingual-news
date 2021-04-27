@@ -62,3 +62,30 @@ on a simple and nice interface.
 - v1.1.0: Replace from CoreData to Realm. This version introduces a hamburger tab giving you the ability to change the order of languages.
 
 - v1.0.2: Minor bug fixes and UI improvements.
+
+## Requirements
+
+- iOS 13.0+
+
+## Installation
+
+1. Download the source code by cloning this repository
+2. Sign up for [NewsAPI.org](https://newsapi.org) and get your own API Key.
+3. Install the pods by running
+
+```
+pod install
+```
+
+4. Open the xcworkspace file with the latest version of Xcode
+
+## Technical notes
+
+- MVVM - My preferred architecture.
+    - MVVM stands for “Model View ViewModel”
+    - It’s a software architecture often used by Apple developers to replace MVC. Model-View-ViewModel (MVVM) is a structural design pattern that separates objects into three distinct groups:
+- Models hold application data. They’re usually structs or simple classes.
+- Views display visual elements and controls on the screen. They’re typically - subclasses of UIView.
+- View models transform model information into values that can be displayed on a view. They’re usually classes, so they can be passed around as references.
+
+![MVVM](https://user-images.githubusercontent.com/50784573/116212433-c869e380-a77f-11eb-88f0-f826c6a6ea3e.jpeg)
