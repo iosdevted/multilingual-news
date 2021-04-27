@@ -28,7 +28,7 @@ class MainViewController: UIViewController {
     private var allRealmLanguages: [RealmLanguage] = [RealmLanguage]() {
         didSet {
             isFirstRun(allRealmLanguages) ?
-                addDefaultLanguagesToRealm(with: Setting.languages) : print("DEBUG(checkIfFirstRun): Not First Run")
+                addDefaultLanguagesToRealm(with: Setting.languages) : print("DEBUG(isFirstRun): Not First Run")
         }
     }
     
@@ -70,7 +70,7 @@ class MainViewController: UIViewController {
     // MARK: - Selectors
     
     @objc func topHeaderContainerViewTapped() {
-        guard let url = URL(string: articleUrl ?? "") else { return }
+        guard let articleUrl = articleUrl, let url = URL(string: articleUrl) else { return }
         
         let safariViewController = SFSafariViewController(url: url)
         present(safariViewController, animated: true, completion: nil)

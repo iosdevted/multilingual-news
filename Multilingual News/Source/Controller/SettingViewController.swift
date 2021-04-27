@@ -6,7 +6,6 @@
 //
 
 import KRProgressHUD
-import RxSwift
 import SnapKit
 import UIKit
 
@@ -17,7 +16,6 @@ class SettingViewController: UIViewController {
     // MARK: - Properties
     
     private let realmManager = RealmManager.shared
-    private let disposeBag = DisposeBag()
     private var languages = [Language]()
     private let tableView = UITableView()
 
