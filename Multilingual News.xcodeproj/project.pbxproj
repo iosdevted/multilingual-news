@@ -916,7 +916,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.103;
+				MARKETING_VERSION = 1.104;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tedhyeong.multilingual-news";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -938,7 +938,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.103;
+				MARKETING_VERSION = 1.104;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tedhyeong.multilingual-news";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
