@@ -301,8 +301,6 @@
 			children = (
 				9F83D4FE261DA4B7003FCDC3 /* .swiftlint.yml */,
 				9FD24061260715C1003C2F2D /* Multilingual News */,
-				9FD24064260715C1003C2F2D /* SceneDelegate.swift */,
-				9FD24062260715C1003C2F2D /* AppDelegate.swift */,
 				9F7732612631483800E44B71 /* Multilingual NewsTests */,
 				9F7732712631484900E44B71 /* Multilingual NewsUITests */,
 				9FD24060260715C1003C2F2D /* Products */,
@@ -324,6 +322,8 @@
 		9FD24061260715C1003C2F2D /* Multilingual News */ = {
 			isa = PBXGroup;
 			children = (
+				9FD24062260715C1003C2F2D /* AppDelegate.swift */,
+				9FD24064260715C1003C2F2D /* SceneDelegate.swift */,
 				9F7732BC2631A5A200E44B71 /* Source */,
 				9F1EA711261C585C00515363 /* Resource */,
 			);
