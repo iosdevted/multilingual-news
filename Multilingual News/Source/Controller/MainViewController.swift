@@ -112,6 +112,7 @@ class MainViewController: UIViewController {
     
     private func addDefaultSetting() {
         realmManager.add(with: DefaultValues.languages)
+        fetchRealmData()
     }
     
     private func deleteRealmData() {

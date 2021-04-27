@@ -49,7 +49,7 @@ on a simple and nice interface.
 
 - Database
 
-  - CoreData
+  - [Realm](https://github.com/realm/realm-cocoa)
 
 - UI
 
@@ -59,4 +59,6 @@ on a simple and nice interface.
 
 ## Update
 
-- v1.0.2: Minor bug fixes and UI improvements
+- v1.1.0: Replace from CoreData to Realm. This version introduces a hamburger tab giving you the ability to change the order of languages.
+
+- v1.0.2: Minor bug fixes and UI improvements.
