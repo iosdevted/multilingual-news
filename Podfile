@@ -4,8 +4,8 @@
 target 'Multilingual News' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
-
-  # Pods for one-article
+  inhibit_all_warnings!
+  # Pods for multilingual-news
 
   pod 'SnapKit', '~> 4.0'
   pod 'RxSwift', '~> 6.1.0'
