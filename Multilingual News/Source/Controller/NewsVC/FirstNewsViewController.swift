@@ -5,11 +5,11 @@
 //  Created by Ted on 2021/03/21.
 //
 
-import UIKit
+import Kingfisher
 import RxSwift
 import RxCocoa
 import SnapKit
-import Kingfisher
+import UIKit
 
 private let ReuseIdentifier: String = "CellReuseIdentifier"
 
@@ -18,18 +18,28 @@ class FirstNewsViewController: UIViewController {
     // MARK: - Properties
 
     weak var delegate: MainViewControllerDelegate?
-    var languageCode: String = ""
+    var languageCode: String?
     var pageIndex: Int!
     
     private let apiManager = APIManager.shared
-    private let apiKey: [String] = [Constants.THIRD_API_KEY, Constants.FOURTH_API_KEY]
-    private let tableView = UITableView()
+    private let apiKey: [String] = [API_KEY.THIRD, API_KEY.FOURTH]
     private let disposeBag = DisposeBag()
     private var articleListVM: ArticleListViewModel!
     private var articleUrl = [String]()
+    private let tableView = UITableView()
 
     // MARK: - Life Cycle
-
+    
+    init(language: String, pageIndex: Int) {
+        self.languageCode = language
+        self.pageIndex = pageIndex
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableViewUI()
@@ -41,7 +51,7 @@ class FirstNewsViewController: UIViewController {
 
     private func populateNews() {
         apiManager.produceApiKey(apiKeys: apiKey)
-            .map(apiManager.makeResource(selectedLanguagesCode: languageCode))
+            .map(apiManager.makeResource(selectedLanguagesCode: languageCode!))
             .flatMap(URLRequest.load(resource:))
             .retry(apiKey.count + 1)
             .subscribe(onNext: { articleResponse in
@@ -124,7 +134,7 @@ extension FirstNewsViewController: UITableViewDataSource {
             .disposed(by: disposeBag)
 
         articleVM.publishedAt.bind { (date) in
-            cell.dateLabel.text = date.utcToLocal()
+            cell.dateLabel.text = date.toLocalTime()
         }.disposed(by: disposeBag)
 
         articleVM.urlToImage.bind { (url) in

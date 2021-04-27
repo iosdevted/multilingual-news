@@ -5,10 +5,10 @@
 //  Created by Ted on 2021/03/22.
 //
 
-import UIKit
+import KRProgressHUD
 import RxSwift
 import SnapKit
-import KRProgressHUD
+import UIKit
 
 private let ReuseIdentifier: String = "CellReuseIdentifier"
 
@@ -18,8 +18,8 @@ class SettingViewController: UIViewController {
     
     private let realmManager = RealmManager.shared
     private let disposeBag = DisposeBag()
+    private var languages = [Language]()
     private let tableView = UITableView()
-    private var languages: [Language] = [Language]()
 
     // MARK: - Life Cycle
 

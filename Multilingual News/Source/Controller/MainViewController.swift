@@ -5,12 +5,12 @@
 //  Created by Ted on 2021/03/21.
 //
 
-import UIKit
+import Kingfisher
 import RxSwift
 import RxCocoa
 import SnapKit
-import Kingfisher
 import SafariServices
+import UIKit
 
 protocol MainViewControllerDelegate: class {
     func SafariServicesOpen(url: URL)
@@ -23,23 +23,24 @@ class MainViewController: UIViewController {
     private let realmManager = RealmManager.shared
     private let apiManager = APIManager.shared
     private let disposeBag = DisposeBag()
-    private var currentIndex: Int = 0
-    private var pageController: UIPageViewController!
-    private let apiKey: [String] = [Constants.FIRST_API_KEY, Constants.SECOND_API_KEY]
-    private var articleUrl: String = ""
-    private var selectedLanguages: [RealmLanguage] = [RealmLanguage]()
-    private var allLanguages: [RealmLanguage ] = [RealmLanguage]() {
+    private let apiKey: [String] = [API_KEY.FIRST, API_KEY.SECOND]
+    private var selectedRealmLanguages: [RealmLanguage] = [RealmLanguage]()
+    private var allRealmLanguages: [RealmLanguage] = [RealmLanguage]() {
         didSet {
-            checkIfFirstRun(by: allLanguages) ? addDefaultSetting() : print("DEBUG(checkIfFirstRun): Not First Run")
+            isFirstRun(allRealmLanguages) ?
+                addDefaultLanguagesToRealm(with: Setting.languages) : print("DEBUG(checkIfFirstRun): Not First Run")
         }
     }
     
+    private var articleUrl: String?
     private var articleVM: ArticleViewModel! {
         didSet {
             populateTopNews()
         }
     }
     
+    private var currentIndex: Int = 0
+    private var pageController: UIPageViewController!
     private var tabsView = TabsView()
     private var topHeaderContainerView: TopHeaderView = {
         let view = TopHeaderView()
@@ -60,7 +61,7 @@ class MainViewController: UIViewController {
         configureNavigationBarUI()
         configureUI()
         configureGesture()
-        setupTabs(with: selectedLanguages)
+        setupTabs(with: selectedRealmLanguages)
         setupPageViewController()
         loadTopNews()
     }
@@ -69,14 +70,14 @@ class MainViewController: UIViewController {
     // MARK: - Selectors
     
     @objc func topHeaderContainerViewTapped() {
-        guard let url = URL(string: articleUrl) else { return }
+        guard let url = URL(string: articleUrl ?? "") else { return }
         
         let safariViewController = SFSafariViewController(url: url)
         present(safariViewController, animated: true, completion: nil)
     }
     
     @objc func rightBarButtonTapped() {
-        let languages: [Language] = changeToLanguageType(from: allLanguages)
+        let languages: [Language] = allRealmLanguages.changeToLanguageType()
         let settingViewController = SettingViewController(languages: languages)
 
         let nav = UINavigationController(rootViewController: settingViewController)
@@ -86,44 +87,45 @@ class MainViewController: UIViewController {
     
     // MARK: Helpers
     
-    private func checkIfFirstRun(by languages: [RealmLanguage]) -> Bool {
+    private func isFirstRun(_ languages: [RealmLanguage]) -> Bool {
         return languages.count == 12 ? false : true
     }
     
-    private func changeToLanguageType(from realmLanguages: [RealmLanguage]) -> [Language] {
-        var languages: [Language] = [Language]()
-        realmLanguages.forEach {
-            languages.append(Language(with: $0))
-        }
-        return languages
-    }
-    
-    // MARK: - Realm
+    // MARK: - Realm Helpers
     
     private func fetchRealmData() {
         let predicate = NSPredicate(format: "isChecked == true")
         let fetchRealmData = realmManager.retrieveAllDataForObject(RealmLanguage.self)
             .map { $0 as! RealmLanguage }
-        let fetchSelectedData = realmManager.retrieveDataForCertainObject(RealmLanguage.self, with: predicate)
+        let fetchSelectedRealmData = realmManager.retrievePredicatedDataForObject(RealmLanguage.self, with: predicate)
             .map { $0 as! RealmLanguage }
-        selectedLanguages = fetchSelectedData
-        allLanguages = fetchRealmData
-    }
-    
-    private func addDefaultSetting() {
-        realmManager.add(with: DefaultValues.languages)
-        fetchRealmData()
+        
+        selectedRealmLanguages = fetchSelectedRealmData
+        allRealmLanguages = fetchRealmData
     }
     
     private func deleteRealmData() {
         realmManager.deleteAllDataForObject(RealmLanguage.self)
     }
     
+    private func saveRealmData(with languages: [Language]) {
+        languages.forEach {
+            let realmLanguage = RealmLanguage()
+            realmLanguage.update(with: $0)
+            realmManager.add(realmLanguage)
+        }
+    }
+    
+    private func addDefaultLanguagesToRealm(with languages: [Language]) {
+        saveRealmData(with: languages)
+        fetchRealmData()
+    }
+    
     // MARK: - Fetch API & Populate Data
     
     private func loadTopNews() {
         apiManager.produceApiKey(apiKeys: apiKey)
-            .map(apiManager.makeResource(selectedLanguagesCode: selectedLanguages[0].code))
+            .map(apiManager.makeResource(selectedLanguagesCode: selectedRealmLanguages[0].code))
             .flatMap(URLRequest.load(resource:))
             .retry(apiKey.count + 1)
             .subscribe(onNext: { articleResponse in
@@ -140,7 +142,7 @@ class MainViewController: UIViewController {
                 .disposed(by: self.disposeBag)
             
             self.articleVM.publishedAt.bind { (date) in
-                self.topHeaderContainerView.dateLabel.text = date.utcToLocalWithDate()
+                self.topHeaderContainerView.dateLabel.text = date.toLocalTimeWithDate()
             }.disposed(by: self.disposeBag)
             
             self.articleVM.urlToImage.bind { (url) in
@@ -236,27 +238,19 @@ class MainViewController: UIViewController {
         currentIndex = index
         
         if index == 0 {
-            let contentVC = FirstNewsViewController()
-            contentVC.languageCode = selectedLanguages[0].code
-            contentVC.pageIndex = index
+            let contentVC = FirstNewsViewController(language: selectedRealmLanguages[0].code, pageIndex: index)
             contentVC.delegate = self
             return contentVC
         } else if index == 1 {
-            let contentVC = SecondNewsViewController()
-            contentVC.languageCode = selectedLanguages[1].code
-            contentVC.pageIndex = index
+            let contentVC = SecondNewsViewController(language: selectedRealmLanguages[1].code, pageIndex: index)
             contentVC.delegate = self
             return contentVC
         } else if index == 2 {
-            let contentVC = ThirdNewsViewController()
-            contentVC.languageCode = selectedLanguages[2].code
-            contentVC.pageIndex = index
+            let contentVC = ThirdNewsViewController(language: selectedRealmLanguages[2].code, pageIndex: index)
             contentVC.delegate = self
             return contentVC
         } else {
-            let contentVC = FourthNewsViewController()
-            contentVC.languageCode = selectedLanguages[3].code
-            contentVC.pageIndex = index
+            let contentVC = FourthNewsViewController(language: selectedRealmLanguages[3].code, pageIndex: index)
             contentVC.delegate = self
             return contentVC
         }

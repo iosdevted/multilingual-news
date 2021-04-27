@@ -90,4 +90,5 @@ fastlane/test_output
 iOSInjectionProject/
 
 .DS_Store
-Multilingual News/Constants/Constants.swift
+Multilingual News/Source/Common/Constants/API_KEY.swift
+Pods/

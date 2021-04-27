@@ -14,7 +14,7 @@ class RealmManager: NSObject {
     
     static let shared = RealmManager()
     
-    func retrieveDataForCertainObject(_ T : Object.Type, with criteria: NSPredicate) -> [Object] {
+    func retrievePredicatedDataForObject(_ T : Object.Type, with criteria: NSPredicate) -> [Object] {
         
         var objects = [Object]()
         for result in realmObject.objects(T).filter(criteria) {
@@ -41,14 +41,6 @@ class RealmManager: NSObject {
         
         deleteAllDataForObject(T)
         add(objects)
-    }
-    
-    func add(with data: [Language]) {
-        data.forEach {
-            let realmLanguage = RealmLanguage()
-            realmLanguage.update(with: $0)
-            add(realmLanguage)
-        }
     }
     
     func add(_ object : Object) {
