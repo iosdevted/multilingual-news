@@ -1,5 +1,5 @@
 //
-//  UIView.swift
+//  UIView-Extensions.swift
 //  Multilingual News
 //
 //  Created by Ted on 2021/04/28.

@@ -1,6 +1,6 @@
 //
-//  String+Extension.swift
-//  one-article
+//  String-Extensions.swift
+//  Multilingual News
 //
 //  Created by Ted on 2021/03/22.
 //

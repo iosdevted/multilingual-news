@@ -1,6 +1,6 @@
 //
 //  SettingViewController.swift
-//  one-article
+//  Multilingual News
 //
 //  Created by Ted on 2021/03/22.
 //
@@ -8,8 +8,6 @@
 import KRProgressHUD
 import SnapKit
 import UIKit
-
-private let ReuseIdentifier: String = "CellReuseIdentifier"
 
 class SettingViewController: UIViewController {
 
@@ -97,8 +95,7 @@ class SettingViewController: UIViewController {
         tableView.isEditing = true
         // Allow Selection During Editing, unless click doesn't work
         tableView.allowsSelectionDuringEditing = true
-
-        self.tableView.register(SettingsViewTableCell.self, forCellReuseIdentifier: ReuseIdentifier)
+        self.tableView.register(cellType: SettingsViewTableCell.self)
     }
 
     private func configureNavigationBarUI() {
@@ -152,7 +149,7 @@ extension SettingViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier, for: indexPath) as! SettingsViewTableCell
+        let cell = tableView.dequeueReusableCell(for: indexPath, cellType: SettingsViewTableCell.self)
         let language = languages[indexPath.row]
 
         cell.languageImageView.image = UIImage(named: language.icon)

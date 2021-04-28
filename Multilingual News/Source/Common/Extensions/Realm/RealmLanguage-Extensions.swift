@@ -1,5 +1,5 @@
 //
-//  RealmLanguage +Extension.swift
+//  RealmLanguage-Extensions.swift
 //  Multilingual News
 //
 //  Created by Ted on 2021/04/27.
