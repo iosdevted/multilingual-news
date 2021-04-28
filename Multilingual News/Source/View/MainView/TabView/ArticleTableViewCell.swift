@@ -31,7 +31,7 @@ class ArticleTableViewCell: UITableViewCell {
         let label = UILabel()
         // label.sizeToFit()
         label.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
-        label.textColor = Constants.customUIColor.oceanBlue
+        label.textColor = UIColor.oceanBlue
         label.lineBreakMode = .byWordWrapping
         label.contentMode = .topLeft
         label.numberOfLines = 0

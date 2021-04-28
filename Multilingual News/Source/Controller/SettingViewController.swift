@@ -105,15 +105,15 @@ class SettingViewController: UIViewController {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white
         appearance.shadowColor = .clear
-        appearance.largeTitleTextAttributes = [.foregroundColor: Constants.customUIColor.oceanBlue, .font: Constants.largeTitleFont ?? .systemFont(ofSize: 20)]
-        appearance.titleTextAttributes = [.foregroundColor: Constants.customUIColor.oceanBlue, .font: Constants.settingViewdefaultFont ?? .systemFont(ofSize: 20)]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.oceanBlue, .font: UIFont.mainBoldFont(ofSize: 30)]
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.oceanBlue, .font: UIFont.mainBoldFont(ofSize: 20)]
 
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.topItem?.title = "Manage Languages"
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
 
-        var leftBarImage = UIImage(systemName: "arrowshape.turn.up.backward")?.withTintColor(Constants.customUIColor.oceanBlue)
+        var leftBarImage = UIImage(systemName: "arrowshape.turn.up.backward")?.withTintColor(UIColor.oceanBlue)
         leftBarImage = leftBarImage?.withRenderingMode(.alwaysOriginal)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: leftBarImage, style: .plain, target: self, action: #selector(backButtonTapped))
     }
