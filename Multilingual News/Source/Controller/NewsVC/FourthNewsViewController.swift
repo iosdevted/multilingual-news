@@ -1,6 +1,6 @@
 //
 //  FourthNewsViewController.swift
-//  one-article
+//  Multilingual News
 //
 //  Created by Ted on 2021/03/21.
 //
@@ -10,8 +10,6 @@ import RxSwift
 import RxCocoa
 import SnapKit
 import UIKit
-
-private let ReuseIdentifier: String = "CellReuseIdentifier"
 
 class FourthNewsViewController: UIViewController {
 
@@ -102,7 +100,7 @@ class FourthNewsViewController: UIViewController {
         tableView.delegate = self
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
-        tableView.register(ArticleTableViewCell.self, forCellReuseIdentifier: ReuseIdentifier)
+        tableView.register(cellType: ArticleTableViewCell.self)
     }
 }
 
@@ -124,8 +122,7 @@ extension FourthNewsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier, for: indexPath) as! ArticleTableViewCell
-
+        let cell = tableView.dequeueReusableCell(for: indexPath, cellType: ArticleTableViewCell.self)
         let articleVM = self.articleListVM.articleAt(indexPath.row)
 
         articleVM.title.asDriver(onErrorJustReturn: "")

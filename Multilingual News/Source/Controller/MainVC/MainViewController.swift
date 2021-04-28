@@ -1,6 +1,6 @@
 //
 //  MainViewController.swift
-//  one-article
+//  Multilingual News
 //
 //  Created by Ted on 2021/03/21.
 //
@@ -33,7 +33,7 @@ class MainViewController: UIViewController {
     private var articleUrl: String?
     private var articleVM: ArticleViewModel! {
         didSet {
-            populateTopNews()
+            populateHeaderViewNews()
         }
     }
     
@@ -120,7 +120,28 @@ class MainViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    private func populateTopNews() {
+    private func populateHeaderViewImage(with url: String) {
+        let image = UIImage(named: "NoImage")?.withRenderingMode(.alwaysOriginal)
+        if url == "NoImage" {
+            self.headerView.imageView.image = image
+            self.headerView.imageView.contentMode = .center
+        } else {
+            let url = URL(string: url)
+            self.headerView.imageView.kf.indicatorType = .activity
+            self.headerView.imageView.kf.setImage(with: url) { result in
+                switch result {
+                case .success:
+                    print("DEBUG(populateImage): Task done")
+                case .failure(let error):
+                    self.headerView.imageView.image = image
+                    self.headerView.imageView.contentMode = .center
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    private func populateHeaderViewNews() {
         DispatchQueue.main.async {
             self.articleVM.title.asDriver(onErrorJustReturn: "")
                 .drive(self.headerView.titleLabel.rx.text)
@@ -131,15 +152,7 @@ class MainViewController: UIViewController {
             }.disposed(by: self.disposeBag)
             
             self.articleVM.urlToImage.bind { (url) in
-                if url == "NoImage" {
-                    let image = UIImage(named: "NoImage")?.withRenderingMode(.alwaysOriginal)
-                    self.headerView.imageView.image = image
-                    self.headerView.imageView.contentMode = .center
-                } else {
-                    let url = URL(string: url)
-                    self.headerView.imageView.kf.indicatorType = .activity
-                    self.headerView.imageView.kf.setImage(with: url)
-                }
+                self.populateHeaderViewImage(with: url)
             }.disposed(by: self.disposeBag)
             
             self.articleVM.url.bind { (url) in

@@ -1,6 +1,6 @@
 //
 //  FirstNewsViewController.swift
-//  one-article
+//  Multilingual News
 //
 //  Created by Ted on 2021/03/21.
 //
@@ -10,8 +10,6 @@ import RxSwift
 import RxCocoa
 import SnapKit
 import UIKit
-
-private let ReuseIdentifier: String = "CellReuseIdentifier"
 
 class FirstNewsViewController: UIViewController {
 
@@ -102,7 +100,7 @@ class FirstNewsViewController: UIViewController {
         tableView.delegate = self
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
-        tableView.register(ArticleTableViewCell.self, forCellReuseIdentifier: ReuseIdentifier)
+        tableView.register(cellType: ArticleTableViewCell.self)
     }
 }
 
@@ -123,7 +121,7 @@ extension FirstNewsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ReuseIdentifier, for: indexPath) as! ArticleTableViewCell
+        let cell = tableView.dequeueReusableCell(for: indexPath, cellType: ArticleTableViewCell.self)
         cell.titleLabel.numberOfLines = 0
         cell.titleLabel.lineBreakMode = .byWordWrapping
 

@@ -1,5 +1,5 @@
 //
-//  UIColor.swift
+//  UIColor-Extensions.swift
 //  Multilingual News
 //
 //  Created by Ted on 2021/04/28.

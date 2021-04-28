@@ -1,6 +1,6 @@
 //
 //  TabsView.swift
-//  one-article
+//  Multilingual News
 //
 //  Created by Ted on 2021/03/21.
 //
@@ -49,7 +49,7 @@ class TabsView: UIView {
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(TabCell.self, forCellWithReuseIdentifier: "TabCell")
+        collectionView.register(cellType: TabCell.self)
         addSubview(collectionView)
 
         collectionView.snp.makeConstraints { (make) -> Void in
@@ -66,9 +66,7 @@ extension TabsView: UICollectionViewDelegate, UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TabCell", for: indexPath) as? TabCell else {
-            return UICollectionViewCell()
-        }
+        let cell = collectionView.dequeueReusableCell(for: indexPath, cellType: TabCell.self)
         cell.tabViewModel = Tab(icon: tabs[indexPath.item].icon, title: tabs[indexPath.item].title)
         cell.tabIcon.image = cell.tabIcon.image?.withRenderingMode(.alwaysOriginal)
         // cell.tabIcon.tintColor = iconColor

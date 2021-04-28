@@ -1,6 +1,6 @@
 //
 //  SettingsViewTableCell.swift
-//  one-article
+//  Multilingual News
 //
 //  Created by Ted on 2021/03/22.
 //
