@@ -121,7 +121,7 @@ class MainViewController: UIViewController {
     }
     
     private func populateHeaderViewImage(with url: String) {
-        let image = UIImage(named: "NoImage")?.withRenderingMode(.alwaysOriginal)
+        let image = UIImage(named: "NoImage_100px")?.withRenderingMode(.alwaysOriginal)
         if url == "NoImage" {
             self.headerView.imageView.image = image
             self.headerView.imageView.contentMode = .center

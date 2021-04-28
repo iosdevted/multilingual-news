@@ -18,7 +18,7 @@ class ArticleTableViewCell: UITableViewCell {
     }()
 
     var articleImageView: UIImageView = {
-        let image = UIImage(named: "NoImage")?.withRenderingMode(.alwaysOriginal)
+        let image = UIImage(named: "NoImage_35px")?.withRenderingMode(.alwaysOriginal)
         let imageView = UIImageView(image: image)
         imageView.contentMode = .center
         imageView.alpha = 0.7

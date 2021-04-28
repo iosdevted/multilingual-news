@@ -64,7 +64,7 @@ class ThirdNewsViewController: UIViewController {
     }
 
     private func populateImage(url: String, cell: ArticleTableViewCell) {
-        let image = UIImage(named: "NoImage")?.withRenderingMode(.alwaysOriginal)
+        let image = UIImage(named: "NoImage_35px")?.withRenderingMode(.alwaysOriginal)
         if url == "NoImage" {
             cell.articleImageView.image = image
             cell.articleImageView.contentMode = .center
