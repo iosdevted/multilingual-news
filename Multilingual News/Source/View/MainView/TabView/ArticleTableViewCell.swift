@@ -9,24 +9,21 @@ import UIKit
 import SnapKit
 
 class ArticleTableViewCell: UITableViewCell {
+    
+    var articleImageContainerView: UIView = {
+        let view = UIView()
+        view.makeEdges(cornerRadius: 15, borderWidth: 0.5, UIColor.systemGray4.withAlphaComponent(0.7).cgColor)
+        view.makeShadow(opacity: 0.5, radius: 5)
+        return view
+    }()
 
     var articleImageView: UIImageView = {
         let image = UIImage(named: "NoImage")?.withRenderingMode(.alwaysOriginal)
         let imageView = UIImageView(image: image)
         imageView.contentMode = .center
-        imageView.alpha = 0.8
-
+        imageView.alpha = 0.7
         imageView.layer.masksToBounds = true
-        imageView.layer.cornerRadius = 15
-
-        imageView.layer.borderWidth = 1.0
-        imageView.layer.borderColor = UIColor.white.withAlphaComponent(0.7).cgColor
-
-        imageView.layer.shadowColor = UIColor.white.withAlphaComponent(0.7).cgColor
-        imageView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        imageView.layer.shadowOpacity = 0.3
-        imageView.layer.shadowRadius = 10.0
-
+        imageView.makeEdges(cornerRadius: 15, borderWidth: 0.5)
         return imageView
     }()
 
@@ -77,6 +74,7 @@ class ArticleTableViewCell: UITableViewCell {
         selectionStyle = .none
         
         [
+            articleImageContainerView,
             articleImageView,
             titleLabel,
             dateImageView,
@@ -85,29 +83,33 @@ class ArticleTableViewCell: UITableViewCell {
             addSubview($0)
         }
 
-        articleImageView.snp.makeConstraints { (make) -> Void in
+        articleImageContainerView.snp.makeConstraints { (make) -> Void in
             make.height.equalToSuperview().multipliedBy(0.75)
             make.width.equalToSuperview().multipliedBy(0.3)
 
             make.top.leading.bottom.equalToSuperview().inset(UIEdgeInsets(top: 15, left: 20, bottom: 15, right: 0))
+        }
+        
+        articleImageView.snp.makeConstraints { (make) -> Void in
+            make.edges.equalTo(articleImageContainerView)
         }
 
         titleLabel.snp.makeConstraints { (make) -> Void in
             make.height.equalToSuperview().multipliedBy(0.5)
 
             make.top.equalToSuperview().offset(15)
-            make.leading.equalTo(articleImageView.snp.trailing).offset(15)
+            make.leading.equalTo(articleImageContainerView.snp.trailing).offset(15)
             make.trailing.equalToSuperview().offset(-15)
         }
 
         dateImageView.snp.makeConstraints { (make) -> Void in
-            make.leading.equalTo(articleImageView.snp.trailing).offset(15)
-            make.bottom.equalTo(articleImageView.snp.bottom).offset(-3)
+            make.leading.equalTo(articleImageContainerView.snp.trailing).offset(15)
+            make.bottom.equalTo(articleImageContainerView.snp.bottom).offset(-3)
         }
 
         dateLabel.snp.makeConstraints { (make) -> Void in
             make.leading.equalTo(dateImageView.snp.trailing).offset(5)
-            make.bottom.equalTo(articleImageView.snp.bottom).offset(-5)
+            make.bottom.equalTo(articleImageContainerView.snp.bottom).offset(-5)
         }
     }
 }

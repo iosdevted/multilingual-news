@@ -20,10 +20,10 @@
 		9F9E4303260C64C900E16C34 /* RefreshManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9E4302260C64C900E16C34 /* RefreshManager.swift */; };
 		9FA480992632B8CE006D9C3F /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA480982632B8CE006D9C3F /* Setting.swift */; };
 		9FA77FCE261203AF002566A1 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA77FCD261203AF002566A1 /* APIManager.swift */; };
+		9FC0A3D526391F96006F36F6 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC0A3D426391F96006F36F6 /* UIView.swift */; };
 		9FC6E3172637C763001B8ECD /* API_KEY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC6E3162637C763001B8ECD /* API_KEY.swift */; };
 		9FC6E31C2637C961001B8ECD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC6E31B2637C961001B8ECD /* Constants.swift */; };
 		9FC6E3372637E152001B8ECD /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC6E3362637E152001B8ECD /* Array.swift */; };
-		9FCAD8B7261300C600F4965C /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCAD8B6261300C600F4965C /* UILabel.swift */; };
 		9FCAD8C2261315F700F4965C /* RedHatDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FCAD8BF261315F700F4965C /* RedHatDisplay-Medium.ttf */; };
 		9FCAD8C3261315F700F4965C /* RedHatDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FCAD8C0261315F700F4965C /* RedHatDisplay-Regular.ttf */; };
 		9FCAD8C4261315F700F4965C /* RedHatDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FCAD8C1261315F700F4965C /* RedHatDisplay-Bold.ttf */; };
@@ -33,7 +33,7 @@
 		9FD2406A260715C1003C2F2D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9FD24068260715C1003C2F2D /* Main.storyboard */; };
 		9FD2406C260715C2003C2F2D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FD2406B260715C2003C2F2D /* Assets.xcassets */; };
 		9FD2406F260715C2003C2F2D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9FD2406D260715C2003C2F2D /* LaunchScreen.storyboard */; };
-		9FD2408826072F22003C2F2D /* TopHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2408726072F22003C2F2D /* TopHeaderView.swift */; };
+		9FD2408826072F22003C2F2D /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2408726072F22003C2F2D /* HeaderView.swift */; };
 		9FD2408D26073221003C2F2D /* TabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2408C26073221003C2F2D /* TabsView.swift */; };
 		9FD2409026073246003C2F2D /* TabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2408F26073246003C2F2D /* TabCell.swift */; };
 		9FD2409326073404003C2F2D /* TabsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2409226073404003C2F2D /* TabsPageViewController.swift */; };
@@ -87,10 +87,10 @@
 		9F9E4302260C64C900E16C34 /* RefreshManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshManager.swift; sourceTree = "<group>"; };
 		9FA480982632B8CE006D9C3F /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		9FA77FCD261203AF002566A1 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		9FC0A3D426391F96006F36F6 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		9FC6E3162637C763001B8ECD /* API_KEY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API_KEY.swift; sourceTree = "<group>"; };
 		9FC6E31B2637C961001B8ECD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9FC6E3362637E152001B8ECD /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
-		9FCAD8B6261300C600F4965C /* UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
 		9FCAD8BF261315F700F4965C /* RedHatDisplay-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RedHatDisplay-Medium.ttf"; sourceTree = "<group>"; };
 		9FCAD8C0261315F700F4965C /* RedHatDisplay-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RedHatDisplay-Regular.ttf"; sourceTree = "<group>"; };
 		9FCAD8C1261315F700F4965C /* RedHatDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RedHatDisplay-Bold.ttf"; sourceTree = "<group>"; };
@@ -102,7 +102,7 @@
 		9FD2406B260715C2003C2F2D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9FD2406E260715C2003C2F2D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9FD24070260715C2003C2F2D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9FD2408726072F22003C2F2D /* TopHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopHeaderView.swift; sourceTree = "<group>"; };
+		9FD2408726072F22003C2F2D /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		9FD2408C26073221003C2F2D /* TabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
 		9FD2408F26073246003C2F2D /* TabCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCell.swift; sourceTree = "<group>"; };
 		9FD2409226073404003C2F2D /* TabsPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsPageViewController.swift; sourceTree = "<group>"; };
@@ -240,12 +240,12 @@
 			path = TabView;
 			sourceTree = "<group>";
 		};
-		9F773298263150BB00E44B71 /* MainView */ = {
+		9F773298263150BB00E44B71 /* HeaderView */ = {
 			isa = PBXGroup;
 			children = (
-				9FD2408726072F22003C2F2D /* TopHeaderView.swift */,
+				9FD2408726072F22003C2F2D /* HeaderView.swift */,
 			);
-			path = MainView;
+			path = HeaderView;
 			sourceTree = "<group>";
 		};
 		9F77329C263150C400E44B71 /* SettingView */ = {
@@ -296,6 +296,15 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
+		9FC0A3FC26393D02006F36F6 /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				9F773298263150BB00E44B71 /* HeaderView */,
+				9F773294263150B200E44B71 /* TabView */,
+			);
+			path = MainView;
+			sourceTree = "<group>";
+		};
 		9FD24056260715C1003C2F2D = {
 			isa = PBXGroup;
 			children = (
@@ -344,8 +353,7 @@
 		9FD2407F2607182B003C2F2D /* View */ = {
 			isa = PBXGroup;
 			children = (
-				9F773298263150BB00E44B71 /* MainView */,
-				9F773294263150B200E44B71 /* TabView */,
+				9FC0A3FC26393D02006F36F6 /* MainView */,
 				9F77329C263150C400E44B71 /* SettingView */,
 			);
 			path = View;
@@ -375,8 +383,8 @@
 			children = (
 				9FD240A726075C0A003C2F2D /* URLRequest.swift */,
 				9F3B22A22608C71F00A930FD /* String.swift */,
-				9FCAD8B6261300C600F4965C /* UILabel.swift */,
 				9FC6E3362637E152001B8ECD /* Array.swift */,
+				9FC0A3D426391F96006F36F6 /* UIView.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -645,17 +653,17 @@
 				9F3B2284260898F100A930FD /* SettingViewController.swift in Sources */,
 				9FD2409926073448003C2F2D /* SecondNewsViewController.swift in Sources */,
 				9FD2409C26073453003C2F2D /* ThirdNewsViewController.swift in Sources */,
+				9FC0A3D526391F96006F36F6 /* UIView.swift in Sources */,
 				9F3B22AE2608FA8400A930FD /* Tab.swift in Sources */,
 				9FD240AF26075D33003C2F2D /* ArticleViewModel.swift in Sources */,
 				9FC6E31C2637C961001B8ECD /* Constants.swift in Sources */,
 				9FD24067260715C1003C2F2D /* MainViewController.swift in Sources */,
-				9FD2408826072F22003C2F2D /* TopHeaderView.swift in Sources */,
+				9FD2408826072F22003C2F2D /* HeaderView.swift in Sources */,
 				9F3B22A32608C71F00A930FD /* String.swift in Sources */,
 				9FC6E3172637C763001B8ECD /* API_KEY.swift in Sources */,
 				9FD24063260715C1003C2F2D /* AppDelegate.swift in Sources */,
 				9FD2409326073404003C2F2D /* TabsPageViewController.swift in Sources */,
 				9FA480992632B8CE006D9C3F /* Setting.swift in Sources */,
-				9FCAD8B7261300C600F4965C /* UILabel.swift in Sources */,
 				9F7732DF2631AD8700E44B71 /* Language.swift in Sources */,
 				9FD240B226075E29003C2F2D /* ArticleTableViewCell.swift in Sources */,
 				9FD24065260715C1003C2F2D /* SceneDelegate.swift in Sources */,

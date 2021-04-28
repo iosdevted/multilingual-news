@@ -25,13 +25,11 @@ class MainViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let apiKey: [String] = [API_KEY.FIRST, API_KEY.SECOND]
     private var selectedRealmLanguages: [RealmLanguage] = [RealmLanguage]()
-    private var allRealmLanguages: [RealmLanguage] = [RealmLanguage]() {
-        didSet {
-            isFirstRun(allRealmLanguages) ?
-                addDefaultLanguagesToRealm(with: Setting.languages) : print("DEBUG(isFirstRun): Not First Run")
-        }
-    }
-    
+    private var allRealmLanguages: [RealmLanguage] = [RealmLanguage]()
+    private var currentIndex: Int = 0
+    private var pageController: UIPageViewController!
+    private var headerView = HeaderView()
+    private var tabsView = TabsView()
     private var articleUrl: String?
     private var articleVM: ArticleViewModel! {
         didSet {
@@ -39,25 +37,12 @@ class MainViewController: UIViewController {
         }
     }
     
-    private var currentIndex: Int = 0
-    private var pageController: UIPageViewController!
-    private var tabsView = TabsView()
-    private var topHeaderContainerView: TopHeaderView = {
-        let view = TopHeaderView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 30
-        view.layer.shadowColor = UIColor.systemGray4.withAlphaComponent(0.7).cgColor
-        view.layer.shadowOpacity = 0.5
-        view.layer.shadowRadius = 7
-        view.layer.shadowOffset = CGSize(width: 0, height: 0)
-        return view
-    }()
-    
     // MARK: - Life Cycle
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchRealmData()
+        isFirstRun(allRealmLanguages) ? addDefaultLanguagesToRealm(with: Setting.languages) : print("DEBUG(isFirstRun): Not First Run")
         configureNavigationBarUI()
         configureUI()
         configureGesture()
@@ -69,7 +54,7 @@ class MainViewController: UIViewController {
     
     // MARK: - Selectors
     
-    @objc func topHeaderContainerViewTapped() {
+    @objc func topHeaderViewTapped() {
         guard let articleUrl = articleUrl, let url = URL(string: articleUrl) else { return }
         
         let safariViewController = SFSafariViewController(url: url)
@@ -138,22 +123,22 @@ class MainViewController: UIViewController {
     private func populateTopNews() {
         DispatchQueue.main.async {
             self.articleVM.title.asDriver(onErrorJustReturn: "")
-                .drive(self.topHeaderContainerView.titleLabel.rx.text)
+                .drive(self.headerView.titleLabel.rx.text)
                 .disposed(by: self.disposeBag)
             
             self.articleVM.publishedAt.bind { (date) in
-                self.topHeaderContainerView.dateLabel.text = date.toLocalTimeWithDate()
+                self.headerView.dateLabel.text = date.toLocalTimeWithDate()
             }.disposed(by: self.disposeBag)
             
             self.articleVM.urlToImage.bind { (url) in
                 if url == "NoImage" {
                     let image = UIImage(named: "NoImage")?.withRenderingMode(.alwaysOriginal)
-                    self.topHeaderContainerView.topHeaderImageView.image = image
-                    self.topHeaderContainerView.topHeaderImageView.contentMode = .center
+                    self.headerView.imageView.image = image
+                    self.headerView.imageView.contentMode = .center
                 } else {
                     let url = URL(string: url)
-                    self.topHeaderContainerView.topHeaderImageView.kf.indicatorType = .activity
-                    self.topHeaderContainerView.topHeaderImageView.kf.setImage(with: url)
+                    self.headerView.imageView.kf.indicatorType = .activity
+                    self.headerView.imageView.kf.setImage(with: url)
                 }
             }.disposed(by: self.disposeBag)
             
@@ -188,13 +173,13 @@ class MainViewController: UIViewController {
         view.backgroundColor = .white
         
         [
-            topHeaderContainerView,
+            headerView,
             tabsView
         ].forEach {
             view.addSubview($0)
         }
         
-        topHeaderContainerView.snp.makeConstraints { (make) -> Void in
+        headerView.snp.makeConstraints { (make) -> Void in
             make.height.equalToSuperview().multipliedBy(0.35)
             
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
@@ -204,14 +189,14 @@ class MainViewController: UIViewController {
         tabsView.snp.makeConstraints { (make) -> Void in
             make.height.equalTo(50)
             
-            make.top.equalTo(topHeaderContainerView.snp.bottom).offset(10)
+            make.top.equalTo(headerView.snp.bottom).offset(10)
             make.leading.trailing.equalTo(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
         }
     }
     
     private func configureGesture() {
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(topHeaderContainerViewTapped))
-        topHeaderContainerView.addGestureRecognizer(gesture)
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(topHeaderViewTapped))
+        headerView.addGestureRecognizer(gesture)
     }
     
     // MARK: - ConfigureTabs
