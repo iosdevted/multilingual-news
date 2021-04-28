@@ -31,7 +31,7 @@ class HeaderView: UIView {
     var titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .bold)
-        label.textColor = Constants.customUIColor.oceanBlue
+        label.textColor = UIColor.oceanBlue
         label.numberOfLines = 0
         return label
     }()

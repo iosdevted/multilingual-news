@@ -11,6 +11,8 @@
 		9F3B228726089D0700A930FD /* SettingsViewTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B228626089D0700A930FD /* SettingsViewTableCell.swift */; };
 		9F3B22A32608C71F00A930FD /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B22A22608C71F00A930FD /* String.swift */; };
 		9F3B22AE2608FA8400A930FD /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B22AD2608FA8400A930FD /* Tab.swift */; };
+		9F73DF35263940E4005CE82A /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F73DF34263940E4005CE82A /* UIColor.swift */; };
+		9F73DF3A263941FE005CE82A /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F73DF39263941FE005CE82A /* UIFont.swift */; };
 		9F7732632631483800E44B71 /* Multilingual_NewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7732622631483800E44B71 /* Multilingual_NewsTests.swift */; };
 		9F7732732631484900E44B71 /* Multilingual_NewsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7732722631484900E44B71 /* Multilingual_NewsUITests.swift */; };
 		9F7732CD2631A98300E44B71 /* RealmLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7732CC2631A98300E44B71 /* RealmLanguage.swift */; };
@@ -22,7 +24,6 @@
 		9FA77FCE261203AF002566A1 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA77FCD261203AF002566A1 /* APIManager.swift */; };
 		9FC0A3D526391F96006F36F6 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC0A3D426391F96006F36F6 /* UIView.swift */; };
 		9FC6E3172637C763001B8ECD /* API_KEY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC6E3162637C763001B8ECD /* API_KEY.swift */; };
-		9FC6E31C2637C961001B8ECD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC6E31B2637C961001B8ECD /* Constants.swift */; };
 		9FC6E3372637E152001B8ECD /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC6E3362637E152001B8ECD /* Array.swift */; };
 		9FCAD8C2261315F700F4965C /* RedHatDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FCAD8BF261315F700F4965C /* RedHatDisplay-Medium.ttf */; };
 		9FCAD8C3261315F700F4965C /* RedHatDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FCAD8C0261315F700F4965C /* RedHatDisplay-Regular.ttf */; };
@@ -74,6 +75,8 @@
 		9F3B228626089D0700A930FD /* SettingsViewTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewTableCell.swift; sourceTree = "<group>"; };
 		9F3B22A22608C71F00A930FD /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		9F3B22AD2608FA8400A930FD /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
+		9F73DF34263940E4005CE82A /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		9F73DF39263941FE005CE82A /* UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
 		9F7732602631483800E44B71 /* Multilingual NewsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Multilingual NewsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F7732622631483800E44B71 /* Multilingual_NewsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Multilingual_NewsTests.swift; sourceTree = "<group>"; };
 		9F7732642631483800E44B71 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -89,7 +92,6 @@
 		9FA77FCD261203AF002566A1 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		9FC0A3D426391F96006F36F6 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		9FC6E3162637C763001B8ECD /* API_KEY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API_KEY.swift; sourceTree = "<group>"; };
-		9FC6E31B2637C961001B8ECD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9FC6E3362637E152001B8ECD /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		9FCAD8BF261315F700F4965C /* RedHatDisplay-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RedHatDisplay-Medium.ttf"; sourceTree = "<group>"; };
 		9FCAD8C0261315F700F4965C /* RedHatDisplay-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RedHatDisplay-Regular.ttf"; sourceTree = "<group>"; };
@@ -195,7 +197,6 @@
 			children = (
 				9FA480982632B8CE006D9C3F /* Setting.swift */,
 				9FC6E3162637C763001B8ECD /* API_KEY.swift */,
-				9FC6E31B2637C961001B8ECD /* Constants.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -385,6 +386,8 @@
 				9F3B22A22608C71F00A930FD /* String.swift */,
 				9FC6E3362637E152001B8ECD /* Array.swift */,
 				9FC0A3D426391F96006F36F6 /* UIView.swift */,
+				9F73DF34263940E4005CE82A /* UIColor.swift */,
+				9F73DF39263941FE005CE82A /* UIFont.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -656,12 +659,13 @@
 				9FC0A3D526391F96006F36F6 /* UIView.swift in Sources */,
 				9F3B22AE2608FA8400A930FD /* Tab.swift in Sources */,
 				9FD240AF26075D33003C2F2D /* ArticleViewModel.swift in Sources */,
-				9FC6E31C2637C961001B8ECD /* Constants.swift in Sources */,
 				9FD24067260715C1003C2F2D /* MainViewController.swift in Sources */,
+				9F73DF3A263941FE005CE82A /* UIFont.swift in Sources */,
 				9FD2408826072F22003C2F2D /* HeaderView.swift in Sources */,
 				9F3B22A32608C71F00A930FD /* String.swift in Sources */,
 				9FC6E3172637C763001B8ECD /* API_KEY.swift in Sources */,
 				9FD24063260715C1003C2F2D /* AppDelegate.swift in Sources */,
+				9F73DF35263940E4005CE82A /* UIColor.swift in Sources */,
 				9FD2409326073404003C2F2D /* TabsPageViewController.swift in Sources */,
 				9FA480992632B8CE006D9C3F /* Setting.swift in Sources */,
 				9F7732DF2631AD8700E44B71 /* Language.swift in Sources */,

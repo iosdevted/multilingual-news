@@ -82,7 +82,7 @@ class TabCell: UICollectionViewCell {
 
     func setupIndicatorView() {
         indicatorView = UIView()
-        inputView?.backgroundColor = Constants.customUIColor.oceanBlue
+        inputView?.backgroundColor = UIColor.oceanBlue
         addSubview(indicatorView)
 
         indicatorView.snp.makeConstraints { (make) -> Void in

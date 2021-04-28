@@ -155,7 +155,7 @@ class MainViewController: UIViewController {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white
         appearance.shadowColor = .clear // Hide UINavigationBar 1px bottom line
-        appearance.largeTitleTextAttributes = [.foregroundColor: Constants.customUIColor.oceanBlue, .font: Constants.largeTitleFont ?? .systemFont(ofSize: 20)]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.oceanBlue, .font: UIFont.mainBoldFont(ofSize: 35)]
         
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.topItem?.title = "Main News"
@@ -163,7 +163,7 @@ class MainViewController: UIViewController {
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
-        var rightBarImage = UIImage(systemName: "globe")?.withTintColor(Constants.customUIColor.oceanBlue)
+        var rightBarImage = UIImage(systemName: "globe")?.withTintColor(UIColor.oceanBlue)
         rightBarImage = rightBarImage?.withRenderingMode(.alwaysOriginal)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: rightBarImage, style: .plain, target: self, action: #selector(rightBarButtonTapped))
         
