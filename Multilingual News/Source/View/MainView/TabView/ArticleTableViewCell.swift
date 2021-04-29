@@ -29,7 +29,6 @@ class ArticleTableViewCell: UITableViewCell {
 
     var titleLabel: UILabel = {
         let label = UILabel()
-        // label.sizeToFit()
         label.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
         label.textColor = UIColor.oceanBlue
         label.lineBreakMode = .byWordWrapping
@@ -87,7 +86,7 @@ class ArticleTableViewCell: UITableViewCell {
             make.height.equalToSuperview().multipliedBy(0.75)
             make.width.equalToSuperview().multipliedBy(0.3)
 
-            make.top.leading.bottom.equalToSuperview().inset(UIEdgeInsets(top: 15, left: 20, bottom: 15, right: 0))
+            make.top.leading.bottom.equalToSuperview().inset(UIEdgeInsets(top: 15, left: 12, bottom: 15, right: 0))
         }
         
         articleImageView.snp.makeConstraints { (make) -> Void in
@@ -95,16 +94,18 @@ class ArticleTableViewCell: UITableViewCell {
         }
 
         titleLabel.snp.makeConstraints { (make) -> Void in
-            make.height.equalToSuperview().multipliedBy(0.5)
+            // make.height.equalToSuperview().multipliedBy(0.5)
 
-            make.top.equalToSuperview().offset(15)
             make.leading.equalTo(articleImageContainerView.snp.trailing).offset(15)
+            make.top.equalToSuperview().offset(12)
             make.trailing.equalToSuperview().offset(-15)
+            make.bottom.equalTo(dateImageView.snp.top).offset(-10)
         }
 
         dateImageView.snp.makeConstraints { (make) -> Void in
+            make.size.equalTo(CGSize(width: 18, height: 18))
             make.leading.equalTo(articleImageContainerView.snp.trailing).offset(15)
-            make.bottom.equalTo(articleImageContainerView.snp.bottom).offset(-3)
+            make.bottom.equalTo(articleImageContainerView.snp.bottom).offset(-5)
         }
 
         dateLabel.snp.makeConstraints { (make) -> Void in

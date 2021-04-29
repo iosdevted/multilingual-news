@@ -19,6 +19,7 @@
 		9F7732DF2631AD8700E44B71 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7732DE2631AD8700E44B71 /* Language.swift */; };
 		9F7732F22631B90800E44B71 /* RealmManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7732F12631B90800E44B71 /* RealmManagerTests.swift */; };
 		9F83D4FF261DA4B7003FCDC3 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 9F83D4FE261DA4B7003FCDC3 /* .swiftlint.yml */; };
+		9F8F1B29263A9F8D00F2AE01 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8F1B28263A9F8D00F2AE01 /* MainTabBarController.swift */; };
 		9F9E4303260C64C900E16C34 /* RefreshManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9E4302260C64C900E16C34 /* RefreshManager.swift */; };
 		9FA480992632B8CE006D9C3F /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA480982632B8CE006D9C3F /* Setting.swift */; };
 		9FA77FCE261203AF002566A1 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA77FCD261203AF002566A1 /* APIManager.swift */; };
@@ -96,6 +97,7 @@
 		9F7732DE2631AD8700E44B71 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		9F7732F12631B90800E44B71 /* RealmManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManagerTests.swift; sourceTree = "<group>"; };
 		9F83D4FE261DA4B7003FCDC3 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		9F8F1B28263A9F8D00F2AE01 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		9F9E4302260C64C900E16C34 /* RefreshManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshManager.swift; sourceTree = "<group>"; };
 		9FA480982632B8CE006D9C3F /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		9FA77FCD261203AF002566A1 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
@@ -411,7 +413,7 @@
 		9FD2407F2607182B003C2F2D /* View */ = {
 			isa = PBXGroup;
 			children = (
-				9FE92041263A5EA400736E74 /* TabBarView */,
+				9FE92041263A5EA400736E74 /* DonateView */,
 				9FC0A3FC26393D02006F36F6 /* MainView */,
 				9F77329C263150C400E44B71 /* SettingView */,
 			);
@@ -421,10 +423,11 @@
 		9FD2408026071833003C2F2D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				9F8F1B28263A9F8D00F2AE01 /* MainTabBarController.swift */,
 				9FE92040263A5E8200736E74 /* SettingVC */,
 				9F7732902631509700E44B71 /* NewsVC */,
 				9F73DF66263961EB005CE82A /* MainVC */,
-				9FE9200A263A59F800736E74 /* TabBarVC */,
+				9FE9200A263A59F800736E74 /* DonateVC */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -467,12 +470,12 @@
 			path = Reusable;
 			sourceTree = "<group>";
 		};
-		9FE9200A263A59F800736E74 /* TabBarVC */ = {
+		9FE9200A263A59F800736E74 /* DonateVC */ = {
 			isa = PBXGroup;
 			children = (
 				9FE92005263A59F400736E74 /* DonateViewController.swift */,
 			);
-			path = TabBarVC;
+			path = DonateVC;
 			sourceTree = "<group>";
 		};
 		9FE92040263A5E8200736E74 /* SettingVC */ = {
@@ -483,15 +486,7 @@
 			path = SettingVC;
 			sourceTree = "<group>";
 		};
-		9FE92041263A5EA400736E74 /* TabBarView */ = {
-			isa = PBXGroup;
-			children = (
-				9FE92045263A603700736E74 /* DonateView */,
-			);
-			path = TabBarView;
-			sourceTree = "<group>";
-		};
-		9FE92045263A603700736E74 /* DonateView */ = {
+		9FE92041263A5EA400736E74 /* DonateView */ = {
 			isa = PBXGroup;
 			children = (
 				9FE92059263A626B00736E74 /* DonateTableView.swift */,
@@ -786,6 +781,7 @@
 				9FE91FC8263981F900736E74 /* UICollectionView+Reusable.swift in Sources */,
 				9F7732DF2631AD8700E44B71 /* Language.swift in Sources */,
 				9FD240B226075E29003C2F2D /* ArticleTableViewCell.swift in Sources */,
+				9F8F1B29263A9F8D00F2AE01 /* MainTabBarController.swift in Sources */,
 				9FD24065260715C1003C2F2D /* SceneDelegate.swift in Sources */,
 				9FE8B4352632FBC900DC87A8 /* RealmManager.swift in Sources */,
 				9FD2408D26073221003C2F2D /* TabsView.swift in Sources */,

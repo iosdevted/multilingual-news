@@ -15,7 +15,7 @@ class DonateHeaderView: UIView {
     private var presentationLabel: UILabel = {
         let label = UILabel()
         label.sizeToFit()
-        label.font = .mainRegularFont(ofSize: 20)
+        label.font = .mainBoldFont(ofSize: 19)
         label.textColor = UIColor.black
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
@@ -26,7 +26,7 @@ class DonateHeaderView: UIView {
     
     private var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .mainBoldFont(ofSize: 17)
+        label.font = .mainBoldFont(ofSize: 15)
         label.textColor = UIColor.black
         label.numberOfLines = 1
         label.text = "Keep Developing 🧑‍💻"
@@ -95,9 +95,9 @@ class DonateHeaderView: UIView {
         }
         
         presentationLabel.snp.makeConstraints { (make) -> Void in
-            make.leading.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().offset(20)
             make.top.equalToSuperview().offset(30)
-            make.trailing.equalToSuperview().offset(-10)
+            make.trailing.equalToSuperview().offset(-20)
         }
         
         descriptionLabel.snp.makeConstraints { (make) -> Void in

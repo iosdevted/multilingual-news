@@ -23,6 +23,7 @@ class DonateViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavigationBarUI()
         configureUI()
         configureTableView()
         configureGesture()
@@ -68,6 +69,26 @@ class DonateViewController: UIViewController {
     
     // MARK: - ConfigureUI
     
+//    private func configureNavigationBarUI() {
+//        navigationController?.isNavigationBarHidden = true
+//    }
+    
+    private func configureNavigationBarUI() {
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .white
+        appearance.shadowColor = .clear // Hide UINavigationBar 1px bottom line
+        navigationController?.navigationBar.standardAppearance = appearance
+
+        let titleLabel = UILabel()
+        titleLabel.text = "Donate"
+        titleLabel.tintColor = .oceanBlue
+        titleLabel.font = UIFont.mainBoldFont(ofSize: 20)
+        titleLabel.sizeToFit()
+
+        let leftItem = UIBarButtonItem(customView: titleLabel)
+        navigationItem.leftBarButtonItem = leftItem
+    }
+    
     private func configureUI() {
         view.backgroundColor = .white
         
@@ -93,6 +114,7 @@ class DonateViewController: UIViewController {
     
     private func configureTableView() {
         self.tableView.register(cellType: DonateTableView.self)
+        tableView.isScrollEnabled = false
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
@@ -120,12 +142,12 @@ extension DonateViewController: UITableViewDataSource, UITableViewDelegate {
     //    }
     
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return """
-        CHOOSE DONATION PLAN
-        Don't worry. All services of GITGET is free. You don't have to pay to use the app.
-        """
-    }
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return """
+//        CHOOSE DONATION PLAN
+//        Don't worry. All services of GITGET is free. You don't have to pay to use the app.
+//        """
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(for: indexPath, cellType: DonateTableView.self)
