@@ -28,7 +28,8 @@ class MainViewController: UIViewController {
     private var allRealmLanguages: [RealmLanguage] = [RealmLanguage]()
     private var currentIndex: Int = 0
     private var pageController: UIPageViewController!
-    private var headerView = HeaderView()
+    private var scrollView = UIScrollView()
+    private var headerView = MainHeaderView()
     private var tabsView = TabsView()
     private var articleUrl: String?
     private var articleVM: ArticleViewModel! {
@@ -64,7 +65,7 @@ class MainViewController: UIViewController {
     @objc func rightBarButtonTapped() {
         let languages: [Language] = allRealmLanguages.changeToLanguageType()
         let settingViewController = SettingViewController(languages: languages)
-
+        
         let nav = UINavigationController(rootViewController: settingViewController)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
@@ -164,22 +165,17 @@ class MainViewController: UIViewController {
     // MARK: - ConfigureUI
     
     private func configureNavigationBarUI() {
-        
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white
         appearance.shadowColor = .clear // Hide UINavigationBar 1px bottom line
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.oceanBlue, .font: UIFont.mainBoldFont(ofSize: 35)]
-        
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.topItem?.title = "Main News"
         navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.compactAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
+
+        let leftItem = UIBarButtonItem(customView: UILabel.mainTitleFont(with: "Multilingual News"))
+        navigationItem.leftBarButtonItem = leftItem
+
         var rightBarImage = UIImage(systemName: "globe")?.withTintColor(UIColor.oceanBlue)
         rightBarImage = rightBarImage?.withRenderingMode(.alwaysOriginal)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: rightBarImage, style: .plain, target: self, action: #selector(rightBarButtonTapped))
-        
     }
     
     private func configureUI() {
@@ -196,14 +192,14 @@ class MainViewController: UIViewController {
             make.height.equalToSuperview().multipliedBy(0.35)
             
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
-            make.leading.trailing.equalTo(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
+            make.leading.trailing.equalTo(UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12))
         }
         
         tabsView.snp.makeConstraints { (make) -> Void in
             make.height.equalTo(50)
             
             make.top.equalTo(headerView.snp.bottom).offset(10)
-            make.leading.trailing.equalTo(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
+            make.leading.trailing.equalTo(UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12))
         }
     }
     

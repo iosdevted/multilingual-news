@@ -1,5 +1,5 @@
 //
-//  HeaderView.swift
+//  MainHeaderView.swift
 //  Multilingual News
 //
 //  Created by Ted on 2021/03/21.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class HeaderView: UIView {
+class MainHeaderView: UIView {
     
     // MARK: Properties
     
