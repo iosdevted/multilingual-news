@@ -28,7 +28,7 @@ class MainViewController: UIViewController {
     private var allRealmLanguages: [RealmLanguage] = [RealmLanguage]()
     private var currentIndex: Int = 0
     private var pageController: UIPageViewController!
-    private var headerView = HeaderView()
+    private var headerView = MainHeaderView()
     private var tabsView = TabsView()
     private var articleUrl: String?
     private var articleVM: ArticleViewModel! {
