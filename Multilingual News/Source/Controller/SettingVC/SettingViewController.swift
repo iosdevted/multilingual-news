@@ -32,6 +32,10 @@ class SettingViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         configureNavigationBarUI()
     }
 
@@ -92,6 +96,7 @@ class SettingViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
+        tableView.isScrollEnabled = false
         tableView.isEditing = true
         // Allow Selection During Editing, unless click doesn't work
         tableView.allowsSelectionDuringEditing = true
@@ -102,17 +107,12 @@ class SettingViewController: UIViewController {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white
         appearance.shadowColor = .clear
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.oceanBlue, .font: UIFont.mainBoldFont(ofSize: 30)]
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.oceanBlue, .font: UIFont.mainBoldFont(ofSize: 20)]
-
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.topItem?.title = "Manage Languages"
         navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-
-        var leftBarImage = UIImage(systemName: "arrowshape.turn.up.backward")?.withTintColor(UIColor.oceanBlue)
-        leftBarImage = leftBarImage?.withRenderingMode(.alwaysOriginal)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: leftBarImage, style: .plain, target: self, action: #selector(backButtonTapped))
+        
+        let leftBarItem = UIBarButtonItem(customView: UILabel.mainTitleFont(with: "Manage Languages"))
+        navigationItem.leftBarButtonItem = leftBarItem
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(backButtonTapped))
+        navigationItem.rightBarButtonItem?.tintColor = .oceanBlue
     }
 
 }

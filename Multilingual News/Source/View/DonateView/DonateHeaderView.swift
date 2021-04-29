@@ -15,7 +15,7 @@ class DonateHeaderView: UIView {
     private var presentationLabel: UILabel = {
         let label = UILabel()
         label.sizeToFit()
-        label.font = .mainBoldFont(ofSize: 19)
+        label.font = .mainRegularFont(ofSize: 19)
         label.textColor = UIColor.black
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
@@ -26,40 +26,26 @@ class DonateHeaderView: UIView {
     
     private var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .mainBoldFont(ofSize: 15)
+        label.font = .mainRegularFont(ofSize: 15)
         label.textColor = UIColor.black
         label.numberOfLines = 1
         label.text = "Keep Developing 🧑‍💻"
         return label
     }()
     
-    // Extension을 이용해서 코드량 줄이기
-    lazy var githubIconImageView: UIImageView = {
-        let image = UIImage(named: "GitHub-Mark_Black")?.withRenderingMode(.alwaysOriginal)
-        let imageView = UIImageView(image: image)
-        imageView.isUserInteractionEnabled = true
-        imageView.tintColor = .black
-        imageView.contentMode = .scaleAspectFill
-        
-        imageView.snp.makeConstraints { (make) -> Void in
-            make.size.equalTo(CGSize(width: 20, height: 20))
-        }
-        
-        return imageView
+    lazy var emailIconButton: UIButton = {
+        let image = UIImage(named: "ui-email")?.withRenderingMode(.alwaysOriginal)
+        return iconButtonGenerator(with: image)
     }()
     
-    lazy var linkedinIconImageView: UIImageView = {
+    lazy var githubIconButton: UIButton = {
+        let image = UIImage(named: "GitHub-Mark_Black")?.withRenderingMode(.alwaysOriginal)
+        return iconButtonGenerator(with: image)
+    }()
+    
+    lazy var linkedinIconButton: UIButton = {
         let image = UIImage(named: "LinkedIn-Logos_Black")?.withRenderingMode(.alwaysOriginal)
-        let imageView = UIImageView(image: image)
-        imageView.isUserInteractionEnabled = true
-        imageView.tintColor = .black
-        imageView.contentMode = .scaleAspectFill
-        
-        imageView.snp.makeConstraints { (make) -> Void in
-            make.size.equalTo(CGSize(width: 20, height: 20))
-        }
-        
-        return imageView
+        return iconButtonGenerator(with: image)
     }()
     
     // MARK: Init
@@ -76,12 +62,24 @@ class DonateHeaderView: UIView {
     
     // MARK: Helpers
     
+    private func iconButtonGenerator(with image: UIImage?) -> UIButton {
+        let button = UIButton(type: .custom)
+        button.setImage(image, for: .normal)
+
+        button.snp.makeConstraints { (make) -> Void in
+            make.size.equalTo(CGSize(width: 20, height: 20))
+        }
+        return button
+    }
+    
+    // MARK: ConfigureUI
+    
     private func configureUIStyle() {
         backgroundColor = .white
     }
     
     private func configureUI() {
-        let iconImageViewStack = UIStackView(arrangedSubviews: [githubIconImageView, linkedinIconImageView])
+        let iconImageViewStack = UIStackView(arrangedSubviews: [emailIconButton, githubIconButton, linkedinIconButton])
         iconImageViewStack.axis = .horizontal
         iconImageViewStack.distribution = .fillEqually
         iconImageViewStack.spacing = 10
@@ -107,18 +105,8 @@ class DonateHeaderView: UIView {
         
         iconImageViewStack.snp.makeConstraints { (make) -> Void in
             make.centerX.equalToSuperview()
-            make.top.equalTo(descriptionLabel.snp.bottom).offset(10)
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(15)
         }
-        
-//        iconImageViewStack.snp.makeConstraints { (make) -> Void in
-//            make.centerX.equalToSuperview()
-//            make.bottom.equalToSuperview().offset(-10)
-//        }
-        
-//        descriptionLabel.snp.makeConstraints { (make) -> Void in
-//            make.centerX.equalToSuperview()
-//            make.bottom.equalTo(iconImageViewStack.snp.top).offset(-10)
-//        }
     }
     
 }

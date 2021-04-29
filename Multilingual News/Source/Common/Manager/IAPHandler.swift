@@ -26,7 +26,6 @@ class IAPHandler: NSObject {
     
     func purchaseMyProduct(index: Int) {
         if iapProducts.count == 0 { return }
-        
         if self.canMakePurchases() {
             let product = iapProducts[index]
             let payment = SKPayment(product: product)

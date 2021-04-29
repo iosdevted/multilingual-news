@@ -12,7 +12,7 @@ class DonateTableView: UITableViewCell {
     
     // MARK: Properties
     
-    lazy var donationImageView: UIImageView = {
+    lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         
@@ -22,7 +22,7 @@ class DonateTableView: UITableViewCell {
         return imageView
     }()
     
-    var donationTitleLabel: UILabel = {
+    var titleLabel: UILabel = {
         let label = UILabel()
         label.font = .mainBoldFont(ofSize: 15)
         label.textColor = UIColor.black
@@ -30,7 +30,7 @@ class DonateTableView: UITableViewCell {
         return label
     }()
     
-    var donationPriceLabel: UILabel = {
+    var priceLabel: UILabel = {
         let label = UILabel()
         label.font = .mainRegularFont(ofSize: 13)
         label.textColor = UIColor.black
@@ -50,29 +50,27 @@ class DonateTableView: UITableViewCell {
     }
 
     private func configureUI() {
-        selectionStyle = .none
-        
         [
-            donationImageView,
-            donationTitleLabel,
-            donationPriceLabel
+            iconImageView,
+            titleLabel,
+            priceLabel
         ].forEach {
             addSubview($0)
         }
 
-        donationImageView.snp.makeConstraints { (make) -> Void in
+        iconImageView.snp.makeConstraints { (make) -> Void in
             make.centerY.equalToSuperview()
             make.leading.equalToSuperview().offset(20)
         }
         
-        donationTitleLabel.snp.makeConstraints { (make) -> Void in
+        titleLabel.snp.makeConstraints { (make) -> Void in
             make.centerY.equalToSuperview().offset(-10)
-            make.leading.equalTo(donationImageView.snp.trailing).offset(30)
+            make.leading.equalTo(iconImageView.snp.trailing).offset(30)
         }
 
-        donationPriceLabel.snp.makeConstraints { (make) -> Void in
+        priceLabel.snp.makeConstraints { (make) -> Void in
             make.centerY.equalToSuperview().offset(10)
-            make.leading.equalTo(donationImageView.snp.trailing).offset(30)
+            make.leading.equalTo(iconImageView.snp.trailing).offset(30)
         }
     }
 }

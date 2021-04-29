@@ -28,6 +28,7 @@ class MainViewController: UIViewController {
     private var allRealmLanguages: [RealmLanguage] = [RealmLanguage]()
     private var currentIndex: Int = 0
     private var pageController: UIPageViewController!
+    private var scrollView = UIScrollView()
     private var headerView = MainHeaderView()
     private var tabsView = TabsView()
     private var articleUrl: String?
@@ -168,16 +169,8 @@ class MainViewController: UIViewController {
         appearance.backgroundColor = .white
         appearance.shadowColor = .clear // Hide UINavigationBar 1px bottom line
         navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.compactAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
 
-        let titleLabel = UILabel()
-        titleLabel.text = "Multilingual News"
-        titleLabel.tintColor = .oceanBlue
-        titleLabel.font = UIFont.mainBoldFont(ofSize: 20)
-        titleLabel.sizeToFit()
-
-        let leftItem = UIBarButtonItem(customView: titleLabel)
+        let leftItem = UIBarButtonItem(customView: UILabel.mainTitleFont(with: "Multilingual News"))
         navigationItem.leftBarButtonItem = leftItem
 
         var rightBarImage = UIImage(systemName: "globe")?.withTintColor(UIColor.oceanBlue)
@@ -196,7 +189,7 @@ class MainViewController: UIViewController {
         }
         
         headerView.snp.makeConstraints { (make) -> Void in
-            make.height.equalToSuperview().multipliedBy(0.33)
+            make.height.equalToSuperview().multipliedBy(0.35)
             
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
             make.leading.trailing.equalTo(UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12))

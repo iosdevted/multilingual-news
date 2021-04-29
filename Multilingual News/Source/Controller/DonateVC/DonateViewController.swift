@@ -7,8 +7,8 @@
 
 import SafariServices
 import StoreKit
+import MessageUI
 import UIKit
-
 
 class DonateViewController: UIViewController {
     
@@ -37,16 +37,46 @@ class DonateViewController: UIViewController {
     
     // MARK: - Selectors
     
+    @objc private func emailButonTapped() {
+        let userSystemVersion = UIDevice.current.systemVersion
+        let userAppVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] ?? ""
+        let mailComposeViewController = MFMailComposeViewController()
+        mailComposeViewController.mailComposeDelegate = self
+        mailComposeViewController.setToRecipients([SystemConstants.Email.emailAddress])
+        mailComposeViewController.setSubject(SystemConstants.Email.subject)
+        mailComposeViewController.setMessageBody(String(format: SystemConstants.Email.body, userSystemVersion, userAppVersion as! CVarArg), isHTML: false)
+        
+        if MFMailComposeViewController.canSendMail() {
+            self.present(mailComposeViewController, animated: true, completion: nil)
+        }
+    }
+    
     @objc private func gitHubButtonTapped() {
-        openSafariViewOf(url: "https://github.com/iosdevted")
+        guard let directUrl: URL = URL(string: SystemConstants.SNS.github) else { return }
+        UIApplication.shared.open(directUrl, options: [:], completionHandler: { result in
+            if !result {
+                self.openSafariView(for: SystemConstants.SNS.github)
+            }
+        })
     }
     
     @objc private func linkedinButonTapped() {
-        openSafariViewOf(url: "https://www.linkedin.com/in/sunggweon-hyeong")
+        guard let directUrl: URL = URL(string: SystemConstants.SNS.linkedinDirect) else { return }
+        UIApplication.shared.open(directUrl, options: [:], completionHandler: { result in
+            if !result {
+                self.openSafariView(for: SystemConstants.SNS.linkedin)
+            }
+        })
     }
     
-    
     // MARK: - Helpers
+    
+    private func openSafariView(for url: String) {
+        guard let realUrl: URL = URL(string:url) else { return }
+        let safariViewController: SFSafariViewController = SFSafariViewController(url: realUrl)
+        safariViewController.delegate = self
+        self.present(safariViewController, animated: true, completion: nil)
+    }
     
     private func fetchAvailableProducts() {
         IAPHandler.shared.fetchAvailableProducts()
@@ -61,31 +91,15 @@ class DonateViewController: UIViewController {
         }
     }
     
-    private func openSafariViewOf(url: String) {
-        guard let url: URL = URL(string: url) else { return }
-        let safariViewController: SFSafariViewController = SFSafariViewController(url: url)
-        self.present(safariViewController, animated: true, completion: nil)
-    }
-    
     // MARK: - ConfigureUI
-    
-//    private func configureNavigationBarUI() {
-//        navigationController?.isNavigationBarHidden = true
-//    }
     
     private func configureNavigationBarUI() {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white
         appearance.shadowColor = .clear // Hide UINavigationBar 1px bottom line
         navigationController?.navigationBar.standardAppearance = appearance
-
-        let titleLabel = UILabel()
-        titleLabel.text = "Donate"
-        titleLabel.tintColor = .oceanBlue
-        titleLabel.font = UIFont.mainBoldFont(ofSize: 20)
-        titleLabel.sizeToFit()
-
-        let leftItem = UIBarButtonItem(customView: titleLabel)
+        
+        let leftItem = UIBarButtonItem(customView: UILabel.mainTitleFont(with: "Donate"))
         navigationItem.leftBarButtonItem = leftItem
     }
     
@@ -120,13 +134,13 @@ class DonateViewController: UIViewController {
         tableView.separatorStyle = .none
     }
     
-    // MARK: ConfigureGesture
-    
     private func configureGesture() {
+        let emailGesture = UITapGestureRecognizer(target: self, action: #selector(emailButonTapped))
+        headerView.emailIconButton.addGestureRecognizer(emailGesture)
         let githubGesture = UITapGestureRecognizer(target: self, action: #selector(gitHubButtonTapped))
-        headerView.githubIconImageView.addGestureRecognizer(githubGesture)
+        headerView.githubIconButton.addGestureRecognizer(githubGesture)
         let linkedinGesture = UITapGestureRecognizer(target: self, action: #selector(linkedinButonTapped))
-        headerView.linkedinIconImageView.addGestureRecognizer(linkedinGesture)
+        headerView.linkedinIconButton.addGestureRecognizer(linkedinGesture)
     }
 }
 
@@ -137,31 +151,32 @@ extension DonateViewController: UITableViewDataSource, UITableViewDelegate {
         return 3
     }
     
-    //    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    //        return 150.0
-    //    }
-    
-    
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return """
-//        CHOOSE DONATION PLAN
-//        Don't worry. All services of GITGET is free. You don't have to pay to use the app.
-//        """
-//    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(for: indexPath, cellType: DonateTableView.self)
-        cell.donationTitleLabel.text = self.rowTitles[indexPath.row]
-        cell.donationPriceLabel.text = self.rowSubtitles[indexPath.row]
-        cell.donationImageView.image = UIImage(named: "donation\(indexPath.row)")
+        cell.titleLabel.text = self.rowTitles[indexPath.row]
+        cell.priceLabel.text = self.rowSubtitles[indexPath.row]
+        cell.iconImageView.image = UIImage(named: "donation\(indexPath.row)")
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-         IAPHandler.shared.purchaseMyProduct(index: indexPath.row)
+        IAPHandler.shared.purchaseMyProduct(index: indexPath.row)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70.0
+    }
+}
+
+extension DonateViewController: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension DonateViewController: SFSafariViewControllerDelegate {
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        self.dismiss(animated: true, completion: nil)
     }
 }
