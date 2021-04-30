@@ -7,7 +7,7 @@
 <a href="https://apps.apple.com/us/app/multilingual-news/id1560598461" > <img src="https://raw.githubusercontent.com/younatics/MotionBook/master/Images/appstore.png" width="170" height="58"></a>
 
 <center>
-  <img src="https://user-images.githubusercontent.com/50784573/112966328-17265c80-9185-11eb-8827-59700fe2c349.jpg"/>
+  <img src="https://user-images.githubusercontent.com/50784573/116653056-639dcb80-a9c1-11eb-8dd5-669fe06c2b67.jpg"/>
 </center>
 
 This application is for busy multilingual people. Choose your languages from 12 languages and read the latest news with this one application. Keep up-to-date on the latest issues without forgetting the languages
@@ -58,6 +58,8 @@ on a simple and nice interface.
   - [M13Checkbox](https://github.com/Marxon13/M13Checkbox)
 
 ## Update
+
+- v1.2.0: This version introduces a new design & tab bar at the bottom of an app screen.
 
 - v1.1.0: Replace from CoreData to Realm. This version introduces a hamburger tab giving you the ability to change the order of languages.
 
