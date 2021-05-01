@@ -29,4 +29,9 @@ struct SystemConstants {
         static let linkedin = "https://www.linkedin.com/in/sunggweon-hyeong/"
         static let linkedinDirect = "linkedin://profile/sunggweon-hyeong"
     }
+    
+    struct Donation {
+        static let presentation = "This application relies on your support to fund its development. If you find it useful, please consider supporting the app by leaving a tip. Any tip given will feed below hungry developer."
+        static let status = "Keep Developing 🧑‍💻"
+    }
 }

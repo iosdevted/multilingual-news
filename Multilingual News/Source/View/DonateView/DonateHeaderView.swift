@@ -20,16 +20,16 @@ class DonateHeaderView: UIView {
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
-        label.text = "This application relies on your support to fund its development. If you find it useful, please consider supporting the app by leaving a tip. Any tip given will feed below hungry developer."
+        label.text = SystemConstants.Donation.presentation
         return label
     }()
     
-    private var descriptionLabel: UILabel = {
+    private var statusLabel: UILabel = {
         let label = UILabel()
         label.font = .mainRegularFont(ofSize: 15)
         label.textColor = UIColor.black
         label.numberOfLines = 1
-        label.text = "Keep Developing 🧑‍💻"
+        label.text = SystemConstants.Donation.status
         return label
     }()
     
@@ -82,11 +82,11 @@ class DonateHeaderView: UIView {
         let iconImageViewStack = UIStackView(arrangedSubviews: [emailIconButton, githubIconButton, linkedinIconButton])
         iconImageViewStack.axis = .horizontal
         iconImageViewStack.distribution = .fillEqually
-        iconImageViewStack.spacing = 10
+        iconImageViewStack.spacing = 12
         
         [
             presentationLabel,
-            descriptionLabel,
+            statusLabel,
             iconImageViewStack
         ].forEach {
             addSubview($0)
@@ -98,14 +98,14 @@ class DonateHeaderView: UIView {
             make.trailing.equalToSuperview().offset(-20)
         }
         
-        descriptionLabel.snp.makeConstraints { (make) -> Void in
+        statusLabel.snp.makeConstraints { (make) -> Void in
             make.centerX.equalToSuperview()
             make.top.equalTo(presentationLabel.snp.bottom).offset(20)
         }
         
         iconImageViewStack.snp.makeConstraints { (make) -> Void in
             make.centerX.equalToSuperview()
-            make.top.equalTo(descriptionLabel.snp.bottom).offset(15)
+            make.top.equalTo(statusLabel.snp.bottom).offset(17)
         }
     }
     

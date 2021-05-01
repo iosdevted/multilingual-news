@@ -11,9 +11,9 @@ import StoreKit
 class IAPHandler: NSObject {
     static let shared = IAPHandler()
     
-    let productID_EnergyBar = "kr.tedhyeong.multilingual.donation1"
-    let productID_Coffee = "kr.tedhyeong.multilingual.donation2"
-    let productID_Hamburger = "kr.tedhyeong.multilingual.donation3"
+    let productID_EnergyBar = "kr.tedhyeong.multilingual.energybar"
+    let productID_Coffee = "kr.tedhyeong.multilingual.coffee"
+    let productID_Hamburger = "kr.tedhyeong.multilingual.burger"
     
     fileprivate var productID = ""
     fileprivate var productsRequest = SKProductsRequest()

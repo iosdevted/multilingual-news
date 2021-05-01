@@ -196,7 +196,7 @@ class MainViewController: UIViewController {
         }
         
         tabsView.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(50)
+            make.height.equalTo(40)
             
             make.top.equalTo(headerView.snp.bottom).offset(10)
             make.leading.trailing.equalTo(UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12))
