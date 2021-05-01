@@ -65,7 +65,7 @@ class MainViewController: UIViewController {
     @objc func rightBarButtonTapped() {
         let languages: [Language] = allRealmLanguages.changeToLanguageType()
         let settingViewController = SettingViewController(languages: languages)
-        
+
         let nav = UINavigationController(rootViewController: settingViewController)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
@@ -78,22 +78,22 @@ class MainViewController: UIViewController {
     }
     
     // MARK: - Realm Helpers
-    
+
     private func fetchRealmData() {
         let predicate = NSPredicate(format: "isChecked == true")
         let fetchRealmData = realmManager.retrieveAllDataForObject(RealmLanguage.self)
             .map { $0 as! RealmLanguage }
         let fetchSelectedRealmData = realmManager.retrievePredicatedDataForObject(RealmLanguage.self, with: predicate)
             .map { $0 as! RealmLanguage }
-        
+
         selectedRealmLanguages = fetchSelectedRealmData
         allRealmLanguages = fetchRealmData
     }
-    
+
     private func deleteRealmData() {
         realmManager.deleteAllDataForObject(RealmLanguage.self)
     }
-    
+
     private func saveRealmData(with languages: [Language]) {
         languages.forEach {
             let realmLanguage = RealmLanguage()
@@ -101,7 +101,7 @@ class MainViewController: UIViewController {
             realmManager.add(realmLanguage)
         }
     }
-    
+
     private func addDefaultLanguagesToRealm(with languages: [Language]) {
         saveRealmData(with: languages)
         fetchRealmData()
@@ -189,9 +189,9 @@ class MainViewController: UIViewController {
         }
         
         headerView.snp.makeConstraints { (make) -> Void in
-            make.height.equalToSuperview().multipliedBy(0.35)
+            make.height.equalToSuperview().multipliedBy(0.33)
             
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.leading.trailing.equalTo(UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12))
         }
         

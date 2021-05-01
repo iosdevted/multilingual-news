@@ -17,13 +17,11 @@ class TabsView: UIView {
     // MARK: - Properties
 
     weak var delegate: TabsDelegate?
-    // Set TabMode to '.fixed' for stretched tabs in full width of screen or '.scrollable' for scrolling to see all tabs
     var tabMode: TabMode = .fixed
     var tabs: [Tab] = []
     var collectionView: UICollectionView!
     var titleColor: UIColor = UIColor.oceanBlue
-    var titleFont: UIFont = UIFont.mainRegularFont(ofSize: 14)
-    var iconColor: UIColor = .black
+    var titleFont: UIFont = UIFont.mainRegularFont(ofSize: 15)
     var indicatorColor: UIColor = UIColor.oceanBlue
 
     // MARK: - Init
@@ -69,8 +67,6 @@ extension TabsView: UICollectionViewDelegate, UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(for: indexPath, cellType: TabCell.self)
         cell.tabViewModel = Tab(icon: tabs[indexPath.item].icon, title: tabs[indexPath.item].title)
         cell.tabIcon.image = cell.tabIcon.image?.withRenderingMode(.alwaysOriginal)
-        // cell.tabIcon.tintColor = iconColor
-
         cell.tabTitle.font = titleFont
         cell.tabTitle.textColor = titleColor
         cell.indicatorColor = indicatorColor

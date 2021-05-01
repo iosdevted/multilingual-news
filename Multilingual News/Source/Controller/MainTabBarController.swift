@@ -16,7 +16,7 @@ class MainTabBarController: UITabBarController {
         configureViewControllers()
     }
     
-    // MARk: - Helpers
+    // MARK: - ConfigureVC
  
     private func configureViewControllers() {
         tabBar.tintColor = .oceanBlue

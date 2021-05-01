@@ -99,7 +99,7 @@ class DonateViewController: UIViewController {
         appearance.shadowColor = .clear // Hide UINavigationBar 1px bottom line
         navigationController?.navigationBar.standardAppearance = appearance
         
-        let leftItem = UIBarButtonItem(customView: UILabel.mainTitleFont(with: "Donate"))
+        let leftItem = UIBarButtonItem(customView: UILabel.mainTitleFont(with: "Support"))
         navigationItem.leftBarButtonItem = leftItem
     }
     
@@ -114,7 +114,7 @@ class DonateViewController: UIViewController {
         }
         
         headerView.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(260)
+            make.height.equalTo(240)
             
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.leading.trailing.equalToSuperview()

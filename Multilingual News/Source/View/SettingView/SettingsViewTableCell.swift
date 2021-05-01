@@ -35,7 +35,7 @@ class SettingsViewTableCell: UITableViewCell {
     var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15, weight: .light)
-        label.textColor = UIColor.oceanBlue
+        label.textColor = .black
         label.numberOfLines = 0
         return label
     }()
