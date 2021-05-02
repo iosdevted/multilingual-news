@@ -12,7 +12,7 @@ extension UILabel {
     static func mainTitleFont(with text: String) -> UILabel {
         let titleLabel = UILabel()
         titleLabel.text = text
-        titleLabel.tintColor = .oceanBlue
+        titleLabel.tintColor = .warmBlack
         titleLabel.font = UIFont.mainBoldFont(ofSize: 20)
         titleLabel.sizeToFit()
         

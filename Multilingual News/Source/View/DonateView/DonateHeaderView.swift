@@ -15,7 +15,7 @@ class DonateHeaderView: UIView {
     private var presentationLabel: UILabel = {
         let label = UILabel()
         label.sizeToFit()
-        label.font = .mainRegularFont(ofSize: 19)
+        label.font = .mainRegularFont(ofSize: 17)
         label.textColor = UIColor.black
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
@@ -26,7 +26,7 @@ class DonateHeaderView: UIView {
     
     private var statusLabel: UILabel = {
         let label = UILabel()
-        label.font = .mainRegularFont(ofSize: 15)
+        label.font = .mainRegularFont(ofSize: 17)
         label.textColor = UIColor.black
         label.numberOfLines = 1
         label.text = SystemConstants.Donation.status
@@ -93,9 +93,9 @@ class DonateHeaderView: UIView {
         }
         
         presentationLabel.snp.makeConstraints { (make) -> Void in
-            make.leading.equalToSuperview().offset(20)
+            make.leading.equalToSuperview().offset(25)
             make.top.equalToSuperview().offset(30)
-            make.trailing.equalToSuperview().offset(-20)
+            make.trailing.equalToSuperview().offset(-25)
         }
         
         statusLabel.snp.makeConstraints { (make) -> Void in
@@ -105,7 +105,7 @@ class DonateHeaderView: UIView {
         
         iconImageViewStack.snp.makeConstraints { (make) -> Void in
             make.centerX.equalToSuperview()
-            make.top.equalTo(statusLabel.snp.bottom).offset(17)
+            make.top.equalTo(statusLabel.snp.bottom).offset(16)
         }
     }
     

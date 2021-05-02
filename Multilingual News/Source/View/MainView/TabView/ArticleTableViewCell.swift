@@ -30,7 +30,7 @@ class ArticleTableViewCell: UITableViewCell {
     var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
-        label.textColor = UIColor.oceanBlue
+        label.textColor = UIColor.warmBlack
         label.lineBreakMode = .byWordWrapping
         label.contentMode = .topLeft
         label.numberOfLines = 0
@@ -83,10 +83,10 @@ class ArticleTableViewCell: UITableViewCell {
         }
 
         articleImageContainerView.snp.makeConstraints { (make) -> Void in
-            make.height.equalToSuperview().multipliedBy(0.75)
+            make.height.equalTo(90)
             make.width.equalToSuperview().multipliedBy(0.3)
 
-            make.top.leading.bottom.equalToSuperview().inset(UIEdgeInsets(top: 15, left: 12, bottom: 15, right: 0))
+            make.top.leading.bottom.equalToSuperview().inset(UIEdgeInsets(top: 10, left: 12, bottom: 15, right: 0))
         }
         
         articleImageView.snp.makeConstraints { (make) -> Void in
@@ -97,7 +97,7 @@ class ArticleTableViewCell: UITableViewCell {
             // make.height.equalToSuperview().multipliedBy(0.5)
 
             make.leading.equalTo(articleImageContainerView.snp.trailing).offset(15)
-            make.top.equalToSuperview().offset(12)
+            make.top.equalToSuperview().offset(10)
             make.trailing.equalToSuperview().offset(-15)
             make.bottom.equalTo(dateImageView.snp.top).offset(-10)
         }
@@ -105,12 +105,12 @@ class ArticleTableViewCell: UITableViewCell {
         dateImageView.snp.makeConstraints { (make) -> Void in
             make.size.equalTo(CGSize(width: 18, height: 18))
             make.leading.equalTo(articleImageContainerView.snp.trailing).offset(15)
-            make.bottom.equalTo(articleImageContainerView.snp.bottom).offset(-5)
+            make.bottom.equalTo(articleImageContainerView.snp.bottom).offset(-3)
         }
 
         dateLabel.snp.makeConstraints { (make) -> Void in
             make.leading.equalTo(dateImageView.snp.trailing).offset(5)
-            make.bottom.equalTo(articleImageContainerView.snp.bottom).offset(-5)
+            make.bottom.equalTo(articleImageContainerView.snp.bottom).offset(-3)
         }
     }
 }

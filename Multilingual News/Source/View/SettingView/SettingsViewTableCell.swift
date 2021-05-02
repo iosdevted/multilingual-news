@@ -19,7 +19,7 @@ class SettingsViewTableCell: UITableViewCell {
         cb.boxType = .square
         cb.checkmarkLineWidth = 4
         cb.stateChangeAnimation = .bounce(.fill)
-        cb.tintColor = UIColor.oceanBlue
+        cb.tintColor = UIColor.warmBlack
         cb.stateChangeAnimation = .stroke
         cb.animationDuration = 0.2
         return cb
@@ -35,7 +35,7 @@ class SettingsViewTableCell: UITableViewCell {
     var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15, weight: .light)
-        label.textColor = UIColor.oceanBlue
+        label.textColor = .black
         label.numberOfLines = 0
         return label
     }()
