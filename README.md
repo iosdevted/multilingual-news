@@ -1,4 +1,4 @@
-# Multilingual News <img src = "https://user-images.githubusercontent.com/50784573/113702989-325d1300-9715-11eb-989c-b2be960a907d.png" width = 50 align = right>
+# Maru. <img src = "https://user-images.githubusercontent.com/50784573/116805031-7699d280-ab5e-11eb-8630-c5a50d7d8678.png" width = 50 align = right>
 
 ![Language](https://img.shields.io/badge/reactive-RxSwift-red)
 ![Language](https://img.shields.io/badge/Swift-5.0-ff69b4)
@@ -7,12 +7,12 @@
 <a href="https://apps.apple.com/us/app/multilingual-news/id1560598461" > <img src="https://raw.githubusercontent.com/younatics/MotionBook/master/Images/appstore.png" width="170" height="58"></a>
 
 <center>
-  <img src="https://user-images.githubusercontent.com/50784573/116653056-639dcb80-a9c1-11eb-8dd5-669fe06c2b67.jpg"/>
+  <img src="https://user-images.githubusercontent.com/50784573/116805043-89aca280-ab5e-11eb-8f3d-70be951ce9ba.jpg"/>
 </center>
 
 This application is for busy multilingual people. Choose your languages from 12 languages and read the latest news with this one application. Keep up-to-date on the latest issues without forgetting the languages
 
-Using Multilingual news you can read
+Using Maru you can read
 
 - English
 - French
