@@ -30,7 +30,7 @@ class ArticleTableViewCell: UITableViewCell {
     var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
-        label.textColor = UIColor.oceanBlue
+        label.textColor = UIColor.warmBlack
         label.lineBreakMode = .byWordWrapping
         label.contentMode = .topLeft
         label.numberOfLines = 0

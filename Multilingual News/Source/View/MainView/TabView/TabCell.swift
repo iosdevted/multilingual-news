@@ -22,7 +22,7 @@ class TabCell: UICollectionViewCell {
         didSet {
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.1) {
-                    self.indicatorView.backgroundColor = self.isSelected ? .oceanBlue : .systemGray4
+                    self.indicatorView.backgroundColor = self.isSelected ? .warmBlack : .systemGray4
                     self.layoutIfNeeded()
                 }
             }
@@ -81,7 +81,7 @@ class TabCell: UICollectionViewCell {
     private func setupIndicatorView() {
         indicatorView = UIView()
         indicatorView.backgroundColor = .systemGray4
-        inputView?.backgroundColor = .oceanBlue
+        inputView?.backgroundColor = .warmBlack
         addSubview(indicatorView)
 
         indicatorView.snp.makeConstraints { (make) -> Void in

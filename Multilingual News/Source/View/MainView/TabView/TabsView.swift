@@ -20,9 +20,9 @@ class TabsView: UIView {
     var tabMode: TabMode = .fixed
     var tabs: [Tab] = []
     var collectionView: UICollectionView!
-    var titleColor: UIColor = UIColor.oceanBlue
+    var titleColor: UIColor = UIColor.warmBlack
     var titleFont: UIFont = UIFont.mainRegularFont(ofSize: 15)
-    var indicatorColor: UIColor = UIColor.oceanBlue
+    var indicatorColor: UIColor = UIColor.warmBlack
 
     // MARK: - Init
 

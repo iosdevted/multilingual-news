@@ -170,10 +170,10 @@ class MainViewController: UIViewController {
         appearance.shadowColor = .clear // Hide UINavigationBar 1px bottom line
         navigationController?.navigationBar.standardAppearance = appearance
 
-        let leftItem = UIBarButtonItem(customView: UILabel.mainTitleFont(with: "Multilingual News"))
+        let leftItem = UIBarButtonItem(customView: UILabel.mainTitleFont(with: "Maru News."))
         navigationItem.leftBarButtonItem = leftItem
 
-        var rightBarImage = UIImage(systemName: "globe")?.withTintColor(UIColor.oceanBlue)
+        var rightBarImage = UIImage(systemName: "globe")?.withTintColor(UIColor.warmBlack)
         rightBarImage = rightBarImage?.withRenderingMode(.alwaysOriginal)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: rightBarImage, style: .plain, target: self, action: #selector(rightBarButtonTapped))
     }

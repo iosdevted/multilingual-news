@@ -112,7 +112,7 @@ class SettingViewController: UIViewController {
         let leftBarItem = UIBarButtonItem(customView: UILabel.mainTitleFont(with: "Manage Languages"))
         navigationItem.leftBarButtonItem = leftBarItem
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(backButtonTapped))
-        navigationItem.rightBarButtonItem?.tintColor = .oceanBlue
+        navigationItem.rightBarButtonItem?.tintColor = .warmBlack
     }
 
 }

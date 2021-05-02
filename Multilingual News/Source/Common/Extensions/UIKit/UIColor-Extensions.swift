@@ -9,8 +9,8 @@ import UIKit
 
 extension UIColor {
     
-    static var oceanBlue: UIColor {
-        return .init(red: 70/255, green: 75/255, blue: 114/255, alpha: 1/1)
+    static var warmBlack: UIColor {
+        return .init(red: 0.29, green: 0.29, blue: 0.28, alpha: 1.00)
     }
     
 }

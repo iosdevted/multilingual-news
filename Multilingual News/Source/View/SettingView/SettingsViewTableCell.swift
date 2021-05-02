@@ -19,7 +19,7 @@ class SettingsViewTableCell: UITableViewCell {
         cb.boxType = .square
         cb.checkmarkLineWidth = 4
         cb.stateChangeAnimation = .bounce(.fill)
-        cb.tintColor = UIColor.oceanBlue
+        cb.tintColor = UIColor.warmBlack
         cb.stateChangeAnimation = .stroke
         cb.animationDuration = 0.2
         return cb
