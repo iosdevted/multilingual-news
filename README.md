@@ -59,6 +59,8 @@ on a simple and nice interface.
 
 ## Update
 
+- v1.2.1: Minor bug fixes and UI improvements.
+
 - v1.2.0: This version introduces a new design & tab bar at the bottom of an app screen.
 
 - v1.1.0: Replace from CoreData to Realm. This version introduces a hamburger tab giving you the ability to change the order of languages.
