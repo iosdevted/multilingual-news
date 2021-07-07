@@ -49,7 +49,7 @@ on a simple and nice interface.
 
 - Database
 
-  - [Realm](https://github.com/realm/realm-cocoa)
+  - [Realm](https://github.com/realm/realm-cocoa)(v1.1.0: Replace from CoreData to Realm)
 
 - UI
 
