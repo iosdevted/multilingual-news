@@ -1,0 +1,2 @@
+git_url "https://github.com/iosdevted/multilingual-news"
+type "development" # The default type, can be: appstore, adhoc or development
