@@ -57,6 +57,11 @@ on a simple and nice interface.
   - [KRProgressHUD](https://github.com/krimpedance/KRProgressHUD)
   - [M13Checkbox](https://github.com/Marxon13/M13Checkbox)
 
+- Tool
+
+  - [Fastlane](https://docs.fastlane.tools/getting-started/ios/setup/)
+  - Github Actions
+
 ## Update
 
 - v1.2.1: Minor bug fixes and UI improvements.
