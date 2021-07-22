@@ -52,35 +52,41 @@ class FirstNewsViewController: UIViewController {
             .map(apiManager.makeResource(selectedLanguagesCode: languageCode!))
             .flatMap(URLRequest.load(resource:))
             .retry(apiKey.count + 1)
+            .observe(on: MainScheduler.instance)
             .subscribe(onNext: { articleResponse in
                 let articles = articleResponse.articles
                 self.articleListVM = ArticleListViewModel(articles)
-
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
+                self.tableView.reloadData()
             })
             .disposed(by: disposeBag)
     }
-
-    private func populateImage(url: String, cell: ArticleTableViewCell) {
-        let image = UIImage(named: "NoImage_35px")?.withRenderingMode(.alwaysOriginal)
+    
+    private func populateArticleImage(with url: String, in cell: ArticleTableViewCell) {
         if url == "NoImage" {
-            cell.articleImageView.image = image
-            cell.articleImageView.contentMode = .center
+            populateNoImage(in: cell)
         } else {
-            let url = URL(string: url)
-            cell.articleImageView.contentMode = .scaleAspectFill
-            cell.articleImageView.kf.indicatorType = .activity
-            cell.articleImageView.kf.setImage(with: url) { result in
-                switch result {
-                case .success:
-                    print("DEBUG(populateImage): Task done")
-                case .failure(let error):
-                    cell.articleImageView.image = image
-                    cell.articleImageView.contentMode = .center
-                    print(error.localizedDescription)
-                }
+            guard let url = URL(string: url) else { return }
+            populateImage(with: url, in: cell)
+        }
+    }
+    
+    private func populateNoImage(in cell: ArticleTableViewCell) {
+        let image = UIImage(named: "NoImage_35px")?.withRenderingMode(.alwaysOriginal)
+        cell.articleImageView.image = image
+        cell.articleImageView.contentMode = .center
+    }
+    
+    private func populateImage(with url: URL, in cell: ArticleTableViewCell) {
+        cell.articleImageView.contentMode = .scaleAspectFill
+        cell.articleImageView.kf.indicatorType = .activity
+        
+        cell.articleImageView.kf.setImage(with: url) { result in
+            switch result {
+            case .success:
+                print("DEBUG(populateImage): Task done")
+            case .failure(let error):
+                self.populateNoImage(in: cell)
+                print(error.localizedDescription)
             }
         }
     }
@@ -130,17 +136,18 @@ extension FirstNewsViewController: UITableViewDataSource {
         articleVM.title.asDriver(onErrorJustReturn: "")
             .drive(cell.titleLabel.rx.text)
             .disposed(by: disposeBag)
+        
+        articleVM.publishedAt.asDriver(onErrorJustReturn: "")
+            .map { $0.toLocalTime() }
+            .drive(cell.dateLabel.rx.text)
+            .disposed(by: disposeBag)
 
-        articleVM.publishedAt.bind { (date) in
-            cell.dateLabel.text = date.toLocalTime()
+        articleVM.urlToImage.bind {
+            self.populateArticleImage(with: $0, in: cell)
         }.disposed(by: disposeBag)
 
-        articleVM.urlToImage.bind { (url) in
-            self.populateImage(url: url, cell: cell)
-        }.disposed(by: disposeBag)
-
-        articleVM.url.bind { (url) in
-            self.articleUrl.append(url)
+        articleVM.url.bind {
+            self.articleUrl.append($0)
         }.disposed(by: disposeBag)
 
         return cell
