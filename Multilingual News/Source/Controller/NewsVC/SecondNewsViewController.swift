@@ -62,9 +62,10 @@ class SecondNewsViewController: UIViewController {
     }
     
     private func populateArticleImage(with url: String, in cell: ArticleTableViewCell) {
-        if url == "NoImage" {
+        switch url {
+        case "NoImage":
             populateNoImage(in: cell)
-        } else {
+        default:
             guard let url = URL(string: url) else { return }
             populateImage(with: url, in: cell)
         }

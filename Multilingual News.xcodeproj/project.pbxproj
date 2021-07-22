@@ -13,6 +13,7 @@
 		9F3B228726089D0700A930FD /* SettingsViewTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B228626089D0700A930FD /* SettingsViewTableCell.swift */; };
 		9F3B22A32608C71F00A930FD /* String-Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B22A22608C71F00A930FD /* String-Extensions.swift */; };
 		9F3B22AE2608FA8400A930FD /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B22AD2608FA8400A930FD /* Tab.swift */; };
+		9F59359126A9F2B3001E9566 /* TabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F59359026A9F2B3001E9566 /* TabViewModel.swift */; };
 		9F73DF35263940E4005CE82A /* UIColor-Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F73DF34263940E4005CE82A /* UIColor-Extensions.swift */; };
 		9F73DF3A263941FE005CE82A /* UIFont-Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F73DF39263941FE005CE82A /* UIFont-Extensions.swift */; };
 		9F7732632631483800E44B71 /* Multilingual_NewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7732622631483800E44B71 /* Multilingual_NewsTests.swift */; };
@@ -89,6 +90,7 @@
 		9F3B228626089D0700A930FD /* SettingsViewTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewTableCell.swift; sourceTree = "<group>"; };
 		9F3B22A22608C71F00A930FD /* String-Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String-Extensions.swift"; sourceTree = "<group>"; };
 		9F3B22AD2608FA8400A930FD /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
+		9F59359026A9F2B3001E9566 /* TabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewModel.swift; sourceTree = "<group>"; };
 		9F73DF34263940E4005CE82A /* UIColor-Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor-Extensions.swift"; sourceTree = "<group>"; };
 		9F73DF39263941FE005CE82A /* UIFont-Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont-Extensions.swift"; sourceTree = "<group>"; };
 		9F7732602631483800E44B71 /* Multilingual NewsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Multilingual NewsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -442,6 +444,7 @@
 			isa = PBXGroup;
 			children = (
 				9FD240AE26075D33003C2F2D /* ArticleViewModel.swift */,
+				9F59359026A9F2B3001E9566 /* TabViewModel.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -795,6 +798,7 @@
 				9FD2408D26073221003C2F2D /* TabsView.swift in Sources */,
 				9F9E4303260C64C900E16C34 /* RefreshManager.swift in Sources */,
 				9FD2409026073246003C2F2D /* TabCell.swift in Sources */,
+				9F59359126A9F2B3001E9566 /* TabViewModel.swift in Sources */,
 				9FD2409F26073462003C2F2D /* FourthNewsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

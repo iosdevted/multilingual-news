@@ -141,9 +141,10 @@ class MainViewController: UIViewController {
     }
     
     private func populateHeaderViewImage(with url: String) {
-        if url == "NoImage" {
+        switch url {
+        case "NoImage":
             populateNoImage(in: headerView)
-        } else {
+        default:
             guard let url = URL(string: url) else { return }
             populateImage(with: url, in: headerView)
         }
@@ -235,19 +236,20 @@ class MainViewController: UIViewController {
         
         currentIndex = index
         
-        if index == 0 {
+        switch index {
+        case 0:
             let contentVC = FirstNewsViewController(language: selectedRealmLanguages[0].code, pageIndex: index)
             contentVC.delegate = self
             return contentVC
-        } else if index == 1 {
+        case 1:
             let contentVC = SecondNewsViewController(language: selectedRealmLanguages[1].code, pageIndex: index)
             contentVC.delegate = self
             return contentVC
-        } else if index == 2 {
+        case 2:
             let contentVC = ThirdNewsViewController(language: selectedRealmLanguages[2].code, pageIndex: index)
             contentVC.delegate = self
             return contentVC
-        } else {
+        default:
             let contentVC = FourthNewsViewController(language: selectedRealmLanguages[3].code, pageIndex: index)
             contentVC.delegate = self
             return contentVC
