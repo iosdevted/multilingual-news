@@ -32,11 +32,7 @@ class MainViewController: UIViewController {
     private var headerView = MainHeaderView()
     private var tabsView = TabsView()
     private var articleUrl: String?
-    private var articleVM: ArticleViewModel! {
-        didSet {
-            populateHeaderViewNews()
-        }
-    }
+    private var articleVM: ArticleViewModel!
     
     // MARK: - Life Cycle
     
@@ -107,62 +103,70 @@ class MainViewController: UIViewController {
         fetchRealmData()
     }
     
-    // MARK: - Fetch API & Populate Data
+    // MARK: - Fetch API
     
     private func loadTopNews() {
         apiManager.produceApiKey(apiKeys: apiKey)
             .map(apiManager.makeResource(selectedLanguagesCode: selectedRealmLanguages[0].code))
             .flatMap(URLRequest.load(resource:))
             .retry(apiKey.count + 1)
+            .observe(on: MainScheduler.instance)
             .subscribe(onNext: { articleResponse in
                 let topArticle = articleResponse.articles.first
                 self.articleVM = ArticleViewModel(topArticle!)
+                self.populateHeaderViewNews()
             })
             .disposed(by: disposeBag)
     }
     
+    // MARK: - ConfigureUI & ConfigureGesture
+    
+    private func populateHeaderViewNews() {
+        articleVM.title.asDriver(onErrorJustReturn: "")
+            .drive(headerView.titleLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        articleVM.publishedAt.asDriver(onErrorJustReturn: "")
+            .map { $0.toLocalTimeWithDate() }
+            .drive(headerView.dateLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        articleVM.urlToImage.bind {
+            self.populateHeaderViewImage(with: $0)
+        }.disposed(by: disposeBag)
+        
+        articleVM.url.bind {
+            self.articleUrl = $0
+        }.disposed(by: disposeBag)
+    }
+    
     private func populateHeaderViewImage(with url: String) {
-        let image = UIImage(named: "NoImage_100px")?.withRenderingMode(.alwaysOriginal)
         if url == "NoImage" {
-            self.headerView.imageView.image = image
-            self.headerView.imageView.contentMode = .center
+            populateNoImage(in: headerView)
         } else {
-            let url = URL(string: url)
-            self.headerView.imageView.kf.indicatorType = .activity
-            self.headerView.imageView.kf.setImage(with: url) { result in
-                switch result {
-                case .success:
-                    print("DEBUG(populateImage): Task done")
-                case .failure(let error):
-                    self.headerView.imageView.image = image
-                    self.headerView.imageView.contentMode = .center
-                    print(error.localizedDescription)
-                }
+            guard let url = URL(string: url) else { return }
+            populateImage(with: url, in: headerView)
+        }
+    }
+    
+    private func populateNoImage(in headerView: MainHeaderView) {
+        let image = UIImage(named: "NoImage_100px")?.withRenderingMode(.alwaysOriginal)
+        headerView.imageView.image = image
+        headerView.imageView.contentMode = .center
+    }
+    
+    private func populateImage(with url: URL, in headerView: MainHeaderView) {
+        headerView.imageView.kf.indicatorType = .activity
+        headerView.imageView.kf.setImage(with: url) { result in
+            switch result {
+            case .success:
+                print("DEBUG(populateImage): Task done")
+            case .failure(let error):
+                self.populateNoImage(in: headerView)
+                print(error.localizedDescription)
             }
         }
     }
-    
-    private func populateHeaderViewNews() {
-        DispatchQueue.main.async {
-            self.articleVM.title.asDriver(onErrorJustReturn: "")
-                .drive(self.headerView.titleLabel.rx.text)
-                .disposed(by: self.disposeBag)
-            
-            self.articleVM.publishedAt.bind { (date) in
-                self.headerView.dateLabel.text = date.toLocalTimeWithDate()
-            }.disposed(by: self.disposeBag)
-            
-            self.articleVM.urlToImage.bind { (url) in
-                self.populateHeaderViewImage(with: url)
-            }.disposed(by: self.disposeBag)
-            
-            self.articleVM.url.bind { (url) in
-                self.articleUrl = url
-            }.disposed(by: self.disposeBag)
-        }
-    }
-    
-    // MARK: - ConfigureUI
     
     private func configureNavigationBarUI() {
         let appearance = UINavigationBarAppearance()
